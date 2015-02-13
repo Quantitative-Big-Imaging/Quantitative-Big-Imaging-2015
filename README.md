@@ -1,9 +1,9 @@
 ### Quantitative Big Imaging Course 2015
 Here are the lectures, exercises, and additional course materials corresponding to the spring semester 2015 course at ETH Zurich, 227-0966-00L: Quantitative Big Imaging. 
-The lectures have been prepared and given by Kevin Mader, Anders Kaestner, Marco Stampanoni, and Maria Büchner. Please note the Lecture Slides and PDF do not contain source code, this is only available in the handout.
+The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and Marco Stampanoni. Please note the Lecture Slides and PDF do not contain source code, this is only available in the handout file.
 
 ### Lectures
-- 19th February - Introductory Lecture (M. Stampanoni)
+- 19th February - Introductory Lecture
  - [Lecture Slides](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Lectures/01-Introduction.pdf?raw=true)
 - 26th February - Image Enhancement (A. Kaestner)
  - [Lecture Slides](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Lectures/02-Enhanced.pdf?raw=true)
@@ -42,13 +42,13 @@ The final examination (as originally stated in the course material) will be a 30
 
 ### Exercises
 #### General Information
-The exercises are based on the lectures and take place in the same room after the lecture completes. 
-- For the first 3 exercises, [QBI Install](http://people.ee.ethz.ch/~maderk/qbi.zip) is required for starting the exercises and contains Fiji along with a few test datasets.
-- For the subsequent exercies, the [script](https://gist.github.com/kmader/9503137#file-download-and-setup) can be run inside Matlab
+The exercises are based on the lectures and take place in the same room after the lecture completes. The exercises are designed to offer a tiered level of understanding based on the background of the student. We will (for most lectures) take advantage of an open-source tool called KNIME (www.knime.org), with example workflows here (https://www.knime.org/example-workflows).  The basic exercises will require adding blocks in a workflow and adjusting parameters, while more advanced students will be able to write their own snippets, blocks or plugins to accomplish more complex tasks easily. The exercises will be supported by Filippo Arcadu.
+
+The exercises from last year (available on: kmader.github.io/Quantitative-Big-Imaging-Course/) are done entirely in ImageJ and Matlab for students who would prefer to stay in those environments (not recommended)
 
 #### Specific Assignements
 
-- 19th February - Introductory Lecture (M. Stampanoni)
+- 19th February - Introductory Lecture (Christian Dietz, Intro to KNIME for Image Processing)
  - [Exercises 1](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex1/Ex1.pdf?raw=true)
  - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex1/Ex1Slides.html)
  - [Starting Matlab Script](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex1/Ex1Starting.m)
