@@ -13,25 +13,25 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, Marco
 - 12th March - Advanced Segmentation
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation.pdf)
-- 19th March - Analyzing Single Objects
+- 19th March - Guest Lecture
+- 26th March - Analyzing Single Objects
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.pdf)
-- 26th March -  Analyzing Complex Objects
+- 2nd April -  Analyzing Complex Objects
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects.pdf)
-- 2rd April -  Spatial Distribution
+- 16th April -  Spatial Distribution
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis.pdf)
-- 16th April -  Statistics and Reproducibility
+- 23rd April -  Statistics and Reproducibility
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics.pdf)
-- 23th April - Dynamic Experiments
+- 30th April - Dynamic Experiments
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.pdf)
-- 30th April - Scaling Up / Big Data
+- 7th May - Scaling Up / Big Data
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData_files/printable.html)
-- 7th May - Guest Lecture - Applications in Material Science
 - 21th May - Guest Lecture - Applications in Material Science
 - 28th May - Project Presentations
 
@@ -63,10 +63,11 @@ The exercises are based on the lectures and take place in the same room after th
  - [Lecture Quiz](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation_files/quiz.html)
  - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex4/Ex4Slides.html)
  - [Matlab Image Generator](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex4/image_generator.m)
-- 19th March - Analyzing Single Objects
+- 19th March - Guest Lecture
+- 26th March - Analyzing Single Objects
  - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex5/Ex5Slides.html)
  - [Matlab Image Generator](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex5/cell_simulator.m)
-- 26th March -  Analyzing Complex Objects
+- 2nd April -  Analyzing Complex Objects
  - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex6/Ex6Slides.html)
 - 2rd April -  Spatial Distribution
  - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex7/Ex7Slides.html)
