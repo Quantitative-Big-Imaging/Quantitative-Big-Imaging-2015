@@ -4,8 +4,8 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 
 ### Lectures
 - 19th February - Introductory Lecture
- - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Lectures/01-Slides.html)
- - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Lectures/01-Handout.html)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Slides.html)
+ - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Handout.html)
 - 26th February - Image Enhancement (A. Kaestner)
  - [Old Lecture Slides](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Lectures/02-Enhanced.pdf?raw=true)
 - 5th March - Basic Segmentation, Discrete Binary Structures
