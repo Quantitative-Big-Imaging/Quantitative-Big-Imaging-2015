@@ -48,7 +48,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
 #### Specific Assignements
 
 - 19th February - Introduction and Workflows (Christian Dietz, Intro to KNIME for Image Processing)
- - [Setup](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/exercises/01-Description.md)
+ - [Setup](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/01-Description.md)
  - [Workflow and Data](http://tinyurl.com/knime-ws-eth)
 - 26th February - Image Enhancement (A. Kaestner)
  - [Old Exercises](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/Exercises_ImageEnhancement.pdf?raw=true)
