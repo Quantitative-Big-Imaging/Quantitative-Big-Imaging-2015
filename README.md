@@ -3,7 +3,7 @@ Here are the lectures, exercises, and additional course materials corresponding 
 The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and Marco Stampanoni. Please note the Lecture Slides and PDF do not contain source code, this is only available in the handout file.
 
 ### Lectures
-- 19th February - Introductory Lecture
+- 19th February - Introduction and Workflows
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Handout.html)
 - 26th February - Image Enhancement (A. Kaestner)
@@ -36,20 +36,18 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 - 21th May - Guest Lecture - Applications in Material Science
 - 28th May - Project Presentations
 
-### Final Examination
-
-The final examination (as originally stated in the course material) will be a 30 minute oral exam covering the material of the course and its applications to real systems. For students who present a project, they will have the option to use their project for some of the real systems related questions (provided they have sent their slides to [Kevin](mailto:mader@biomed.ee.ethz.ch) after the presentation and bring a printed out copy to the exam including several image slices if not already in the slides).  The exam will cover all the lecture material from Image Enhancement to Scaling Up (the guest lecture will not be covered). Several example questions (not exhaustive) have been collected which might be helpful for preparation.
-- [Practice Questions](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/PracticeExam/exam.html)
-
 ### Exercises
 #### General Information
-The exercises are based on the lectures and take place in the same room after the lecture completes. The exercises are designed to offer a tiered level of understanding based on the background of the student. We will (for most lectures) take advantage of an open-source tool called KNIME (www.knime.org), with example workflows here (https://www.knime.org/example-workflows).  The basic exercises will require adding blocks in a workflow and adjusting parameters, while more advanced students will be able to write their own snippets, blocks or plugins to accomplish more complex tasks easily. The exercises will be supported by Filippo Arcadu.
-
+The exercises are based on the lectures and take place in the same room after the lecture completes. The exercises are designed to offer a tiered level of understanding based on the background of the student. We will (for most lectures) take advantage of an open-source tool called KNIME (www.knime.org), with example workflows here (https://www.knime.org/example-workflows).  The basic exercises will require adding blocks in a workflow and adjusting parameters, while more advanced students will be able to write their own snippets, blocks or plugins to accomplish more complex tasks easily. 
 The exercises from last year (available on: kmader.github.io/Quantitative-Big-Imaging-Course/) are done entirely in ImageJ and Matlab for students who would prefer to stay in those environments (not recommended)
+
+#### Assistance
+The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Dietz. There will be office hours in ETZ H75 on Thursdays between 14-15 or by appointment.
+
 
 #### Specific Assignements
 
-- 19th February - Introductory Lecture (Christian Dietz, Intro to KNIME for Image Processing)
+- 19th February - Introduction and Workflows (Christian Dietz, Intro to KNIME for Image Processing)
  - [Old Exercises 1](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex1/Ex1.pdf?raw=true)
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex1/Ex1Slides.html)
  - [Old Starting Matlab Script](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex1/Ex1Starting.m)
@@ -70,26 +68,31 @@ The exercises from last year (available on: kmader.github.io/Quantitative-Big-Im
  - [Old Matlab Image Generator](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex5/cell_simulator.m)
 - 2nd April -  Analyzing Complex Objects
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex6/Ex6Slides.html)
-- 2rd April -  Spatial Distribution
+- 16th April -  Spatial Distribution
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex7/Ex7Slides.html)
  - [Old Exercise Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex7/)
  - [Old Paraview Code](https://github.com/kmader/Quantitative-Big-Imaging-Course/tree/master/Ex7/Paraview)
-- 16th April -  Statistics and Reproducibility
+- 23rd April -  Statistics and Reproducibility
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex8/Ex8Slides.html)
-- 23th April - Dynamic Experiments
+- 30th April - Dynamic Experiments
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex9/Ex9Slides.html)
  - [Old Test Images](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex9/testimages.zip?raw=true)
-- 30th April - Big Data
+- 7th May - Scaling Up / Big Data
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/Ex10Slides.html)
  - [Old Spark Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/cell_colony.csv)
-- 7th May - Guest Lecture - Applications in Material Science
+- 21th May - Guest Lecture - Applications in Material Science
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex11/Ex11Slides.html)
-- 21th May - Project Presentations
- 
+- 28th May - Project Presentations
 
 ### Feedback (as much as possible)
+ - Create an [issue](https://github.com/kmader/Quantitative-Big-Imaging-2015/issues) (on the group site that everyone can see and respond to, requires a Github account), [issues from last year](https://github.com/kmader/Quantitative-Big-Imaging-Course/issues)
  - Provide anonymous feedback on the course [here](https://docs.google.com/spreadsheet/embeddedform?formkey=dEtIX1ZXMzFacmdhRF9mQVpNaWtWTXc6MA)
  - Or send direct email (slightly less anonymous feedback) to [Kevin](mailto:mader@biomed.ee.ethz.ch)
+
+### Final Examination
+
+The final examination (as originally stated in the course material) will be a 30 minute oral exam covering the material of the course and its applications to real systems. For students who present a project, they will have the option to use their project for some of the real systems related questions (provided they have sent their slides to [Kevin](mailto:mader@biomed.ee.ethz.ch) after the presentation and bring a printed out copy to the exam including several image slices if not already in the slides).  The exam will cover all the lecture material from Image Enhancement to Scaling Up (the guest lecture will not be covered). Several example questions (not exhaustive) have been collected which might be helpful for preparation.
+- [Practice Questions](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/PracticeExam/exam.html)
 
 ### Other Material
 - Project Signup
