@@ -15,6 +15,7 @@ KNIME is already installed so you can start it by typing ```Alt+F2``` (a Run App
 
 ## Getting Started
 - Steps are shown in normal text, comments are shown in _italics_.
+
 ### Knime Basics
 - Creating a node can be done by going to the 'Node Repository' and finding it inside the tree or typing the name next to the magnifying glass icon. 
 - Under each node is a status light
@@ -71,6 +72,7 @@ Video - https://www.youtube.com/watch?v=HR5fqEoAQ5c
 
 ### Part 3 - Group by the Image Group and Plot the Mean Value
 Video - https://www.youtube.com/watch?v=ZPd7ZXl9dPs
+
 _While this task in of itself isn't very useful, it is easy to imagine a scenario where because of constantly changing illumination, the average intensity of a group of images will need to be checked and plotted_
 
 1. Select the 'Image Reader' node
