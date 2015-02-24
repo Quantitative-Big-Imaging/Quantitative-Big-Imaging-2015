@@ -1,13 +1,5 @@
-# Exercise 1: Basic workflows with KNIME
+# Exercise 2: Image Enhancement
 
-
-
-## on D61.1 Machines
-KNIME is already installed so you can start it by typing ```Alt+F2``` (a Run Application dialog appears) and type ```knime``` and click run 
-
-## On your local machine
-- To install KNIME follow the instructions on http://tech.knime.org/wiki/install-knime-image-processing
-- Click the download link and download the version with Community Extensions
 
 ## Downloading the data
 1. The data for the example can be downloaded from [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
@@ -16,33 +8,17 @@ KNIME is already installed so you can start it by typing ```Alt+F2``` (a Run App
 ## Getting Started
 - Steps are shown in normal text, comments are shown in _italics_.
 
-### Knime Basics
-- Creating a node can be done by going to the 'Node Repository' and finding it inside the tree or typing the name next to the magnifying glass icon. 
-- Under each node is a status light
- - red indicates not configured or connected correctly
- - yellow indicatates configured correctly, but not executed
- - green indicates configured and executed
- - A blue progress bar indicates the current status (if it is executing)
-- Double clicking a node will show you its 'Configure' dialog
-- Right clicking a node will bring up a menu with many options
- - 'Execute' runs the node and all previous nodes which need to be run to complete the given task
- - 'Reset' resets the current node (clears the output) and resets all subsequent nodes
- - One of the last options is usually the '... Table' which contains the results (only after execution)
+- Knime Basics: [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup)
+- Install latest image processing extensions [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#installing-the-latest-image-processing-extensions)
+- Use workflow variables: [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#workflow-variables)
 
-### Setup (Installing the latest Image Processing Extensions)
+### Part 1 - Images, Resizing, Noise, and Filters
 
-1. Go to the Help menu Help->Install New Software...
-1. Click 'Available Software Sites'
-1. Check the box next to 'Stable Community Contributions' and click Ok
-1. Select 'Stable Community Contributions' in the 'Work with' menu
-1. Expand 'KNIME Community Contributions - Imaging'
-1. Check 'KNIME Image Processing - ImageJ Integration (Beta)' and click 'Next'
-1. Complete the install
+![Workflow](02-files/ImageNoise.svg)
 
-### Part 1 - Images, Resizing and Displaying
-Video - 
+Video - Coming soon
 
-Here we want to 
+
 
 1. Start KNIME (click OK for default workspace)
 1. Go to File->New... and Select 'New Knime Workflow'
@@ -71,40 +47,44 @@ Here we want to
  1. Select 'FLOATTYPE' for the Target Type
  1. _This node converts the image to a double/floating point value so we can add fractions of a value to it, and it won't start clipping or saturating when the value exceeds 255_
 
-#### Generating Noise
+#### Add Noise to the Image
 
-To test how well the filters work we want to generate noise. We can simulate noise using the 'Image Generator' node
+To add noise to the image we use the various noise adding tools available from 'Community Nodes -> KNIME Image Processing -> ImageJ2 -> Process -> Noise' 
 
-1. Create an 'Image Generator' node
+1. Create a 'Salt and Pepper' node
+ 1. Connect it to the 'Image Reader' node
  1. Right click and select 'Configure'
- 1. Next to X type 1000 and 1000
- 1. Next to Y type 1000 and 1000
- 1. Next to Z type 1 and 1
- 1. _The last three steps set the range in size for the images, 1000 1000 means that the minimum size is 1000 and the maximum size is 1000_
- 1. Change 'Pixel Type' to ```FLOATTYPE``` (_a floating point number, number with a decimal_)
- 1. Change 'Factory Type' to ```ARRAY_IMG_FACTORY``` (_Dont worry about this, it is just a technical detail_)
- 1. Check 'Random Filling within type bounds'
-1. Create a 'Multiply' node (from ImageJ2)
- 1. Connect this node with the 'Image Generator'
+ 1. Uncheck the 'Use data min and max' box.
+ 1. Set 'Salt Value' to 255
+ 1. Set 'Pepper Value' to 0
+ 1. Go to the 'Column Selection' tab
+ 1. Change 'Column Creation Mode' to 'Append'
+ 1. _We want to keep the original image for comparison_
+ 1. Change 'Column Suffix' to '_sp_noisy'
+ 1. _We want the noisy image to have a meaningful name (default would be Image (#2))_
+ 
+#### Filter the Images
+
+To filter the images we can use the large selection of filters available from 'Community Nodes -> KNIME Image Processing -> Image -> Filters' even more are available in 'Community Nodes -> KNIME Image Processing -> ImageJ2 -> Process -> Noise -> Noise Reduction'. We shall start with the first group and selec the 'Gaussian Convolution'
+
+1. Create a 'Gaussian Convolution' node
+ 1. Connect it to the 'Salt and Pepper' node
  1. Right click and select 'Configure'
- 1. Change the value to 100 to scale the noise by 100
-1. Create a 'Image Calculator' node
- 1. Connect this node with the 'Image Generator'
- 1. Right click and select 'Configure'
- 1. Type in the 'Expression' field ```$Img$*100``` to scale the image by 100
- 1. Select the 'New Table' option and type in a nice name like ```scale_noise```
- 1. Select 'FLOATTYPE' for the Result pixel type
+ 1. Set 'Sigma Value' to 2.0
+ 1. Go to the 'Column Selection' tab
+ 1. Change 'Column Creation Mode' to 'Append'
+ 1. _We want to keep the original image for comparison_
+ 1. Change 'Column Suffix' to '_sp_noisy'
+ 1. _We want the noisy image to have a meaningful name (default would be Image (#2))_
+
  
  
  
-#### Add the noise images to the real-images
+ 
+#### Calculate SNR
 
-Here we can utilize the 'Cross-Joiner' node to combine the two different nodes into the same table as different columns
+Here we calculate the SNR using the 'Image Calculator' to create a difference image (between the filtered noisy image and the original) and then the 'Image Features' to calculate the mean value.
 
-1. Create a 'Cross Joiner' node
- 1. Connect one input to the output of the 'Image Converter'
- 1. Connect the other input to the output of 'Image Calculator'
- 1. Right click and select exectute
 1. Create a 'Image Calculator' node
  1. Connect this node with the 'Cross Joiner'
  1. Right click and select 'Configure'
