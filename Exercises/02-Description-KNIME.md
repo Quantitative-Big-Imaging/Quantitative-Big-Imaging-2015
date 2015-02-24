@@ -14,7 +14,9 @@
 
 ### Part 1 - Images, Resizing, Noise, and Filters
 
-![Workflow](02-files/ImageNoise.svg)
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/ImageNoise.svg)
+
+![Output Images](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/FilterAndNoiseImages.png)
 
 Video - Coming soon
 
