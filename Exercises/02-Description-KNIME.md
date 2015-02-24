@@ -14,13 +14,13 @@
 
 ### Part 1 - Images, Resizing, Noise, and Filters
 
-![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/ImageNoise.svg)
+![Workflow](02-files/ImageNoise.svg?raw=true)
 
-![Output Images](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/FilterAndNoiseImages.png)
+![Output Images](02-files/FilterAndNoiseImages.png?raw=true)
 
 Video - Coming soon
 
-
+Basic Workflow - [Images Noise and Gaussian](02-files/ImagesNoiseAndGaussian.zip?raw=true)
 
 1. Start KNIME (click OK for default workspace)
 1. Go to File->New... and Select 'New Knime Workflow'
@@ -79,11 +79,7 @@ To filter the images we can use the large selection of filters available from 'C
  1. Change 'Column Suffix' to '_sp_noisy'
  1. _We want the noisy image to have a meaningful name (default would be Image (#2))_
 
- 
- 
- 
- 
-#### Calculate SNR
+#### Calculate Difference Image
 
 Here we calculate the SNR using the 'Image Calculator' to create a difference image (between the filtered noisy image and the original) and then the 'Image Features' to calculate the mean value.
 
@@ -97,7 +93,42 @@ Here we calculate the SNR using the 'Image Calculator' to create a difference im
  1. Click the 'Normalize' checkbox to rescale the colors so the contrast in the image is visible (otherwise it shows from -1e30 to 1e30 which makes the whole image gray)
 
 
-## More information about KNIME
-1. KNIME Website: http://knime.org
-2. Examples, Tutorials, Webinars on KNIME Image Processing: http://knime.imagej.net
-3. Need help? Ask in the KNIME Forum: http://tech.knime.org/forum
+
+#### Calculate Signal to Noise Ratio
+
+We define the signal to noise ratio as signal^2/noise^2 and therefore do not want the mean of each image rather the sum of squares. We can then divide these two values to determine the signal to noise
+
+```log($Squares of Sum_signal$/$Squares of Sum$)```
+
+
+#### Tasks
+
+1. Change the 'Salt' and 'Pepper' values in the filter and observe how this changes the results. How do these parameters affect the SNR?
+1. Change the Sigma value for the Gaussian Convolution, how does the sigma value affect the resulting images and the SNR?
+1. Now change the 'Gaussian Convolution' to a Median filter, how does this change the results? Is the SNR improved or worsened? Why?
+
+### Part 2 - Multiple Filters
+
+The next example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Signal To Noise' metanodes and other aspects, if you are interested.
+
+- Knime Workflow - [Multiple Filters](02-files/MultipleFilters.zip?raw=true)
+
+The basic overview is images are read in using 'Image Reader' and downsampled using 'Image Resize', the downsampling is used because filters like the anisotropic diffusion filter are very time consuming and testing or playing around with settings is painful with full sized images. The resizing can later be removed or simply change to 1.0 for X and 1.0 for Y in its configuration. 
+
+#### New Nodes
+- Add Specified Noise
+ - This node adds the noise to the image and has a parameter called 'Standard Deviation' to control the magnitude of this noise
+- Anisotropic Diffusion
+ - This node performs the anisotropic diffusion filter on the noisy image in the options panel you can adjust 'Kappa', 'Delta t' and 'Iterations' to change the effect of the filter
+- Median Filter
+ - This node runs a median filter on the image and the size and shape of the neighborhood examined as well as the strategy at the borders can be adjusted in the 'Options' tab.
+- Line Chart
+ - This node plots the SNR results for the different image filters run, the image can be exported and saved to include with the exercise tasks and for comparing different settings/systems
+- Table to HTML
+ - This node must be configured to save a file in an existing directory (its default value will not work), and it will save a report containing both the noisy images and the calculated SNR values
+ - ![Table to HTML](02-files/TableToHTML.png?raw=true)
+
+
+#### Tasks
+1. Change the standard deviation of the noise (In 'Add Specific Noise') how does this affect the results? Which filter performs best for low noise (10), which for high noise (100)?
+1. Sometimes small regions of interest at full resolution are more accurate than downsampled images. To do this replace the 'Image Resize' with an 'Image Cropper' block and crop the images before adding noise and the other steps. How does this change the final SNR?
