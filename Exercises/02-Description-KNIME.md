@@ -29,6 +29,16 @@ KNIME is already installed so you can start it by typing ```Alt+F2``` (a Run App
  - 'Reset' resets the current node (clears the output) and resets all subsequent nodes
  - One of the last options is usually the '... Table' which contains the results (only after execution)
 
+### Setup (Installing the latest Image Processing Extensions)
+
+1. Go to the Help menu Help->Install New Software...
+1. Click 'Available Software Sites'
+1. Check the box next to 'Stable Community Contributions' and click Ok
+1. Select 'Stable Community Contributions' in the 'Work with' menu
+1. Expand 'KNIME Community Contributions - Imaging'
+1. Check 'KNIME Image Processing - ImageJ Integration (Beta)' and click 'Next'
+1. Complete the install
+
 ### Part 1 - Images, Resizing and Displaying
 Video - 
 
@@ -58,7 +68,7 @@ Here we want to
 1. Create an 'Image Converter' node
  1. Connect this node with the 'Image Reader'
  1. Right click and select 'Configure'
- 1. Select 'DOUBLETYPE' for the Target Type
+ 1. Select 'FLOATTYPE' for the Target Type
  1. _This node converts the image to a double/floating point value so we can add fractions of a value to it, and it won't start clipping or saturating when the value exceeds 255_
 
 #### Generating Noise
@@ -71,7 +81,7 @@ To test how well the filters work we want to generate noise. We can simulate noi
  1. Next to Y type 1000 and 1000
  1. Next to Z type 1 and 1
  1. _The last three steps set the range in size for the images, 1000 1000 means that the minimum size is 1000 and the maximum size is 1000_
- 1. Change 'Pixel Type' to ```DOUBLETYPE``` (_a floating point number, number with a decimal_)
+ 1. Change 'Pixel Type' to ```FLOATTYPE``` (_a floating point number, number with a decimal_)
  1. Change 'Factory Type' to ```ARRAY_IMG_FACTORY``` (_Dont worry about this, it is just a technical detail_)
  1. Check 'Random Filling within type bounds'
 1. Create a 'Multiply' node (from ImageJ2)
@@ -83,7 +93,7 @@ To test how well the filters work we want to generate noise. We can simulate noi
  1. Right click and select 'Configure'
  1. Type in the 'Expression' field ```$Img$*100``` to scale the image by 100
  1. Select the 'New Table' option and type in a nice name like ```scale_noise```
- 1. Select 'DOUBLETYPE' for the Result pixel type
+ 1. Select 'FLOATTYPE' for the Result pixel type
  
  
  
@@ -100,7 +110,9 @@ Here we can utilize the 'Cross-Joiner' node to combine the two different nodes i
  1. Right click and select 'Configure'
  1. Type in the 'Expression' field ```$Image$+$scale_noise$``` to add the image and the noise together
  1. Select the 'New Table' option and type in a nice name like ```noisy_image```
- 1. Select 'DOUBLETYPE' for the Result pixel type
+ 1. Select 'FLOATTYPE' for the Result pixel type
+ 1. Right click and select 'Execute and Open Views'
+ 1. Click the 'Normalize' checkbox to rescale the colors so the contrast in the image is visible (otherwise it shows from -1e30 to 1e30 which makes the whole image gray)
 
 
 ## More information about KNIME
