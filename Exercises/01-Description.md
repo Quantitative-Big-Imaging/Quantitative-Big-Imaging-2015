@@ -15,6 +15,7 @@ KNIME is already installed so you can start it by typing ```Alt+F2``` (a Run App
 
 ## Getting Started
 - Steps are shown in normal text, comments are shown in _italics_.
+
 ### Knime Basics
 - Creating a node can be done by going to the 'Node Repository' and finding it inside the tree or typing the name next to the magnifying glass icon. 
 - Under each node is a status light
@@ -47,8 +48,8 @@ Video - https://www.youtube.com/watch?v=7HwCgleJMk4
  1. Click on Columns 'URL_Arr[0]' and 'URL_Arr[2]' and click exclude
  1. _This removes the results of the split which are not the group which we are interested in (we only want the letter, the group)_
 1. Create a new 'Column Rename' and right click 'Configure'
-1. Click 'URL_Arr[1]' and check 'Change' and fill 'Group' in the text
- - _We want to have a meaningful column name_
+ 1. Click 'URL_Arr[1]' and check 'Change', fill 'Group' in the text.
+ 1. _We want to have a meaningful column name_
 1. Create an 'Image Reader' node and right click 'Configure'
  1. Go to the 'Additional Option' tab 
  1. Select 'File name column in optional table' and select 'URL'
@@ -61,7 +62,7 @@ Video - https://www.youtube.com/watch?v=HR5fqEoAQ5c
  1. _As the image has multiple channels (the different colors seen in the last table), and we only want to keep one of them, in this case the nucleus_
  2. Right click and select 'Configure'
  3. Uncheck 'All' in the Channel Row
- 4. Select 0 in Channel
+ 4. Select 0 in all other Channels
 1. Create a new 'Image Features' Node
  1. _For this example we are just trying to calculate the mean/average intensity in the image, which this node can accomplish_
  2. Right click and select 'Configure'
@@ -71,6 +72,7 @@ Video - https://www.youtube.com/watch?v=HR5fqEoAQ5c
 
 ### Part 3 - Group by the Image Group and Plot the Mean Value
 Video - https://www.youtube.com/watch?v=ZPd7ZXl9dPs
+
 _While this task in of itself isn't very useful, it is easy to imagine a scenario where because of constantly changing illumination, the average intensity of a group of images will need to be checked and plotted_
 
 1. Select the 'Image Reader' node
@@ -83,7 +85,7 @@ _While this task in of itself isn't very useful, it is easy to imagine a scenari
  3. Connect the 'Column Rename' to the bottom input
  4. Right click on 'Joiner' and select 'Configure'
  5. Select 'Inner Join' for Join Mode
- 6. Click the small '+' icon
+ 6. Click the small '+' icon (or click "Add Row", depending on your OS).
  7. Select 'Row ID' in the left column
  8. Select 'URL' in the right column
 1. Create a new 'GroupBy' Node
