@@ -87,7 +87,7 @@ Here we calculate the SNR using the 'Image Calculator' to create a difference im
  1. Connect this node with the 'Gaussian Convolution'
  1. Right click and select 'Configure'
  1. Type in the 'Expression' field ```abs($Image$-$Image_noisy_filtered$)``` to calculate the absolute value of the difference between the original image and the noisy filtered image
- 1. Select the 'New Table' option and type in a nice name like ```noisy_image```
+ 1. Select the 'Append Column' option and type in a nice name like ```noisy_image```
  1. Select 'FLOATTYPE' for the Result pixel type
  1. Right click and select 'Execute and Open Views'
  1. Click the 'Normalize' checkbox to rescale the colors so the contrast in the image is visible (otherwise it shows from -1e30 to 1e30 which makes the whole image gray)
