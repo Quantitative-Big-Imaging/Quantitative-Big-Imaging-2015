@@ -103,7 +103,7 @@ We define the signal to noise ratio as signal^2/noise^2 and therefore do not wan
  1. Have the first block perform on column (under Configure in tab 'Column Selection') 'Image'
  1. Change the name of the second block to 'Noise' (_to keep their function clear_)
  1. Have the second block perform on column 'difference' (_calculate in the last step_)
- 1. Have both blocks calculate Features -> First Order Statistics -> Sum of Squares
+ 1. Have both blocks calculate Features -> First Order Statistics (check the box) -> Squares of sum
 1. Create a new 'Joiner' node to combine the results of the two 'Image Features' nodes
  1. Connect the top to the second block (labeled 'Noise') and the bottom to 'Signal'
  1. Configure this node to use 'Row ID' in both for the matching criteria (+ and then select 'Row ID' for both)
