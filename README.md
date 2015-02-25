@@ -51,8 +51,9 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
  - [Setup](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/01-Description.md)
  - [Workflow and Data](http://tinyurl.com/knime-ws-eth)
 - 26th February - Image Enhancement (A. Kaestner)
- - [Old Exercises](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/Exercises_ImageEnhancement.pdf?raw=true)
- - [Old Starting Matlab Directory](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
+ - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/02-Description.md)
+ - [Matlab Exercises](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/Exercises_ImageEnhancement.pdf?raw=true) (for students experienced in Matlab)
+ - [Starting Data / Matlab Directory](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
 - 5th March - Basic Segmentation, Discrete Binary Structures
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex3/Ex3Slides.html)
  - [Old Starting Matlab Script](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex3/Ex3Starting.m)

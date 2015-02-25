@@ -148,9 +148,57 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
 - Table to HTML
  - This node must be configured to save a file in an existing directory (its default value will not work), and it will save a report containing both the noisy images and the calculated SNR values
  - ![Table to HTML](02-files/TableToHTML.png?raw=true)
+ - Example page: 
+ 
+ <iframe src="02-files/test.html" />
 
 
 ### Tasks
 1. Change the standard deviation of the noise (In 'Add Specific Noise') how does this affect the results? Which filter performs best for low noise (10), which for high noise (100)?
 1. Sometimes small regions of interest at full resolution are more accurate than downsampled images. To do this replace the 'Image Resize' with an 'Image Cropper' block and crop the images before adding noise and the other steps. How does this change the final SNR?
 1. Try using 'Salt and Pepper' noise instead of 'Add Specific Noise' how does it change the results? Does making the Salt and Pepper extremely intense (>>255) change the SNR significantly? For which filters does this happen?
+
+## Part 3 - Changing Noise and Parameters
+
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/LoopingGaussian.svg)
+
+This example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Gaussian Sweep' and 'Signal To Noise' metanodes and other aspects, if you are interested.
+
+
+- Knime Workflow - [Looping Gaussian](02-files/LoopingGaussian.zip?raw=true)
+
+The basic overview is images are read in using 'Image Reader' and downsampled using 'Image Resize', the downsampling is used because filters like the anisotropic diffusion filter are very time consuming and testing or playing around with settings is painful with full sized images. The resizing can later be removed or simply change to 1.0 for X and 1.0 for Y in its configuration. 
+
+### New Ideas
+- Flow Variables
+ - The main principal of KNIME is working with tables which are passed around from node to node as a workflow runs. Flow Variables supplement the tables and provide information that may not fit as well in a table, or global information which applies to every sample in the table
+ - They can also be used to set parameters for nodes, by using the red dots on the top of the node (right click a node, and select 'Show Flow Variable Ports')
+ - In this work flow we use them to set the 'Sigma' value for the 'Gaussian Convolution' node
+ - By connecting it to a table, we can have many different values of 'Sigma' which are applied sequentially
+- Loops
+ - The loops enable us to run a workflow or part of a workflow multiple times.
+ - Typically the loops divide the table into one or more rows which are then processed individually
+ - The results are gathered and all combined together in one output table
+ - There are also loops made specifically for images which enable images to be processed slice by slice
+### New Nodes / Ideas
+
+- Chunk Loop Start
+ - This node runs the next steps for one (or more, depending on how its configured) row at a time. Like this, we can save the results for each image separately into the table as we will see later. This is also a useful approach when the datasets get very large (1000s of images) and allows you to just process a portion for testing the pipeline
+- Table Row to Variable Loop Start
+ - This node creates a loop from a table, but instead of outputting a row, it outputs a red dot of flow variables.
+ - These variables can be connected to other nodes which will be re-run for every row in the input table (Sigma in our case)
+- Loop End
+ - This node serves as the closing or end statement for every starting loop command
+ - It is gathers all of the results put into it at each step in the loop and outputs a big final table
+ - Executing this block runs all of the loops and so it can take a very long time
+
+
+### Tasks
+1. Change the values of Sigma (Sigma Table Inputs) to go to even higher values (10, 15 20), how does this affect the images? How does it change the SNR curves?
+1. Add an 'Image Resize' node before the noise and scale the image by 0.5 in X and Y, how does this affect SNR? Is this to be expected?
+1. Instead of using 'Salt and Pepper' try adding another type of noise ('Add Specific Noise', etc), rerun the pipeline, is the the behavior of SNR to Sigma the same? Has the maximum value moved?
+### Advanced Tasks
+1. Change the 'Signal to Noise' metanode inside the 'Gaussian Sweep' metanode to calculate Mean Square Error instead of Signal to Noise
+1. Change the Gaussian filter to an Anisotropic Diffusion Filter and show the results, how do Kappa and Iterations effect the SNR of the output images? Is there a value of Kappa which works for all images?
+1. Change the 'Salt and Pepper' noise to 'Add Specific Noise' and now instead of changing 'Sigma' change the standard deviation of the noise with a fixed sigma. How does the SNR change with increasing noise?
+1. __MegaChallenge__ combine the result from the last with the code from Part 2 to determine which filters work best at which 'Standard Deviation'
