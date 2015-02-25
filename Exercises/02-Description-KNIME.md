@@ -12,9 +12,9 @@
 - Install latest image processing extensions [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#installing-the-latest-image-processing-extensions)
 - Use workflow variables: [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#workflow-variables)
 
-### Part 1 - Images, Resizing, Noise, and Filters
+## Part 1 - Images, Resizing, Noise, and Filters
 
-![Workflow](02-files/ImageNoise.svg?raw=true)
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/ImageNoise.svg)
 
 ![Output Images](02-files/FilterAndNoiseImages.png?raw=true)
 
@@ -49,7 +49,7 @@ Basic Workflow - [Images Noise and Gaussian](02-files/ImagesNoiseAndGaussian.zip
  1. Select 'FLOATTYPE' for the Target Type
  1. _This node converts the image to a double/floating point value so we can add fractions of a value to it, and it won't start clipping or saturating when the value exceeds 255_
 
-#### Add Noise to the Image
+### Add Noise to the Image
 
 To add noise to the image we use the various noise adding tools available from 'Community Nodes -> KNIME Image Processing -> ImageJ2 -> Process -> Noise' 
 
@@ -62,10 +62,10 @@ To add noise to the image we use the various noise adding tools available from '
  1. Go to the 'Column Selection' tab
  1. Change 'Column Creation Mode' to 'Append'
  1. _We want to keep the original image for comparison_
- 1. Change 'Column Suffix' to '_sp_noisy'
+ 1. Change 'Column Suffix' to '_noisy'
  1. _We want the noisy image to have a meaningful name (default would be Image (#2))_
  
-#### Filter the Images
+### Filter the Images
 
 To filter the images we can use the large selection of filters available from 'Community Nodes -> KNIME Image Processing -> Image -> Filters' even more are available in 'Community Nodes -> KNIME Image Processing -> ImageJ2 -> Process -> Noise -> Noise Reduction'. We shall start with the first group and selec the 'Gaussian Convolution'
 
@@ -76,17 +76,17 @@ To filter the images we can use the large selection of filters available from 'C
  1. Go to the 'Column Selection' tab
  1. Change 'Column Creation Mode' to 'Append'
  1. _We want to keep the original image for comparison_
- 1. Change 'Column Suffix' to '_sp_noisy'
+ 1. Change 'Column Suffix' to '_filtered'
  1. _We want the noisy image to have a meaningful name (default would be Image (#2))_
 
-#### Calculate Difference Image
+### Calculate Difference Image
 
 Here we calculate the SNR using the 'Image Calculator' to create a difference image (between the filtered noisy image and the original) and then the 'Image Features' to calculate the mean value.
 
 1. Create a 'Image Calculator' node
- 1. Connect this node with the 'Cross Joiner'
+ 1. Connect this node with the 'Gaussian Convolution'
  1. Right click and select 'Configure'
- 1. Type in the 'Expression' field ```$Image$+$scale_noise$``` to add the image and the noise together
+ 1. Type in the 'Expression' field ```abs($Image$-$Image_noisy_filtered$)``` to calculate the absolute value of the difference between the original image and the noisy filtered image
  1. Select the 'New Table' option and type in a nice name like ```noisy_image```
  1. Select 'FLOATTYPE' for the Result pixel type
  1. Right click and select 'Execute and Open Views'
@@ -94,20 +94,36 @@ Here we calculate the SNR using the 'Image Calculator' to create a difference im
 
 
 
-#### Calculate Signal to Noise Ratio
+### Calculate Signal to Noise Ratio
 
 We define the signal to noise ratio as signal^2/noise^2 and therefore do not want the mean of each image rather the sum of squares. We can then divide these two values to determine the signal to noise
 
-```log($Squares of Sum_signal$/$Squares of Sum$)```
+1. Create two 'Image Feature' nodes and connect them to the 'Image Calculator' node.
+ 1. Change the name of the first block to 'Signal'
+ 1. Have the first block perform on column (under Configure in tab 'Column Selection') 'Image'
+ 1. Change the name of the second block to 'Noise' (_to keep their function clear_)
+ 1. Have the second block perform on column 'difference' (_calculate in the last step_)
+ 1. Have both blocks calculate Features -> First Order Statistics -> Sum of Squares
+1. Create a new 'Joiner' node to combine the results of the two 'Image Features' nodes
+ 1. Connect the top to the second block (labeled 'Noise') and the bottom to 'Signal'
+ 1. Configure this node to use 'Row ID' in both for the matching criteria (+ and then select 'Row ID' for both)
+ 1. Go to the tab 'Column Selection'
+ 1. Under 'Join Column Handling' select 'Filter right joining columns'
+ 1. Under 'Duplicate Column Handling' select 'Append custom suffix' and type '_signal'
+1. Create a 'Math Formula' block to calculate the signal to noise from these two image feature columns
+ 1. Select 'Append Column' and type SNR
+ 1. In Expression, paste the following code
+```20*log($Squares of Sum_signal$/$Squares of Sum$)```
 
+1. Right click and select 'Execute' and then right click again and select 'Output Data' to see the SNR values
 
-#### Tasks
+### Tasks
 
 1. Change the 'Salt' and 'Pepper' values in the filter and observe how this changes the results. How do these parameters affect the SNR?
 1. Change the Sigma value for the Gaussian Convolution, how does the sigma value affect the resulting images and the SNR?
 1. Now change the 'Gaussian Convolution' to a Median filter, how does this change the results? Is the SNR improved or worsened? Why?
 
-### Part 2 - Multiple Filters
+## Part 2 - Multiple Filters
 
 The next example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Signal To Noise' metanodes and other aspects, if you are interested.
 
@@ -115,7 +131,7 @@ The next example is fairly complicated so we recommend using the pre-built workf
 
 The basic overview is images are read in using 'Image Reader' and downsampled using 'Image Resize', the downsampling is used because filters like the anisotropic diffusion filter are very time consuming and testing or playing around with settings is painful with full sized images. The resizing can later be removed or simply change to 1.0 for X and 1.0 for Y in its configuration. 
 
-#### New Nodes
+### New Nodes
 - Add Specified Noise
  - This node adds the noise to the image and has a parameter called 'Standard Deviation' to control the magnitude of this noise
 - Anisotropic Diffusion
@@ -124,11 +140,13 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
  - This node runs a median filter on the image and the size and shape of the neighborhood examined as well as the strategy at the borders can be adjusted in the 'Options' tab.
 - Line Chart
  - This node plots the SNR results for the different image filters run, the image can be exported and saved to include with the exercise tasks and for comparing different settings/systems
+- ![Line Chart](02-files/LineChart.png?raw=true)
 - Table to HTML
  - This node must be configured to save a file in an existing directory (its default value will not work), and it will save a report containing both the noisy images and the calculated SNR values
  - ![Table to HTML](02-files/TableToHTML.png?raw=true)
 
 
-#### Tasks
+### Tasks
 1. Change the standard deviation of the noise (In 'Add Specific Noise') how does this affect the results? Which filter performs best for low noise (10), which for high noise (100)?
 1. Sometimes small regions of interest at full resolution are more accurate than downsampled images. To do this replace the 'Image Resize' with an 'Image Cropper' block and crop the images before adding noise and the other steps. How does this change the final SNR?
+1. Try using 'Salt and Pepper' noise instead of 'Add Specific Noise' how does it change the results? Does making the Salt and Pepper extremely intense (>>255) change the SNR significantly? For which filters does this happen?
