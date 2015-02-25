@@ -125,7 +125,11 @@ We define the signal to noise ratio as signal^2/noise^2 and therefore do not wan
 
 ## Part 2 - Multiple Filters
 
+
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/MultipleFilters.svg)
+
 The next example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Signal To Noise' metanodes and other aspects, if you are interested.
+
 
 - Knime Workflow - [Multiple Filters](02-files/MultipleFilters.zip?raw=true)
 
