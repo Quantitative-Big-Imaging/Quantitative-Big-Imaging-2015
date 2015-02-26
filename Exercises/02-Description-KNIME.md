@@ -5,6 +5,9 @@
 1. The data for the example can be downloaded from [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
 2. Open the file in Archive Manager and extract the data to ```/scratch``` (only on D61.1 machines)
 
+## Loading workflows
+Many of these workflows are fairly complicated and would be time consuming to reproduce, follow the instructions [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#loading-workflows) for how to import a workflow from the zip files on this site
+
 ## Getting Started
 - Steps are shown in normal text, comments are shown in _italics_.
 
