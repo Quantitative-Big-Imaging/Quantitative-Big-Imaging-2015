@@ -93,7 +93,6 @@ Here we calculate the SNR using the 'Image Calculator' to create a difference im
  1. Click the 'Normalize' checkbox to rescale the colors so the contrast in the image is visible (otherwise it shows from -1e30 to 1e30 which makes the whole image gray)
 
 
-
 ### Calculate Signal to Noise Ratio
 
 We define the signal to noise ratio as signal^2/noise^2 and therefore do not want the mean of each image rather the sum of squares. We can then divide these two values to determine the signal to noise
@@ -148,26 +147,23 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
 - Table to HTML
  - This node must be configured to save a file in an existing directory (its default value will not work), and it will save a report containing both the noisy images and the calculated SNR values
  - ![Table to HTML](02-files/TableToHTML.png?raw=true)
- - Example page: 
+ - [Example page](https://rawgit.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/test.html)
  
- <iframe src="02-files/test.html" />
-
+### New Nodes (__Advanced__)
+For students interested in more custom analysis, there are a number of nodes called 'QuickForm' nodes (https://www.youtube.com/watch?v=GhRJtXJVio4) which allow parameters to be added to 'Metanodes'. The 'Signal to Noise' metanode in this example has several parameters which can be adjusted ('Original Image Name', 'Filtered Image Name', and 'SNR Column Name') which are then used to run the metanode. This allows the same 'Signal to Noise' metanode to do the processing on different inputs without changing the internals of the node.
 
 ### Tasks
 1. Change the standard deviation of the noise (In 'Add Specific Noise') how does this affect the results? Which filter performs best for low noise (10), which for high noise (100)?
 1. Sometimes small regions of interest at full resolution are more accurate than downsampled images. To do this replace the 'Image Resize' with an 'Image Cropper' block and crop the images before adding noise and the other steps. How does this change the final SNR?
 1. Try using 'Salt and Pepper' noise instead of 'Add Specific Noise' how does it change the results? Does making the Salt and Pepper extremely intense (>>255) change the SNR significantly? For which filters does this happen?
 
-## Part 3 - Changing Noise and Parameters
+## Part 3 - Changing Noise 
 
-![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/LoopingGaussian.svg)
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/VaryingNoiseLevels.svg)
 
-This example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Gaussian Sweep' and 'Signal To Noise' metanodes and other aspects, if you are interested.
+This example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore or try and make it again yourself if you are interested
 
-
-- Knime Workflow - [Looping Gaussian](02-files/LoopingGaussian.zip?raw=true)
-
-The basic overview is images are read in using 'Image Reader' and downsampled using 'Image Resize', the downsampling is used because filters like the anisotropic diffusion filter are very time consuming and testing or playing around with settings is painful with full sized images. The resizing can later be removed or simply change to 1.0 for X and 1.0 for Y in its configuration. 
+- Knime Workflow - [Looping Gaussian](02-files/VaryingNoiseLevels.zip?raw=true)
 
 ### New Ideas
 - Flow Variables
@@ -180,10 +176,9 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
  - Typically the loops divide the table into one or more rows which are then processed individually
  - The results are gathered and all combined together in one output table
  - There are also loops made specifically for images which enable images to be processed slice by slice
-### New Nodes / Ideas
+ 
+### New Nodee
 
-- Chunk Loop Start
- - This node runs the next steps for one (or more, depending on how its configured) row at a time. Like this, we can save the results for each image separately into the table as we will see later. This is also a useful approach when the datasets get very large (1000s of images) and allows you to just process a portion for testing the pipeline
 - Table Row to Variable Loop Start
  - This node creates a loop from a table, but instead of outputting a row, it outputs a red dot of flow variables.
  - These variables can be connected to other nodes which will be re-run for every row in the input table (Sigma in our case)
@@ -191,6 +186,38 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
  - This node serves as the closing or end statement for every starting loop command
  - It is gathers all of the results put into it at each step in the loop and outputs a big final table
  - Executing this block runs all of the loops and so it can take a very long time
+- Line Chart (JFreeChart)
+ - This node lets us make plots of the results, in this case we use it to show SNR and MSE in different plots and compares the results to the Noise level added to the image.
+ - It allows us to use another column (in this case noise level) as the X-axis and is more flexible than the standard 'Line Chart' tool
+ - The following shows how the SNR plot should look when the workflow is running correctly.
+ - ![SNR Plot](02-files/SNRChart.png)
+
+### Tasks
+1. The graphs right now are very coarse, add more points to get a smoother plot.
+1. Let's say we know the noise level in our images is between 0 and 15 make a plot showing this behavior in detail
+1. Change the Sigma value of the Gaussian Convolution, how does this affect the final result? What is the ideal sigma for noisy images? For clean images?
+1. Replace the Gaussian Convolution with a Median Filter, does it change the results? For noise levels between 0 and 15 which performs better? (compare the plots)
+
+### Advanced Tasks
+1. Add (not replace) a Median Filter to the workflow (requires another 'Signal to Noise and MSE' block, and a join) and have the output a plot with 3 curves (SNR_noisy, SNR_gaussian, and SNR_median)
+
+
+## Part 4 - Changing Filter Parameters
+
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/02-files/LoopingGaussian.svg)
+
+This example is fairly complicated so we recommend using the pre-built workflow to start out with. Feel free to explore the 'Gaussian Sweep' and 'Signal To Noise' metanodes and other aspects, if you are interested.
+
+
+- Knime Workflow - [Looping Gaussian](02-files/LoopingGaussian.zip?raw=true)
+
+The basic overview is images are read in using 'Image Reader' and downsampled using 'Image Resize', the downsampling is used because filters like the anisotropic diffusion filter are very time consuming and testing or playing around with settings is painful with full sized images. The resizing can later be removed or simply change to 1.0 for X and 1.0 for Y in its configuration. 
+
+
+### New Nodes
+
+- Chunk Loop Start
+ - This node runs the next steps for one (or more, depending on how its configured) row at a time. Like this, we can save the results for each image separately into the table as we will see later. This is also a useful approach when the datasets get very large (1000s of images) and allows you to just process a portion for testing the pipeline
 
 
 ### Tasks
@@ -201,4 +228,4 @@ The basic overview is images are read in using 'Image Reader' and downsampled us
 1. Change the 'Signal to Noise' metanode inside the 'Gaussian Sweep' metanode to calculate Mean Square Error instead of Signal to Noise
 1. Change the Gaussian filter to an Anisotropic Diffusion Filter and show the results, how do Kappa and Iterations effect the SNR of the output images? Is there a value of Kappa which works for all images?
 1. Change the 'Salt and Pepper' noise to 'Add Specific Noise' and now instead of changing 'Sigma' change the standard deviation of the noise with a fixed sigma. How does the SNR change with increasing noise?
-1. __MegaChallenge__ combine the result from the last with the code from Part 2 to determine which filters work best at which 'Standard Deviation'
+1. __MegaChallenge__ combine the result from the last with the code from Part 3 to determine which filters work best at which noise level.
