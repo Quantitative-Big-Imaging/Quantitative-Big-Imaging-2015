@@ -8,11 +8,15 @@
 ## Loading workflows
 Many of these workflows are fairly complicated and would be time consuming to reproduce, follow the instructions [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#loading-workflows) for how to import a workflow from the zip files on this site
 
+## Problems!
+If you load a workflow and get an error message, click on the details button. If it says 'Node ... not available' it means you need to update your 'Image Processing Extensions' follow the instructions below to perform this update [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#installing-the-latest-image-processing-extensions)
+- If you cannot find the 'Salt and Pepper' node, this also means you are not using the latest Image Processing Extensions so update it as described above
+
 ## Getting Started
 - Steps are shown in normal text, comments are shown in _italics_.
 
 - Knime Basics: [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup)
-- Install latest image processing extensions [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#installing-the-latest-image-processing-extensions)
+
 - Use workflow variables: [here](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#workflow-variables)
 
 ## Part 1 - Images, Resizing, Noise, and Filters
@@ -189,17 +193,19 @@ This example is fairly complicated so we recommend using the pre-built workflow 
  - This node serves as the closing or end statement for every starting loop command
  - It is gathers all of the results put into it at each step in the loop and outputs a big final table
  - Executing this block runs all of the loops and so it can take a very long time
-- Line Chart (JFreeChart)
- - This node lets us make plots of the results, in this case we use it to show SNR and MSE in different plots and compares the results to the Noise level added to the image.
- - It allows us to use another column (in this case noise level) as the X-axis and is more flexible than the standard 'Line Chart' tool
- - The following shows how the SNR plot should look when the workflow is running correctly.
- - ![SNR Plot](02-files/SNRChart.png)
 
 ### Tasks
-1. The graphs right now are very coarse, add more points to get a smoother plot.
+
+1. The graphs right now are very coarse, add more points to the noise table to get a smoother plot.
 1. Let's say we know the noise level in our images is between 0 and 15 make a plot showing this behavior in detail
 1. Change the Sigma value of the Gaussian Convolution, how does this affect the final result? What is the ideal sigma for noisy images? For clean images?
 1. Replace the Gaussian Convolution with a Median Filter, does it change the results? For noise levels between 0 and 15 which performs better? (compare the plots)
+
+### Concept Questions
+
+1. On the SNR graph, the 'SNR_noisy' graph does not extend to zero and we get an error message that missing values are not shown, why?
+2. If you start with a black and white image (like the 'asphalt_bilevel') how would you expect the curve to look? Is noise removal easier or harder on a 2-level vs a gray-scale image?
+
 
 ### Advanced Tasks
 1. Add (not replace) a Median Filter to the workflow (requires another 'Signal to Noise and MSE' block, and a join) and have the output a plot with 3 curves (SNR_noisy, SNR_gaussian, and SNR_median)
