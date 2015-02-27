@@ -1,0 +1,5 @@
+fourquant/demo/MyPlugin.class
+META-INF/json/org.scijava.plugin.Plugin
+fourquant/demo/MS_SSIM_Index.class
+fourquant/demo/SSIMCalculator.class
+fourquant/demo/MySimpleThreshold.class

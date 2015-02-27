@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javadocOptions>
+  <docletArtifacts>
+    <docletArtifact />
+  </docletArtifacts>
+  <tagletArtifacts>
+    <tagletArtifact />
+  </tagletArtifacts>
+  <links>
+    <link>http://docs.oracle.com/javase/6/docs/api/</link>
+    <link>http://ci.openmicroscopy.org/job/BIOFORMATS-5.0-latest/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/Fiji-javadoc/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/ImageJ1-javadoc/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/ImageJ-daily/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/ImgLib-daily/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/SCIFIO-javadoc/javadoc/</link>
+    <link>http://jenkins.imagej.net/job/SciJava-common-javadoc/javadoc/</link>
+    <link>http://pivot.apache.org/2.0.4/docs/api/</link>
+    <link>http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/reference/api/</link>
+    <link>http://download.java.net/media/java3d/javadoc/1.5.2/</link>
+    <link>http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/html/</link>
+    <link>http://www.randelshofer.ch/oop/jhotdraw/JavaDoc/</link>
+    <link>http://jenkins.imagej.net/view/Fiji/job/Saalfeld-MPICBG-Maven/javadoc/</link>
+  </links>
+  <javadocResourcesDirectory>src/main/javadoc</javadocResourcesDirectory>
+</javadocOptions>
