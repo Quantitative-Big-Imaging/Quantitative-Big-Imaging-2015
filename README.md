@@ -7,7 +7,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/01-Handout.html)
 - 26th February - Image Enhancement (A. Kaestner)
- - [Old Lecture Slides](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Lectures/02-Enhanced.pdf?raw=true)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/02-Slides.pdf)
 - 5th March - Basic Segmentation, Discrete Binary Structures
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/03-Segmentation.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/Segmentation_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/03-Segmentation.pdf)
@@ -43,7 +43,6 @@ The exercises from last year (available on: kmader.github.io/Quantitative-Big-Im
 
 #### Assistance
 The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Dietz. There will be office hours in ETZ H75 on Thursdays between 14-15 or by appointment.
-
 
 #### Specific Assignements
 
