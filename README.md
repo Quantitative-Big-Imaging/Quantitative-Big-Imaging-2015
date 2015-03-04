@@ -1,5 +1,5 @@
 ### Quantitative Big Imaging Course 2015
-Here are the lectures, exercises, and additional course materials corresponding to the spring semester 2015 course at ETH Zurich, 227-0966-00L: Quantitative Big Imaging. 
+Here are the lectures, exercises, and additional course materials corresponding to the spring semester 2015 course at ETH Zurich, [227-0966-00L](http://www.vvz.ethz.ch/Vorlesungsverzeichnis/lerneinheitPre.do?lerneinheitId=97210&semkez=2015S&lang=en): Quantitative Big Imaging. 
 The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and Marco Stampanoni. Please note the Lecture Slides and PDF do not contain source code, this is only available in the handout file.
 
 ### Lectures
@@ -9,12 +9,12 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 - 26th February - Image Enhancement (A. Kaestner)
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/02-Slides.pdf)
 - 5th March - Basic Segmentation, Discrete Binary Structures
- - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/03-Segmentation.html)
- - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/Segmentation_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/03-Segmentation.pdf)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/03-Slides.html)
+ - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/03-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/03-Handout.pdf)
 - 12th March - Advanced Segmentation
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation.pdf)
-- 19th March - Machine Learning in Image Processing (M. Jäggi and A. Lucchi)
+- 19th March - Applications Graphical Modles and Machine Learning (A. Lucchi)
 - 26th March - Analyzing Single Objects
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.pdf)
@@ -27,7 +27,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 - 23rd April -  Statistics and Reproducibility
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/08-Statistics.pdf)
-- 30th April - Dynamic Experiments
+- 30th April - Dynamic Experiments (K. Mader and A. Patera)
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.pdf)
 - 7th May - Scaling Up / Big Data
@@ -54,9 +54,8 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
  - [Matlab Exercises](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/Exercises_ImageEnhancement.pdf?raw=true) (for students experienced in Matlab)
  - [Starting Data / Matlab Directory](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
 - 5th March - Basic Segmentation, Discrete Binary Structures
- - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex3/Ex3Slides.html)
- - [Old Starting Matlab Script](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex3/Ex3Starting.m)
- - [Old Data Files](http://people.ee.ethz.ch/~maderk/data.zip)
+ - [Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/03-Description.html)
+ - [Workflows](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/03-files/Workflows.zip?raw=true)
 - 12th March - Advanced Segmentation and Processing
  - [Old Lecture Quiz](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation_files/quiz.html)
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex4/Ex4Slides.html)
