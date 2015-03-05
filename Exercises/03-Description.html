@@ -890,7 +890,7 @@ hljs.initHighlightingOnLoad();
 <div class="column column1 slideContent" >
 <h3>Circardian Rhythm in Neuron Cells</h3>
 
-<p>Fluoresnce signal in neuron cells in the region of the brain responsible for circadian regulation</p>
+<p>Fluorescence signal in neuron cells in the region of the brain responsible for circadian regulation</p>
 
 <p><video controls>
   <source src="florTracking.avi" type="video/avi">
@@ -950,31 +950,12 @@ Your browser does not support the video tag.
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Tools for the Exercise</h3>
+<h3>Getting Started with KNIME</h3>
 <div class="slideContent" >
 <ul>
-<li>Basic Exercises
-
-<ul>
-<li>FIJI (ImageJ with all the plugins already installed): Visualization, Preprocessing, Segmentation, Morphometrics [<a href="http://www.fiji.sc">http://www.fiji.sc</a>]</li>
-<li>Matlab (General Processing, Image Processing Toolbox)
-[<a href="http://www.mathworks.com">http://www.mathworks.com</a>]</li>
-</ul></li>
-<li>Advanced Tools
-
-<ul>
-<li>Paraview</li>
-<li>ImageJ Plugins (Java and Python)</li>
-</ul></li>
+<li><p>Make sure you have updated Image Processing Extensions (<a href="https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#updating-to-the-latest-image-processing-extensions">https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#updating-to-the-latest-image-processing-extensions</a>)</p></li>
+<li><p>Start KNIME (<code>Alt+F2</code> and type <code>knime</code> and click run)</p></li>
 </ul>
-
-</div>
-
-</section>
-<section data-transition="linear" data-transition-speed="default">
-<h3>Setting up the Computers</h3>
-<div class="slideContent" >
-<p>Start KNIME (<code>Alt+F2</code> and type <code>knime</code> and click run)</p>
 
 </div>
 
@@ -1038,15 +1019,29 @@ Your browser does not support the video tag.
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
+<h3>Additional Examples</h3>
+<div class="slideContent" >
+<p>KNIME is not the tool for everything, and we won&#39;t spend too much time on the others but </p>
+
+<ul>
+<li>FIJI (ImageJ with all the plugins already installed): Visualization, Preprocessing, Segmentation, Morphometrics [<a href="http://www.fiji.sc">http://www.fiji.sc</a>]</li>
+<li>Paraview</li>
+<li>ImageJ Plugins (Java and Python)</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
 <h3>Looking at the Fossil Data</h3>
 <div class="column column1 slideContent" >
 <h4>From <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1475-4983.2010.01006.x/abstract">Paleontology Paper</a></h4>
 
 <h4>Data courtesy of Philip Donaghue and John Cunningham</h4>
 
-<h3>Intenstine</h3>
-
 <ul>
+<li>Here: <a href="http://people.ee.ethz.ch/%7Emaderk/data.zip">http://people.ee.ethz.ch/~maderk/data.zip</a>
+### Intenstine</li>
 <li>Folder: Gut-PhilElvCropped</li>
 <li>Load into FIJI</li>
 <li>Rescale Brightness and Contrast</li>
@@ -1116,17 +1111,54 @@ Additional more detailed
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>ImageJ &#x2F; KNIME Plugins</h3>
+<h3>Developing ImageJ2 &#x2F; KNIME Plugins</h3>
 <div class="slideContent" >
 <ul>
 <li>Java classes, but with a well-developed API and GUI wrapped around it</li>
-<li>Can be &ldquo;recorded&rdquo; like Macro&#39;s to call other functions or plugins</li>
-<li>Examples 
+<li>Can be imported and run in KNIME or ImageJ2/FIJI</li>
+<li>Powerful flexible framework behind: <a href="http://imglib2.net/">ImgLib2</a>, <a href="http://fiji.sc/ImgLib2_Examples">examples</a></li>
+</ul>
 
+<pre><code class="java">@Plugin(headless = true, type = Command.class)
+public class DemoPlugin&lt;T extends RealType&lt;T&gt;&gt; 
+  implements Command {
+  @Override
+  public void run() {
+    // Code for your plugin
+  }
+}
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>ImageJ2 Average Value</h3>
+<div class="slideContent" >
+<pre><code class="java">public void run() {
+        final RealSum realSum = new RealSum();
+        long count = 0;
+
+        for ( final T type : input ) {
+            realSum.add( type.getRealDouble() );
+            count++;
+        }
+        return realSum.getSum() / count;
+}
+
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Old Style ImageJ Plugins (Most existing ones)</h3>
+<div class="slideContent" >
 <ul>
+<li>Can be &ldquo;recorded&rdquo; like Macro&#39;s to call other functions or plugins</li>
+<li>Examples </li>
 <li><a href="http://imagejdocu.tudor.lu/doku.php?id=plugin:filter:3d_filters:start">Filters in 3D</a></li>
 <li><a href="http://imagejdocu.tudor.lu/doku.php?id=plugin:filter:3d_filters_with_jni:start">Fast 3D Filters</a> - native libraries allow for really fast implementations</li>
-</ul></li>
 </ul>
 
 <pre><code>public class My_Plugin implements PlugIn {
