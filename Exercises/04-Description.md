@@ -65,10 +65,21 @@ In this example we use K-Means to automatically segment the images used in the s
  - You select the columns to use for the feature-vectors in analysis in the 'Include' area of the 'K-Means Properties' window. 
 - Image to Labeled Table
  - This is a meta-node (feel free to open it) that turns an image into a feature vector representation so we can use it with various classification algorithms since they are only implemented on tables.
- 
+- Interactive Annotator
+ - This node lets you manually select labels, points, and seeds in your image using standard drawing tools.
+ - The node can be finicky and often requires deleting all of the current labels and starting over
+ - A brief video showing how 3 rectangular labels can be added to a small image region is shown [here](https://www.youtube.com/watch?v=Fh65uA1pkAA)
  
 ### Tasks
 1. Use the 'Interactive Annotator' to specify regions in the image as different phases for the training and then classify the rest of the image
+1. Change the region of the image for labeling by adjusting the cropper and resize tools. Find a region with just two different phases, does this work better? 
+
+### Advanced Tasks
+1. Inside the 'Decision Tree Preparation' metanode there is a 'Column Filter' which removes the positions, add them back and see if the quality of the segmentation can be improved
+1. Continueing the last step, use the 'Joiner' tool and multiple 'Image to Labeled Table' to combine other common feature vectors (Gaussian, Sobel, etc)
+ - Does this improve the segmentation?
+ - How many new feature vectors can be added and still improve the final image?
+
 
 ![Output Images](04-files/KMeans-Simple.png?raw=true)
 
@@ -82,6 +93,8 @@ In this example we use a basic training method (Decision Tree) to learn how to s
 - Knime Workflow - [KMeans](04-files/Simple-Trainable-Clustering.zip?raw=true)
 
 1. Right click the image reader to make sure it has downloaded, otherwise you can redownload the test images from [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
+
+
 
 When it is running correctly the result will look something like the image below
 ![Output Images](04-files/Simple-Trainable-Clustering.png?raw=true)
