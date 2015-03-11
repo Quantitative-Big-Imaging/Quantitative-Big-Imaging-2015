@@ -90,7 +90,7 @@ In this example we use a basic training method (Decision Tree) to learn how to s
 
 ![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/04-files/Simple-Trainable-Clustering.svg)
 
-- Knime Workflow - [KMeans](04-files/Simple-Trainable-Clustering.zip?raw=true)
+- Knime Workflow - [TrainableClustering](04-files/Simple-Trainable-Clustering.zip?raw=true)
 
 1. Right click the image reader to make sure it has downloaded, otherwise you can redownload the test images from [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
 
@@ -100,3 +100,26 @@ When it is running correctly the result will look something like the image below
 ![Output Images](04-files/Simple-Trainable-Clustering.png?raw=true)
 
 ### Tasks
+
+
+## Part 4 - Contouring
+
+
+![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/04-files/Cell-Segmentation.svg)
+
+- Knime Workflow - [CellSegmentation](04-files/Cell-Segmentation.zip?raw=true)
+
+Starting with the workflow from exercise 3 called Cell Segmentation, we see that the morphological operations perform a reasonable job for filling in the holes in the bone and identifying the bone area. 
+
+![Output Images](04-files/Bone-Segmentation.png?raw=true)
+
+### Tasks
+1. Instead of the morphology block, use the 'Convex Hull'
+ - Does the output look better or worse?
+ - What advantages might the convex hull have over the morphological approach (hint: think about larger holes)
+1. Try using the 'Fill Holes'
+ - How well does this work?
+ - What advantages might this have?
+ - What disadvantages might it have (what do the cracks mean?)
+1. How does using the different approaches affect the final calculations for porosity fraction
+1. How could these steps be combined to get a better result?
