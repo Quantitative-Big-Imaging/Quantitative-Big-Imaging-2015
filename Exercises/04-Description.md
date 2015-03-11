@@ -1,4 +1,4 @@
-# Exercise 2: Image Enhancement
+# Exercise 3: Advanced Segmentation
 
 
 ## Downloading the data
@@ -65,10 +65,7 @@ In this example we use K-Means to automatically segment the images used in the s
  - You select the columns to use for the feature-vectors in analysis in the 'Include' area of the 'K-Means Properties' window. 
 - Image to Labeled Table
  - This is a meta-node (feel free to open it) that turns an image into a feature vector representation so we can use it with various classification algorithms since they are only implemented on tables.
-- Interactive Annotator
- - This node lets you manually select labels, points, and seeds in your image using standard drawing tools.
- - The node can be finicky and often requires deleting all of the current labels and starting over
- - A brief video showing how 3 rectangular labels can be added to a small image region is shown [here](https://www.youtube.com/watch?v=Fh65uA1pkAA)
+
  
 ### Tasks
 1. Use the 'Interactive Annotator' to specify regions in the image as different phases for the training and then classify the rest of the image
@@ -92,14 +89,25 @@ In this example we use a basic training method (Decision Tree) to learn how to s
 
 - Knime Workflow - [TrainableClustering](04-files/Simple-Trainable-Clustering.zip?raw=true)
 
-1. Right click the image reader to make sure it has downloaded, otherwise you can redownload the test images from [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex2/matlab.zip?raw=true)
-
+1. Right click the image reader to make sure it has downloaded, otherwise you can redownload the test images from [here](04-files/015_ORL6-3_1417.tif?raw=true)
 
 
 When it is running correctly the result will look something like the image below
 ![Output Images](04-files/Simple-Trainable-Clustering.png?raw=true)
 
+### New Nodes
+- Interactive Annotator
+ - This node lets you manually select labels, points, and seeds in your image using standard drawing tools.
+ - The node can be finicky and often requires deleting all of the current labels and starting over
+ - A brief video (__please watch__) showing how 3 rectangular labels can be added to a small image region is shown [here](https://www.youtube.com/watch?v=Fh65uA1pkAA)
+
 ### Tasks
+1. Using the interactive annotator, train the system to identify 2 different phases
+ - Try 3, does it work well
+ - Does the size or diversity (change image crop) of the regions change the final result?
+1. __Advanced__ try adding more channels to the feature vector to improve the segmentation
+ - Why can you not add position to this table?
+ - What would you have to do to incorporate position?
 
 
 ## Part 4 - Contouring
@@ -123,3 +131,13 @@ Starting with the workflow from exercise 3 called Cell Segmentation, we see that
  - What disadvantages might it have (what do the cracks mean?)
 1. How does using the different approaches affect the final calculations for porosity fraction
 1. How could these steps be combined to get a better result?
+
+
+# Appendix
+
+## LiveWire Contouring in MeVisLab
+
+A free tool called MeVisLab offers LiveWire 3D contouring tools which work similar to the Photoshop version with much more flexibility. A tool (.mlab) and sample contour (.csv) are provided in [here](https://github.com/kmader/Quantitative-Big-Imaging-Course/tree/master/Ex4/MeVisLab) by David Haberthuer (david.haberthuer@psi.ch) from PSI demonstrating and visualizing this contouring on a human brain image. A video showing how it works is available [here](http://people.ee.ethz.ch/~maderk/videos/CSOinMeVisLab.swf)
+
+[Module Reference](http://www.mevislab.de/docs/2.2.1/MeVisLab/Standard/Documentation/Publish/ModuleReference/CSOLiveWireProcessor.html) and [CSO Reference](http://www.mevislab.de/docs/2.5/MeVisLab/Standard/Documentation/Publish/Overviews/CSOOverview.html)
+
