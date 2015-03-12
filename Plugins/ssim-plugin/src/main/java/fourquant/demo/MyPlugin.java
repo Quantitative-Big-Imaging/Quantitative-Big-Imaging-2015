@@ -1,7 +1,7 @@
 package fourquant.demo;
 
 import net.imagej.Dataset;
-import net.imglib2.meta.ImgPlus;
+import net.imagej.ImgPlus;
 import net.imglib2.ops.img.UnaryOperationAssignment;
 import net.imglib2.ops.operation.real.unary.RealInvert;
 import net.imglib2.type.numeric.RealType;
