@@ -68,15 +68,14 @@ In this example we use K-Means to automatically segment the images used in the s
 
  
 ### Tasks
-1. Use the 'Interactive Annotator' to specify regions in the image as different phases for the training and then classify the rest of the image
-1. Change the region of the image for labeling by adjusting the cropper and resize tools. Find a region with just two different phases, does this work better? 
+1. Adjust the number of groups in the KMeans and the weights used for the position components
+ - What do the weights mean? 
+ - Does a set of values work for all images?
 
 ### Advanced Tasks
-1. Inside the 'Decision Tree Preparation' metanode there is a 'Column Filter' which removes the positions, add them back and see if the quality of the segmentation can be improved
-1. Continueing the last step, use the 'Joiner' tool and multiple 'Image to Labeled Table' to combine other common feature vectors (Gaussian, Sobel, etc)
+1.  Add more image features by using the 'Joiner' tool and multiple 'Image to Labeled Table' to combine other common feature vectors (Gaussian, Sobel, etc)
  - Does this improve the segmentation?
  - How many new feature vectors can be added and still improve the final image?
-
 
 ![Output Images](04-files/KMeans-Simple.png?raw=true)
 
@@ -108,6 +107,9 @@ When it is running correctly the result will look something like the image below
 1. __Advanced__ try adding more channels to the feature vector to improve the segmentation
  - Why can you not add position to this table?
  - What would you have to do to incorporate position?
+
+### Advanced Tasks
+1. Inside the 'Decision Tree Preparation' metanode there is a 'Column Filter' which removes the positions, add them back and see if the quality of the segmentation can be improved
 
 
 ## Part 4 - Contouring
