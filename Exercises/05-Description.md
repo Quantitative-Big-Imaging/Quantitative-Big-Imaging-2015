@@ -3,7 +3,7 @@
 
 ## Downloading the data
 
-You can use the image (05-files/1_29_s.bmp) or re-use data from a previous exercise.
+You can use [this image](05-files/1_29_s.bmp) or re-use data from a previous exercise.
 
 ## Part 1 - Graph-cuts
 
