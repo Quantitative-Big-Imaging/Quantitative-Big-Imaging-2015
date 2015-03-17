@@ -22,3 +22,15 @@ Basic Workflow
 ![Output Images](05-files/GraphCut_output.png)
 
 You can see that the result is not really good yet as GraphCut tend to remove the non-smooth parts (e.g. the legs in this example). Can you think of ways to improve the results?
+
+## Part 1 - Image classification in Matlab
+
+We here provide matlab code to train a classifier (you can choose one among SVM, GP, Perceptron or Decision tree) to detect objects specified in a set of ground-truth images. Some sample ground-truth images are provided for the segmentation of mitochondria in Electron microscopy images.
+
+1. Download the zip file containing the code [here](http://lucchia.free.fr/code/segmentation.zip)
+2. Run main.m
+3. You should get an image in the predictions directory like the one below. 
+
+![Output Images](05-files/classifier_output.png)
+
+Note that the default classifier is a Perceptron algorithm. If you want to use SVM you need to download the libSVM code from [here](http://www.csie.ntu.edu.tw/~cjlin/libsvm/)
