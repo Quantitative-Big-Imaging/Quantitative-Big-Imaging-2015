@@ -3,13 +3,13 @@
 
 ## Downloading the data
 
-You can use the image (https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/05-files/1_29_s.bmp) or re-use data from a previous exercise.
+You can use the image (05-files/1_29_s.bmp) or re-use data from a previous exercise.
 
 ## Part 1 - Graph-cuts
 
-![Workflow](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/05-files/KNIME_GraphCut.zip)
+![Workflow](05-files/KNIME_GraphCut.zip)
 
-(https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/05-files/GraphCut.png)
+![Output Images](05-files/GraphCut.png)
 
 Basic Workflow
 
@@ -21,3 +21,4 @@ Basic Workflow
 
 ![Output Images](05-files/GraphCut_output.png)
 
+You can see that the result is not really good yet as GraphCut tend to remove the non-smooth parts (e.g. the legs in this example). Can you think of ways to improve the results?
