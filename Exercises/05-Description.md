@@ -36,3 +36,5 @@ We here provide matlab code to train a classifier (you can choose one among SVM,
 ![Output Images](05-files/classifier_output.png)
 
 Note that the default classifier is a Perceptron algorithm. If you want to use SVM you need to download the libSVM code from [here](http://www.csie.ntu.edu.tw/~cjlin/libsvm/). You will then need to add the path pointing to the libsvm files with the matlab function addpath.
+
+You can try to change some of the parameters in main.m, e.g. the size of the patches (opts.patchSize) or the number of positive and negative examples.
