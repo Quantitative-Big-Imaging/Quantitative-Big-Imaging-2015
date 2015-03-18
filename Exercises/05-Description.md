@@ -41,12 +41,17 @@ Note that the default classifier is a Perceptron algorithm. If you want to use S
 1. Change the size of the patches (variable opts.patchSize in main.m). What effect does it have on the output of the classifier? 
 2. Change the number of positive and negative examples and observe how the confidence of the classifier varies.
 3. Use your own set of images or images from a previous exercise. For that, you need to change the following variables:
+
 opts.trainImgFolder = './train/images_mitochondria/';
+
 opts.trainAnnFolder = './train/annotations_mitochondria/';
+
 opts.testImgFolder = './test/images_mitochondria/';
+
 opts.testAnnFolder = './test/annotations_mitochondria/';
 
-Note that the code will error if you try to extract more patches than available in the training data.
+
+Note that the code will error if you try to extract more patches than available in the training data, in which case you should increase the number of training images (if possible) or reduce the number of samples.
 
 
 
