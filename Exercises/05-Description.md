@@ -39,7 +39,8 @@ Note that the default classifier is a Perceptron algorithm. If you want to use S
 ### Tasks (can be done in any order you like)
 1. Change the size of the patches (variable opts.patchSize in main.m). What effect does it have on the output of the classifier? 
 2. Change the number of positive and negative examples (variables opts.pos_examples and opts.neg_examples) and observe how the confidence of the classifier varies.
-3. Change the set of training and test images. You can either use your own images or use [this set of EM images](http://lucchia.free.fr/Mitochondria/EM_images.zip)
+3. Change the type of features (see description of the variable opts.featType in main.m)
+4. Change the set of training and test images. You can either use your own images or use [this set of EM images](http://lucchia.free.fr/Mitochondria/EM_images.zip)
 
 #### Use a different set of training and test images
 For that, you need to change the following variables:
