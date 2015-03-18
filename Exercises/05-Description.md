@@ -34,7 +34,15 @@ Basic Workflow
 
 You can see that the result is not really good yet as GraphCut tend to remove the non-smooth parts (e.g. the legs in this example). Can you think of ways to improve the results?
 
-## Part 2 - Image classification in Matlab
+## Part 2 - Image classification in KNIME
+
+We here provide KNIME workflow to train a classifier (you can choose one among SVM, GP, Perceptron or Decision tree) to detect objects specified in a set of ground-truth images. Some images and the associated ground-truth images are provided for the segmentation of mitochondria in Electron microscopy images. We use 3 feature vectors (the same as discussed in lecture 4), Intensity, Gaussian, and Sobel and start with a basic decision tree prediction.
+
+1. Download the zip file containing the code [here](http://lucchia.free.fr/code/segmentation.zip)
+1. Import the workflow from [here](05-files/TrainableClusteringWithEMImages.zip?raw=true)
+1. Watch the video [here](https://www.youtube.com/watch?v=Y0X204avgp4)
+
+## Part 3 (Advanced)- Image classification in Matlab
 
 We here provide matlab code to train a classifier (you can choose one among SVM, GP, Perceptron or Decision tree) to detect objects specified in a set of ground-truth images. Some images and the associated ground-truth images are provided for the segmentation of mitochondria in Electron microscopy images.
 
