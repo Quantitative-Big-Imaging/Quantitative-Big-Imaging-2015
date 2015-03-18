@@ -1,5 +1,16 @@
 # Exercise 5: Machine Learning in Image Processing
 
+## Install Nightly extension for KNIME
+
+The workflow used for Part 1 requires the node GraphCut 2D; if this node
+is not inside the Node Repository, you have to install the Nightly extensions
+for Image Processing by following these instructions:
+1. go to the Help menu: Help -> Install New Softwares;
+2. on the top right, click 'Add';
+3. type inside 'Location' this address: http://tech.knime.org/update/community-contributions/trunk;
+4. press 'Ok' and, then, you should see this address inside 'Work with';
+5. after having selected the address, a list of options should pop up;
+6. select the one with the extensions for Image Processing.
 
 ## Downloading the data
 
