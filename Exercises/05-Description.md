@@ -7,17 +7,16 @@ You can use [this image](05-files/1_29_s.bmp) or re-use data from a previous exe
 
 ## Part 1 - Graph-cuts
 
-![Workflow](05-files/KNIME_GraphCut.zip)
-
 ![Output Images](05-files/GraphCut.png)
 
 Basic Workflow
 
 1. Start KNIME (click OK for default workspace)
-1. Import the above Workflow from an Archive
-1. Right click the image reader to make sure it has downloaded, otherwise you can use your own test image and import it using the 'Image Reader' (make sure to remove the old one first)
-1. Right click the 'Loop End' node and click 'Execute'
-1. View the output and it (scroll left) should look like the following table
+2. Download this [workflow](05-files/KNIME_GraphCut.zip)
+3. Import the above Workflow from an Archive
+4. Right click the image reader to make sure it has downloaded, otherwise you can use your own test image and import it using the 'Image Reader' (make sure to remove the old one first)
+5. Right click the 'Loop End' node and click 'Execute'
+6. View the output and it (scroll left) should look like the following table
 
 ![Output Images](05-files/GraphCut_output.png)
 
@@ -39,8 +38,11 @@ Note that the default classifier is a Perceptron algorithm. If you want to use S
 
 ### Tasks (can be done in any order you like)
 1. Change the size of the patches (variable opts.patchSize in main.m). What effect does it have on the output of the classifier? 
-2. Change the number of positive and negative examples and observe how the confidence of the classifier varies.
-3. Use your own set of images or images from a previous exercise. For that, you need to change the following variables:
+2. Change the number of positive and negative examples (variables opts.pos_examples and opts.neg_examples) and observe how the confidence of the classifier varies.
+3. Change the set of training and test images. You can either use your own images or use [this set of EM images](http://lucchia.free.fr/Mitochondria/EM_images.zip)
+
+#### Use a different set of training and test images
+For that, you need to change the following variables:
 
 opts.trainImgFolder = './train/images_mitochondria/';
 
@@ -50,7 +52,7 @@ opts.testImgFolder = './test/images_mitochondria/';
 
 opts.testAnnFolder = './test/annotations_mitochondria/';
 
-
+#### Comments
 Note that the code will error if you try to extract more patches than available in the training data, in which case you should increase the number of training images (if possible) or reduce the number of samples.
 
 
