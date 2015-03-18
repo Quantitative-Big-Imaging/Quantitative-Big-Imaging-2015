@@ -37,9 +37,7 @@ We here provide matlab code to train a classifier (you can choose one among SVM,
 
 Note that the default classifier is a Perceptron algorithm. If you want to use SVM you need to download the libSVM code from [here](http://www.csie.ntu.edu.tw/~cjlin/libsvm/). You will then need to add the path pointing to the libsvm files with the matlab function addpath.
 
-### Tasks
-
-The following tasks can be done in any order you like. Note that the code will error if you try to extract more patches than available in the training data.
+### Tasks (can be done in any order you like)
 1. Change the size of the patches (variable opts.patchSize in main.m). What effect does it have on the output of the classifier? 
 2. Change the number of positive and negative examples and observe how the confidence of the classifier varies.
 3. Use your own set of images or images from a previous exercise. For that, you need to change the following variables:
@@ -47,6 +45,8 @@ opts.trainImgFolder = './train/images_mitochondria/';
 opts.trainAnnFolder = './train/annotations_mitochondria/';
 opts.testImgFolder = './test/images_mitochondria/';
 opts.testAnnFolder = './test/annotations_mitochondria/';
+
+Note that the code will error if you try to extract more patches than available in the training data.
 
 
 
