@@ -23,12 +23,12 @@ You can use [this image](05-files/1_29_s.bmp) or re-use data from a previous exe
 
 Basic Workflow
 
-1. Start KNIME (click OK for default workspace)
-2. Download this [workflow](05-files/KNIME_GraphCut.zip)
-3. Import the above Workflow from an Archive
-4. Right click the image reader to make sure it has downloaded, otherwise you can use your own test image and import it using the 'Image Reader' (make sure to remove the old one first)
-5. Right click the 'Loop End' node and click 'Execute'
-6. View the output and it (scroll left) should look like the following table
+1. Start KNIME.
+2. Download this [workflow](05-files/KNIME_GraphCut.zip).
+3. Import the above Workflow from an Archive.
+4. Right click the image reader to make sure it has downloaded, otherwise you can use your own test image and import it using the 'Image Reader' (make sure to remove the old one first).
+5. Click 'Execute' on the Interactive Segmentation View, at the end of the workflow.
+6. View the output and it (scroll left) should look like the following table.
 
 ![Output Images](05-files/GraphCut_output.png)
 
