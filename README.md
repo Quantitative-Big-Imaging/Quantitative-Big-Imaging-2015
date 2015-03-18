@@ -15,6 +15,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.pdf)
 - 19th March - Applications Graphical Modles and Machine Learning (A. Lucchi)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/05-slides.pdf)
 - 26th March - Analyzing Single Objects
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/05-ShapeAnalysis.pdf)
@@ -60,6 +61,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
  - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/04-Description.md)
  - [Old Lecture Quiz](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/04-AdvSegmentation_files/quiz.html)
 - 19th March - Machine Learning in Image Processing (A. Lucchi)
+ - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/05-Description.md)
 - 26th March - Analyzing Single Objects
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex5/Ex5Slides.html)
  - [Old Matlab Image Generator](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex5/cell_simulator.m)
