@@ -4,14 +4,7 @@
 
 The workflow used for Part 1 requires the node GraphCut 2D; if this node
 is not inside the Node Repository, you have to install the Nightly extensions
-for Image Processing by following these instructions.
-
-1. Go to the Help menu: Help -> Install New Softwares.
-2. On the top right, click 'Add'.
-3. Type inside 'Location' this address: http://tech.knime.org/update/community-contributions/trunk.
-4. Press 'Ok'; this address is now inside 'Work with'.
-5. Select the address and a list of options pops up.
-6. Select the extensions for Image Processing.
+for Image Processing by following [these instructions](https://github.com/kmader/Quantitative-Big-Imaging-2015/wiki/KNIME-Setup#install-nightly-image-processing-extensions).
 
 ## Downloading the data
 
@@ -46,7 +39,7 @@ To achieve this goal we want to train a technique using some of the ground truth
 
 ### Instructions
 
-1. Download the zip file containing the code [here](http://lucchia.free.fr/code/segmentation.zip)
+1. Download and extract the zip file containing the images from: [set of EM images](http://lucchia.free.fr/Mitochondria/EM_images.zip)
 1. Import the workflow from [here](05-files/TrainableClusteringWithEMImages.zip?raw=true)
 1. Watch the video [here](https://www.youtube.com/watch?v=Y0X204avgp4)
 
