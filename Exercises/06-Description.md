@@ -4,7 +4,7 @@
 
 While we have done similar exercises before, we will now properly explain some of the nodes used and try to run the analysis on an image where we know exactly where each object is and compare our results with the input data.
 
-![Output Images](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/06-files/CellImage.svg)
+![Workflow Overview](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/06-files/CellImage.svg)
 
 
 ### New Nodes
@@ -25,7 +25,7 @@ While we have done similar exercises before, we will now properly explain some o
 ### Basic Workflow
 
 1. Start KNIME.
-2. Download this [workflow](06-files/KNIME_CellImage.zip).
+2. Download this [workflow](06-files/KNIME_CellImage.zip?raw=true).
 3. Import the above Workflow from an Archive.
 4. Right click 'Bubble Chart' and select 'Execute and Open Views' and ensure you get a similar plot to the one below
 
@@ -50,3 +50,30 @@ This chart shows the overlap of the original positions (red dots) from the cell 
 ### Concept Questions
 1. Currently we generate a graph for the output but we would like to have a metric to evaluate how well our system works, which metrics might make sense (think about the first topics covered in the lecture)
  - How might these be implemented?
+
+## Part 2 - Ellipse Analysis
+For the second part we focus on just the ellipsoidal analysis and how we calculate the orientation and anisotropy from an image without using the _Dimensions_ or bounding box which is a poor model for circular objects
+
+
+![Workflow Overview](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/06-files/EllipticalModel.svg)
+
+### New Nodes (Advanced)
+- PCA Compute
+ - This performs the principal component analysis on a given set of columns from the input data. It outputs several items, the ones of interest for us are the first (scores) are the transformed input values and the second (components) are the components used to create these input values as well as the associated eigenvalues for each component.
+ - For the shape analysis we use the positions of the voxels inside each image for the PCA analysis and keep the components. Each component represents a unit vector which we transform to an angle using the arc-tangent operations (atan2). The eigenvalue is then a length along this vector which we transform to anisotropy by normalizing the difference between the largest and the smallest to the length of the largest
+
+
+### Basic Workflow
+
+1. Start KNIME.
+2. Download this [workflow](06-files/KNIME-EllipticalModel.zip?raw=true)
+3. Import the above Workflow from an Archive.
+4. Run the following code in R to ensure the correct toolboxes are installed for the more complicated plots (KNIME offers basic plotting but we use R for the nicer ones)
+ - create a new terminal window, and type ```R```
+ - you should get a window that says ```R version``` and some other text
+ - type ```install.packages(c("ggplot2","grid","plyr"))```
+ - if it asks for ```Selection:``` type ```77```
+4. Right click 'R View (Table)' and select 'Execute and Open Views' and ensure you get a similar plot to the one below showing each identified object and it's orientation as an arrow
+
+![Output Images](06-files/EllipseAnalysis_Arrows.png)
+
