@@ -12,12 +12,23 @@ You can use [this image](05-files/1_29_s.bmp) or re-use data from a previous exe
 
 ## Part 1 - Graph-cuts
 
-![Output Images](05-files/GraphCut.png)
 
-Basic Workflow
+![Workflow Overview](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/05-files/GraphCut.svg)
+
+### New Nodes
+- GraphCut 2D
+ - This node performs the GraphCut itself. 
+ - The input settings provide the node with information on the image organization. 
+ - __Dimension Selection__ sets the dimensons that are to be considered as part of the same graph (if you have a 3D image and do not select Z, each slice will be handled independently)
+ - __Feature Vector__ by default just the intensity is used as the feature, but if there are multiple channels (or time points) they can be used as weights for the different portions
+ - ![Input Settings](05-files/GraphCut.png)
+ - The labeling section controls the value of lambda which controls the locality of the graph cut (a low value, close to 0, makes it very global, while a high value, makes it more local)
+ - ![Labeling Settings](05-files/GraphCutLabeling.png)
+
+### Instructions
 
 1. Start KNIME.
-2. Download this [workflow](05-files/KNIME_GraphCut.zip).
+2. Download this [workflow](05-files/KNIME_GraphCut.zip?raw=true).
 3. Import the above Workflow from an Archive.
 4. Right click the image reader to make sure it has downloaded, otherwise you can use your own test image and import it using the 'Image Reader' (make sure to remove the old one first).
 5. Click 'Execute' on the Interactive Segmentation View, at the end of the workflow.
@@ -25,9 +36,11 @@ Basic Workflow
 
 ![Output Images](05-files/GraphCut_output.png)
 
+### Tasks
+
 You can see that the result is not really good yet as GraphCut tend to remove the non-smooth parts (e.g. the legs in this example). Can you think of ways to improve the results?
 
-## Part 2 - Image classification in KNIME
+## Part 2 - Image classification
 
 We here provide KNIME workflow to train a classifier (you can choose one among SVM, GP, Perceptron or Decision tree) to detect objects specified in a set of ground-truth images. Some images and the associated ground-truth images are provided for the segmentation of mitochondria in Electron microscopy images. We use 3 feature vectors (the same as discussed in lecture 4), Intensity, Gaussian, and Sobel and start with a basic decision tree prediction.
 
@@ -36,6 +49,10 @@ The goal of the exercise is to take a given input image (electron microscopy of 
 For this task there are a series of ground truth (labeled) images available which classify the image into the catagories of mitochondria (white) and everything else (black)
 ![Ground Truth Images](05-files/FIBSLICE0160_GT.png)
 To achieve this goal we want to train a technique using some of the ground truth data and then apply it to a series of images to classify it into various categories.
+
+
+![Workflow Overview](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/05-files/TrainableClusteringWithEMImages.svg)
+
 
 ### Instructions
 
