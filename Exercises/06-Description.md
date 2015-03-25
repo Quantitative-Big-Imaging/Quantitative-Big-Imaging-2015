@@ -35,7 +35,18 @@ This chart shows the overlap of the original positions (red dots) from the cell 
 
 ### Tasks
 1. The crappy camera can be configured, try changing the noise and illumination levels, how 'crappy' can it be and still work correctly
-1. Try adding some __Image Enhancement Steps
+1. Try adding some __Image Enhancement__ steps before the _Global Threshold_ step to improve the segmentation and overlap
+ - which filters work best?
+ - if we know that the cells are larger which other steps could be performed?
+1. Change the input cell information 
+ - add more cells
+ - add some very large
+ - some very small
+ - some overlapping
+ - some on the edges
+ - which of the following is the most difficult?
+ - Are some of these possible to reconstruct well, what sort of constraints can we place on the analysis?
+
 ### Concept Questions
 1. Currently we generate a graph for the output but we would like to have a metric to evaluate how well our system works, which metrics might make sense (think about the first topics covered in the lecture)
  - How might these be implemented?
