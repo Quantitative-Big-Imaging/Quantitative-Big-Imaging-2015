@@ -36,7 +36,12 @@ While we have done similar exercises before, we will now properly explain some o
  - ![Features](06-files/LabelFeatures2.png)
  - The segment settings is not a feature we need immediately, but it allows for handling overlapping segments (connected components can per definition not overlap, but other labeling methods which we will cover in future lectures can). It also allows filtering (only large components or small, or based on other criteria)
  - ![Segment Settings](06-files/LabelFeatures1.png)
-
+- Labeling Filter
+ - The labeling filter block can be used to select only a subset of the labels for further processing
+ - Minimum/Maximum segment area can be set to remove small and large components
+ - Border Segments can be used to remove the objects touching the edge
+ - ![Labeling Filter](06-files/LabelFilter1.png)
+ 
 ### Basic Workflow
 
 1. Start KNIME.
@@ -61,6 +66,7 @@ This chart shows the overlap of the original positions (red dots) from the cell 
  - some on the edges
  - which of the following is the most difficult?
  - Are some of these possible to reconstruct well, what sort of constraints can we place on the analysis?
+1. Add a __Labeling Filter__ block to the pathway to remove small objects and then objects on the edge to try and improve the results
 
 ### Concept Questions
 1. Currently we generate a graph for the output but we would like to have a metric to evaluate how well our system works, which metrics might make sense (think about the first topics covered in the lecture)
