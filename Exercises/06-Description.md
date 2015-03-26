@@ -65,13 +65,15 @@ For the second part we focus on just the ellipsoidal analysis and how we calcula
 
 ### Basic Workflow
 
+__Note__ The R Nodes in KNIME do not work in KNIME on the D61.1 lab computers yet, since the setup for R is unusual, but these should work locally
+
 1. Start KNIME.
 2. Download this [workflow](06-files/KNIME-EllipticalModel.zip?raw=true)
 3. Import the above Workflow from an Archive.
 4. Run the following code in R to ensure the correct toolboxes are installed for the more complicated plots (KNIME offers basic plotting but we use R for the nicer ones)
  - create a new terminal window, and type ```R```
  - you should get a window that says ```R version``` and some other text
- - type ```install.packages(c("ggplot2","grid","plyr"))```
+ - type ```install.packages(c("ggplot2","plyr"))```
  - if it asks for ```Selection:``` type ```77```
 4. Right click 'R View (Table)' and select 'Execute and Open Views' and ensure you get a similar plot to the one below showing each identified object and it's orientation as an arrow
 
