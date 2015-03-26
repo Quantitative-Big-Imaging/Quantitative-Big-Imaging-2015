@@ -1,5 +1,20 @@
 # Exercise 6: Analyzing Single Shapes
 
+## Configure path to R within KNIME
+
+It may happen that KNIME does not manage to aumatically find the path where R is installed; in this
+case, R extensions will not work within KNIME, although succefully installed through KNIME package manager.
+To fix this problem, follow these instructions:
+
+1. Open a terminal, type "R" and press Enter.
+2. If R is effectively installed on your machine, an interface will be started on the terminal.
+3. Type ".libPaths()" and you will get a path like "/usr/pack/r-3.0.1-bs/amd64-debian-linux7.0/lib/R/library/".
+4. Open an other window on the terminal and type "ls /usr/pack/r-3.0.1-bs/amd64-debian-linux7.0/lib/R/".
+5. In the list of files and folders, you should see a "/bin" and a "/lib" folder.
+6. In KNIME, go to File -> Preferences; on the left panel, select "KNIME -> R".
+7. Paste the path you found before (in our case "/usr/pack/r-3.0.1-bs/amd64-debian-linux7.0/lib/R/") inside
+   "Path to R Home" and click "Apply".
+
 ## Part 1 - Basic Labeling
 
 While we have done similar exercises before, we will now properly explain some of the nodes used and try to run the analysis on an image where we know exactly where each object is and compare our results with the input data.
