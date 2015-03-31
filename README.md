@@ -14,7 +14,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 - 12th March - Advanced Segmentation
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.pdf)
-- 19th March - Applications Graphical Modles and Machine Learning (A. Lucchi)
+- 19th March - Applications Graphical Models and Machine Learning (A. Lucchi)
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/05-Slides.pdf)
 - 26th March - Analyzing Single Objects
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Slides.html)
