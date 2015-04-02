@@ -2,7 +2,7 @@
 
 ## Configure path to R within KNIME
 
-It may happen that KNIME does not manage to aumatically find the path where R is installed; in this
+It may happen that KNIME does not manage to automatically find the path where R is installed; in this
 case, R extensions will not work within KNIME, although succefully installed through KNIME package manager.
 To fix this problem, follow these instructions:
 

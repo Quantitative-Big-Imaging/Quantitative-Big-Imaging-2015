@@ -20,8 +20,8 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Handout.pdf)
 - 2nd April - Analyzing Complex Objects
- - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects.html)
- - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/06-ComplexObjects.pdf)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/07-Slides.html)
+ - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/07-Handout.html)
 - 16th April - Spatial Distribution
  - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis.html)
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/07-DistributionAnalysis.pdf)
@@ -65,7 +65,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
 - 26th March - Analyzing Single Objects
  - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/06-Description.md)
 - 2nd April -  Analyzing Complex Objects
- - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex6/Ex6Slides.html)
+ - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/07-Description.md)
 - 16th April -  Spatial Distribution
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex7/Ex7Slides.html)
  - [Old Exercise Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex7/)
