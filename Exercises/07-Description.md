@@ -32,6 +32,7 @@ In this portion you will get comfortable with making 3D objects, using similar t
 1. Create grid of overlapping balls like the one shown
  - ![Grid](07-files/GridSample.png)
 1. How would you create a cylinder using the position and radius ellipsoid model we have specified?
+1. Add noise to the output image (Salt and Paper and other types). This is particularly useful for later sections since poor segmentations will strongly affect the results of specific analyses.
 
 
 ## Part 2 - Thickness Analysis
@@ -49,6 +50,7 @@ The workflow should at the end look something like follows.
 1. What happens when the balls overlap?
 1. What is the thickness of a cylinder? Does this make sense?
 1. What happens when the object is larger than the field of view?
+1. What happens as you add noise? How much noise is it robust against?
 
 
 ## Part 3 - Watershed Labeling (and 2D)
@@ -76,8 +78,31 @@ Since here we assume these are two cells which just happen to be located very cl
  - Why is the Connected Component Analysis block needed for this approach?
 1. Try using a morphological based approach to get a third segmentation
 
+## Part 4 - Skeleton Analysis
 
-## Part 4 - Curvature Analysis (Advanced)
+In this section, the focus is to adjust thinning and pruning techniques to try and segment the provided image better into a skeleton object.
+
+Here is standard component labeling
+
+- ![Skeleton CCA](07-files/SkeletonizeCCA.png)
+
+Here is what the vessels look like after they have been thinned, labeled, and regrown
+
+- ![Skeleton Grid](07-files/SkeletonizeGrid.png)
+
+The workflow itself 
+
+![Workflow 2D](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/07-files/SkeletonWorkflow.svg)
+
+
+### Tasks
+1. Adjust the settings so you get each branch as a separate component (its own label)
+1. Calculate the segments and export the results in table like below
+ - ![Skeleton Output](07-files/SkeletonSeg.png)
+1. Add smaller vessels to the ```Basic Cylinder/Vessel Template```
+1. Add noise to the input image and determine how tolerant the system is to noise
+
+## Part 5 - Curvature Analysis (Advanced)
 
 In this part you will calculate the thickness using the ImageJ plugin developed by [Stephan Preibisch and Mark Longair](http://fiji.sc/Compute_Curvatures) with the source code available [here](https://github.com/fiji/VIB/blob/master/src/main/java/Compute_Curvatures.java). It can be found in FIJI under the _Plugins_ -> _Analyze_ -> _Compute Curvatures_ menu. 
 
