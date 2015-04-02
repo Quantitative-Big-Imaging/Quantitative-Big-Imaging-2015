@@ -30,10 +30,9 @@ In this portion you will get comfortable with making 3D objects, using similar t
 ### Tasks
 1. Try using the different input tables to generate different images
 1. Create grid of overlapping balls like the one shown
- - ![Grid](07-files/GridSample.png)
+ - ![Grid](06-files/GridSample.png)
 1. How would you create a cylinder using the position and radius ellipsoid model we have specified?
 
-![Output Images](06-files/CellImage_Plot.png)
 
 ## Part 2 - Thickness Analysis
 
@@ -54,15 +53,17 @@ The workflow should at the end look something like follows.
 
 ## Part 3 - Watershed Labeling
 
-In this part you will use the watershed labeling and compare the results with the standard connected component labeling KNIME
+In this part you will use the watershed labeling and compare the results with the standard connected component labeling KNIME. The goal is to go from an image like this
+- ![CCA](07-files/CellCCA.png)
+To an image like this
+- ![CCA](07-files/CellWatershed.png)
+Since here we assume these are two cells which just happen to be located very close to one another.
 
 ### Tasks
-1. Select all the nodes from _3DBlobSimulator_ and copy/paste (this works) them into _Thickness Analysis_
+1. Select all the nodes from _3DBlobSimulator_ and copy/paste (this works) them into _Watershed Segmentation_
 1. Connect the components together so it works
-1. Verify that the thickness gives the right results by using the Line Chart blocks
-1. What happens when the balls overlap?
-1. What is the thickness of a cylinder? Does this make sense?
-1. What happens when the object is larger than the field of view?
+1. The 'Connected Component Analysis' should give you an image like this: 
+
 
 ## Part 4 - Curvature Analysis
 
@@ -85,7 +86,6 @@ The premade surface curvature node looks like this
 1. What happens when the balls overlap?
 1. What is the thickness of a cylinder? Does this make sense?
 1. What happens when the object is larger than the field of view?
-
 
 
 
