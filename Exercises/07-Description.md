@@ -20,7 +20,7 @@ In this exercise you will build together a chain of analyses step by step. You i
 ### Basic Workflow
 
 1. Start KNIME.
-2. Download this [workflows](07-files/KNIME_ex7.zip).
+2. Download this [workflows](07-files/KNIME-ex7.zip?raw=true).
 3. Import the above Workflow from an Archive.
 
 ## Part 1 - Object Simulation (3DBlobSimulator)
