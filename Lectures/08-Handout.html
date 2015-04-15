@@ -1,0 +1,3590 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>+/- </title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">
+
+</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<!-- highlight.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/default.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/highlight.min.js"></script>
+<script src="https://yandex.st/highlightjs/7.3/languages/r.min.js"></script>
+
+<!-- bootstrap -->
+<link href=https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css rel="stylesheet">
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Manific Popup -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/0.8.9/jquery.magnific-popup.min.js"></script>
+
+<script defer="defer">
+// Function to generate the dynamic table of contents
+jQuery.fn.generate_TOC = function () {
+  var base = $(this[0]);
+
+  var selectors = ['h1', 'h2', 'h3', 'h4'];
+
+  var last_ptr = [{}, {}, {}, {}];
+
+  var anchors = {};
+
+  generate_anchor = function (text) {
+    var test = text.replace(/\W/g, '_');
+
+    while(test in anchors){
+      //if no suffix, add one
+      if(test.match(/_\d+$/) === null){
+        test = test + "_2";
+      }
+      //else generate unique id for duplicates by adding one to the suffix
+      else {
+        test = test.replace(/_(\d+)$/, function(match, number){ var num=+number+1; return("_" + num) });
+      }
+    }
+    anchors[test]=1;
+    return(test);
+  }
+
+  $(selectors.join(',')).each(function () {
+    var heading = $(this);
+    var idx = selectors.indexOf(heading.prop('tagName').toLowerCase());
+    var itr = 0;
+
+    while (itr <= idx) {
+      if (jQuery.isEmptyObject(last_ptr[itr])) {
+        last_ptr[itr] = $('<ul>').addClass('nav');
+        if (itr === 0) {
+          base.append(last_ptr[itr])
+        } else {
+          if(last_ptr[itr-1].children('li').length === 0){
+            last_ptr[itr-1].append(last_ptr[itr]);
+          }
+          else {
+            last_ptr[itr - 1].children('li').last().append(last_ptr[itr]);
+          }
+        }
+      }
+      itr++;
+    }
+    var anchor = generate_anchor(heading.text());
+    heading.attr('id', anchor);
+    var a = $('<a>')
+    .text(heading.text())
+    .attr('href', '#' + anchor);
+
+  var li = $('<li>')
+    .append(a);
+
+  last_ptr[idx].append(li);
+  for (i = idx + 1; i < last_ptr.length; i++) {
+    last_ptr[i] = {};
+  }
+  });
+}
+/* run scripts when document is ready */
+$(function() {
+  "use strict";
+
+  var $window = $(window);
+  var $body = $(document.body);
+
+  document.title = $('h1').first().text();
+
+  /* size of thumbnails */
+  var thumbsize = "col-md-3";
+
+  var show_code =  false ;
+
+  var show_output =  true ;
+
+  var show_figure =  true ;
+
+  /* included languages */
+  var languages = [];
+
+  /* Using render_html, so add in code block */
+  $('pre.knitr').each(function(){
+    $(this).removeClass('knitr');
+    if($(this).find('code').length < 1){
+      $(this).wrapInner('<code class=' + $(this).attr('class') + '></code>');
+    }
+  });
+
+  /* style tables */
+  $('table').addClass('table table-striped table-bordered table-hover table-condensed');
+
+  /* add toggle panel to rcode blocks */
+  $('div.source,div.output,div.message,div.warning,div.error').each(function() {
+    var button = $('<h5 class="panel-title">+/- </h5>');
+
+    if($(this).hasClass('source')){
+      var code_block = $(this).find('code');
+      var lang_type = code_block.attr('class');
+      button.text(button.text() + lang_type + ' Code');
+      button.addClass('source ' + lang_type);
+      languages[lang_type]=0;
+      code_block.each(function(i, e) {
+        hljs.highlightBlock(e);
+      });
+      $(this).addClass('panel panel-primary ' + lang_type);
+    }
+    else if($(this).hasClass('output')){
+      button.text(button.text() + 'Output');
+      button.addClass('output');
+      $(this).addClass('panel panel-success');
+    }
+    else if($(this).hasClass('message')){
+      button.text(button.text() + 'Message');
+      button.addClass('message');
+      $(this).addClass('panel panel-info');
+    }
+    else if($(this).hasClass('warning')){
+      button.text(button.text() + 'Warning');
+      button.addClass('warning');
+      $(this).addClass('panel panel-warning');
+    }
+    else if($(this).hasClass('error')){
+      button.text(button.text() + 'Error');
+      button.addClass('error');
+      $(this).addClass('panel panel-danger');
+    }
+    else {
+      //console.log($(this));
+    }
+    $(this).prepend($('<div class="panel-heading toggle" />').append(button));
+  });
+
+  /* give images a lightbox and thumbnail classes to allow lightbox and thumbnails TODO: make gallery if graphs are grouped */
+  $('div.rimage img').each(function(){
+
+    //remove rimage div
+    $(this).unwrap();
+
+    var a = $(this).
+      wrap('<a href=# class="media-object pull-left mfp-image thumbnail ' + thumbsize + '"></a>').
+      parent();
+
+    var sibs = a.prevUntil('div.rimage,div.media');
+    var div = $('<div class="media" />');
+    if(sibs.length != 0){
+      sibs.addClass('media-body');
+      //need to reverse order as prevUntil puts objects in the order it found them
+      $(sibs.get().reverse()).wrapAll(div).parent().prepend(a);
+    }
+    else {
+      a.wrap(div);
+    }
+  });
+
+  $('div.chunk').addClass('media');
+
+  $('.rcode > .panel').addClass('media');
+  /* Magnific Popup */
+  $(".thumbnail").each(function(){
+    $(this).magnificPopup({
+      disableOn: 768,
+      closeOnContentClick: true,
+
+      type: 'image',
+      items: {
+        src: $(this).find('img').attr('src'),
+      }
+    });
+  });
+
+  /* add bootstrap classes */
+  $('body').wrapInner('<div class="container"><div class="row"><div class="contents">');
+
+  var create_language_links = function(){
+    var text='';
+    var language;
+    for(language in languages){
+      if(languages.hasOwnProperty(language)){
+        text += '<li><a href=# class="toggle-global source ' + language + '" type="source.' + language + '">' + language + '</a></li>\n';
+      }
+    }
+    return text;
+  }
+
+  var navbar =
+  '<div class="navbar navbar-fixed-bottom navbar-inverse">\
+    <div class="container">\
+      <div class="navbar-header">\
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">\
+          <span class="icon-bar"></span>\
+          <span class="icon-bar"></span>\
+          <span class="icon-bar"></span>\
+        </button>\
+      </div>\
+      <div id="bottom-navbar" class="navbar-collapse collapse navbar-responsive-collapse">\
+        <ul class="nav navbar-nav navbar-right">\
+          <li class="nav"><p class="navbar-text">Toggle</p></li>\
+          <li class="dropup">\
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code <b class="caret"></b></a>\
+            <ul class="dropdown-menu">\
+              <li class="dropdown-header">Languages</li>'
+              + create_language_links() +
+              '<li><a href="#" type="all-source" class="toggle-global">All</a></li>\
+            </ul>\
+          </li>\
+          <li class="dropup">\
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Output <b class="caret"></b></a>\
+            <ul class="dropdown-menu">\
+              <li class="dropdown-header">Type</li>\
+                <li><a href="#" type="output" class="toggle-global">Output</a></li>\
+                <li><a href="#" type="message" class="toggle-global">Message</a></li>\
+                <li><a href="#" type="warning" class="toggle-global">Warning</a></li>\
+                <li><a href="#" type="error" class="toggle-global">Error</a></li>\
+                <li><a href="#" type="all-output" class="toggle-global">All</a></li>\
+            </ul>\
+          </li>\
+          <li><a href="#" class="toggle-figure">Figures</a></li>\
+        </ul>\
+      </div><!-- /.nav-collapse -->\
+    </div><!-- /.container -->\
+  </div>';
+  /* add navbar */
+  $('.container').append(navbar);
+
+  /* onclick toggle next code block */
+  $('.toggle').click(function() {
+    $(this).next('pre').slideToggle();
+    return false;
+  });
+
+  // global toggles
+  $('.toggle-global').click(function(){
+    var type = $(this).attr('type');
+    if(type == 'all-source'){
+      for(var language in languages){
+        $('li a[type="source.' + language + '"]').click();
+      }
+    }
+    if(type == 'all-output'){
+      $('li a[type=output], li a[type=message], li a[type=warning], li a[type=error]').click();
+    }
+    else {
+      if($(this).closest('li').hasClass('active')){
+        $('div.' + type).children('pre').slideUp();
+      }
+      else {
+        $('div.' + type).children('pre').slideDown();
+      }
+    }
+    $(this).closest('li').toggleClass('active');
+    return false;
+  });
+  // global toggles figure, this is more complicated than just slideToggle because you have to hide the parent div as well
+  $('.toggle-figure').click(function(){
+    var imgs = $('.thumbnail img');
+    if(imgs.is(":visible")){
+      imgs.slideUp(400, function(){ $(this).parent().toggle(); });
+    }
+    else {
+      imgs.parent().show();
+      imgs.show();
+    }
+    $(this).closest('li').toggleClass('active');
+    return false;
+  });
+
+  /* add footer */
+  $('body').wrapInner('<div id="wrap" />');
+  $('#wrap').append('<div id="push" />');
+  var p = $('p:contains("Author:")');
+  var last_p = p.filter(':last');
+  last_p.addClass('text-muted').attr('id','credit');
+  last_p.append('<p>Styled with <a href="https://github.com/jimhester/knitrBootstrap">knitrBootstrap</a></p>');
+  last_p = last_p.wrap('<div id="footer"><div class="container">').parent().parent();
+  last_p.appendTo("body");
+
+  $('.container > .row').prepend('<div class="col-md-3"><div id="toc" class="well sidebar sidenav affix hidden-print"/></div>');
+
+  $('.contents').addClass('col-md-offset-3');
+
+  /* table of contents */
+  $('#toc').generate_TOC();
+
+  if(show_code){
+    /* toggle source buttons pressed */
+    $('a.toggle-global.source').closest('li').addClass('active');
+  }
+  else {
+    /* hide code blocks */
+    $('div.source pre').hide();
+  }
+
+  if(show_output){
+    /* toggle output buttons pressed */
+    $('li a[type=output], li a[type=message], li a[type=warning], li a[type=error], li a[type=all-output]').closest('li').addClass('active');
+  }
+  else {
+    /* hide output blocks */
+    $('div.output pre').hide();
+  }
+
+  if(show_figure){
+    /* toggle figure button pressed */
+    $('li a.toggle-figure').closest('li').addClass('active');
+  }
+  else {
+    /* hide figures */
+    $('.thumbnail').hide();
+  }
+
+  /* remove paragraphs with no content */
+  $('p:empty').remove();
+
+  $body.scrollspy({
+    target: '.sidebar',
+  });
+
+
+  //TODO refresh on show/hide
+  $window.on('load', function () {
+    $body.scrollspy('refresh');
+  })
+
+});
+
+
+</script>
+<style>
+/* Knitr_bootstrap styles */
+#wrap .container-fluid {
+  padding: 0;
+  overflow: hidden;
+}
+.toggle{
+  text-transform: capitalize;
+}
+
+.toggle-global{
+  text-transform: capitalize;
+}
+
+/* Sticky footer styles */
+* {
+  margin:0;
+}
+html,
+body {
+    height: 100%;
+    padding:0 !important;
+    /* The html and body elements cannot have any padding or margin. */
+    /*overflow-x: hidden;*/
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -120px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+    height: 120px;
+}
+
+#footer {
+  text-align: center;
+}
+
+/* Top level subheader elements.  These are the first nested items underneath a header element. */
+.header li {
+  font-size: 20px;
+}
+
+/* Makes the font smaller for all subheader elements. */
+.sub-header li {
+    font-size: 12px;
+}
+
+button.thumbnails {
+  margin-left:0px;
+}
+
+/*
+ * Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content.
+ */
+
+/* By default it's not affixed in mobile views, so undo that */
+.sidebar.affix {
+  position: static;
+}
+
+/* First level of nav */
+.sidenav {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* All levels of nav */
+.sidebar .nav > li > a {
+  display: block;
+  padding: 5px 20px;
+}
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > a:focus {
+  text-decoration: none;
+  border-right: 1px solid;
+}
+.sidebar .nav > .active > a,
+.sidebar .nav > .active:hover > a,
+.sidebar .nav > .active:focus > a {
+  font-weight: bold;
+  background-color: transparent;
+  border-right: 1px solid;
+}
+
+/* Nav: second level (shown on .active) */
+.sidebar .nav .nav {
+  display: none; /* Hide by default, but at >768px, show it */
+  margin-bottom: 8px;
+}
+.sidebar .nav .nav > li > a {
+  padding-top:    3px;
+  padding-bottom: 3px;
+  padding-left: 30px;
+  font-size: 90%;
+}
+
+.sidebar .nav .nav .nav > li > a {
+  padding-left: 40px;
+}
+.sidebar .nav .nav .nav .nav > li > a {
+  padding-left: 50px;
+}
+
+/* Show and affix the side nav when space allows it */
+@media screen and (min-width: 992px) {
+  .sidebar .nav > .active > ul {
+    display: block;
+  }
+  /* Widen the fixed sidebar */
+  .sidebar.affix,
+  .sidebar.affix-bottom {
+    width: 213px;
+  }
+  .sidebar.affix-top,
+  .sidebar.affix {
+    position: fixed; /* Undo the static from mobile first approach */
+    top: 30px;
+  }
+  .sidebar.affix-bottom {
+    position: absolute; /* Undo the static from mobile first approach */
+  }
+  .sidebar.affix-bottom .sidenav,
+  .sidebar.affix .sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+@media screen and (min-width: 1200px) {
+  /* Widen the fixed sidebar again */
+  .sidebar.affix-bottom,
+  .sidebar.affix {
+    width: 263px;
+  }
+}
+
+#toc {
+  padding: 10px 0px;
+  margin:0;
+  border:0;
+}
+
+
+.panel pre {
+  border-radius: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.panel pre code {
+  border-radius: 0;
+}
+/* Magnific Popup CSS */
+.mfp-bg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1042;
+  overflow: hidden;
+  position: fixed;
+  background: #0b0b0b;
+  opacity: 0.8;
+  filter: alpha(opacity=80); }
+
+.mfp-wrap {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1043;
+  position: fixed;
+  outline: none !important;
+  -webkit-backface-visibility: hidden; }
+
+.mfp-container {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  padding: 0 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.mfp-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle; }
+
+.mfp-align-top .mfp-container:before {
+  display: none; }
+
+.mfp-content {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+  text-align: left;
+  z-index: 1045; }
+
+.mfp-inline-holder .mfp-content,
+.mfp-ajax-holder .mfp-content {
+  width: 100%;
+  cursor: auto; }
+
+.mfp-ajax-cur {
+  cursor: progress; }
+
+.mfp-zoom-out-cur,
+.mfp-zoom-out-cur .mfp-image-holder .mfp-close {
+  cursor: -moz-zoom-out;
+  cursor: -webkit-zoom-out;
+  cursor: zoom-out; }
+
+.mfp-zoom {
+  cursor: pointer;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in; }
+
+.mfp-auto-cursor .mfp-content {
+  cursor: auto; }
+
+.mfp-close,
+.mfp-arrow,
+.mfp-preloader,
+.mfp-counter {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none; }
+
+.mfp-loading.mfp-figure {
+  display: none; }
+
+.mfp-hide {
+  display: none !important; }
+
+.mfp-preloader {
+  color: #cccccc;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  text-align: center;
+  margin-top: -0.8em;
+  left: 8px;
+  right: 8px;
+  z-index: 1044; }
+
+.mfp-preloader a {
+  color: #cccccc; }
+
+.mfp-preloader a:hover {
+  color: white; }
+
+.mfp-s-ready .mfp-preloader {
+  display: none; }
+
+.mfp-s-error .mfp-content {
+  display: none; }
+
+button.mfp-close,
+button.mfp-arrow {
+  overflow: visible;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  display: block;
+  padding: 0;
+  z-index: 1046;
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0; }
+
+.mfp-close {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-decoration: none;
+  text-align: center;
+  opacity: 0.65;
+  padding: 0 0 18px 10px;
+  color: white;
+  font-style: normal;
+  font-size: 28px;
+  font-family: Arial, Baskerville, monospace; }
+  .mfp-close:hover, .mfp-close:focus {
+    opacity: 1; }
+  .mfp-close:active {
+    top: 1px; }
+
+.mfp-close-btn-in .mfp-close {
+  color: #333333; }
+
+.mfp-image-holder .mfp-close,
+.mfp-iframe-holder .mfp-close {
+  color: white;
+  right: -6px;
+  text-align: right;
+  padding-right: 6px;
+  width: 100%; }
+
+.mfp-counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #cccccc;
+  font-size: 12px;
+  line-height: 18px; }
+
+.mfp-arrow {
+  position: absolute;
+  opacity: 0.65;
+  margin: 0;
+  top: 50%;
+  margin-top: -55px;
+  padding: 0;
+  width: 90px;
+  height: 110px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+.mfp-arrow:active {
+  margin-top: -54px; }
+
+.mfp-arrow:hover,
+.mfp-arrow:focus {
+  opacity: 1; }
+
+.mfp-arrow:before, .mfp-arrow:after,
+.mfp-arrow .mfp-b,
+.mfp-arrow .mfp-a {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 35px;
+  margin-left: 35px;
+  border: medium inset transparent; }
+.mfp-arrow:after,
+.mfp-arrow .mfp-a {
+  border-top-width: 13px;
+  border-bottom-width: 13px;
+  top: 8px; }
+.mfp-arrow:before,
+.mfp-arrow .mfp-b {
+  border-top-width: 21px;
+  border-bottom-width: 21px; }
+
+.mfp-arrow-left {
+  left: 0; }
+  .mfp-arrow-left:after,
+  .mfp-arrow-left .mfp-a {
+    border-right: 17px solid white;
+    margin-left: 31px; }
+  .mfp-arrow-left:before,
+  .mfp-arrow-left .mfp-b {
+    margin-left: 25px;
+    border-right: 27px solid #3f3f3f; }
+
+.mfp-arrow-right {
+  right: 0; }
+  .mfp-arrow-right:after,
+  .mfp-arrow-right .mfp-a {
+    border-left: 17px solid white;
+    margin-left: 39px; }
+  .mfp-arrow-right:before,
+  .mfp-arrow-right .mfp-b {
+    border-left: 27px solid #3f3f3f; }
+
+.mfp-iframe-holder {
+  padding-top: 40px;
+  padding-bottom: 40px; }
+
+.mfp-iframe-holder .mfp-content {
+  line-height: 0;
+  width: 100%;
+  max-width: 900px; }
+
+.mfp-iframe-scaler {
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%; }
+
+.mfp-iframe-scaler iframe {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  background: black; }
+
+.mfp-iframe-holder .mfp-close {
+  top: -40px; }
+
+/* Main image in popup */
+img.mfp-img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  line-height: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 0 40px;
+  margin: 0 auto; }
+
+/* The shadow behind the image */
+.mfp-figure:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 40px;
+  bottom: 40px;
+  display: block;
+  right: 0;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  background: #444444; }
+
+.mfp-figure {
+  line-height: 0; }
+
+.mfp-bottom-bar {
+  margin-top: -36px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  cursor: auto; }
+
+.mfp-title {
+  text-align: left;
+  line-height: 18px;
+  color: #f3f3f3;
+  word-wrap: break-word;
+  padding-right: 36px; }
+
+.mfp-figure small {
+  color: #bdbdbd;
+  display: block;
+  font-size: 12px;
+  line-height: 14px; }
+
+.mfp-image-holder .mfp-content {
+  max-width: 100%; }
+
+.mfp-gallery .mfp-image-holder .mfp-figure {
+  cursor: pointer; }
+
+@media screen and (max-width: 800px) and (orientation: landscape), screen and (max-height: 300px) {
+  /**
+   * Remove all paddings around the image on small screen
+   */
+  .mfp-img-mobile .mfp-image-holder {
+    padding-left: 0;
+    padding-right: 0; }
+
+  .mfp-img-mobile img.mfp-img {
+    padding: 0; }
+
+  /* The shadow behind the image */
+  .mfp-img-mobile .mfp-figure:after {
+    top: 0;
+    bottom: 0; }
+
+  .mfp-img-mobile .mfp-bottom-bar {
+    background: rgba(0, 0, 0, 0.6);
+    bottom: 0;
+    margin: 0;
+    top: auto;
+    padding: 3px 5px;
+    position: fixed;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+
+  .mfp-img-mobile .mfp-bottom-bar:empty {
+    padding: 0; }
+
+  .mfp-img-mobile .mfp-counter {
+    right: 5px;
+    top: 3px; }
+
+  .mfp-img-mobile .mfp-close {
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    text-align: center;
+    padding: 0; }
+
+  .mfp-img-mobile .mfp-figure small {
+    display: inline;
+    margin-left: 5px; } }
+@media all and (max-width: 900px) {
+  .mfp-arrow {
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75); }
+
+  .mfp-arrow-left {
+    -webkit-transform-origin: 0;
+    transform-origin: 0; }
+
+  .mfp-arrow-right {
+    -webkit-transform-origin: 100%;
+    transform-origin: 100%; }
+
+  .mfp-container {
+    padding-left: 6px;
+    padding-right: 6px; } }
+.mfp-ie7 .mfp-img {
+  padding: 0; }
+.mfp-ie7 .mfp-bottom-bar {
+  width: 600px;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: 5px;
+  padding-bottom: 5px; }
+.mfp-ie7 .mfp-container {
+  padding: 0; }
+.mfp-ie7 .mfp-content {
+  padding-top: 44px; }
+.mfp-ie7 .mfp-close {
+  top: 0;
+  right: 0;
+  padding-top: 0; }
+
+//Magnific overrides
+.mfp-image img{
+  background: white;
+}
+.mfp-figure:after {
+  background: white;
+}
+
+</style>
+<link href=https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css rel="stylesheet" id='style'>
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" title="Default" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/amelia/bootstrap.min.css" title="Amelia" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/cerulean/bootstrap.min.css" title="Cerulean" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/cosmo/bootstrap.min.css" title="Cosmo" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/cyborg/bootstrap.min.css" title="Cyborg" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" title="Flatly" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/journal/bootstrap.min.css" title="Journal" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/readable/bootstrap.min.css" title="Readable" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/simplex/bootstrap.min.css" title="Simplex" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/slate/bootstrap.min.css" title="Slate" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/spacelab/bootstrap.min.css" title="Spacelab" media="screen">
+<link rel="alternate stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/united/bootstrap.min.css" title="United" media="screen">
+
+          <!--<li><a class="style-switch" title="Superhero" href="#" >Superhero</a>  </li> \-->
+          <!--<li><a class="style-switch" title="Spruce" href="#"    >Spruce</a>     </li> \-->
+<script>
+$(function() {
+    $('#bottom-navbar').append(
+    '<ul class="nav navbar-nav navbar-left">\
+      <li class="dropup">\
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bootstrap Style</a>\
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">\
+           <li class="active"><a class="style-switch" title="Default" href="#"   >Default</a></li> \
+           <li><a class="style-switch" title="Amelia" href="#"                   >Amelia</a></li> \
+           <li><a class="style-switch" title="Cerulean" href="#"                 >Cerulean</a></li> \
+           <li><a class="style-switch" title="Cosmo" href="#"                    >Cosmo</a></li> \
+           <li><a class="style-switch" title="Cyborg" href="#"                   >Cyborg</a></li> \
+           <li><a class="style-switch" title="Flatly" href="#"                   >Flatly</a></li> \
+           <li><a class="style-switch" title="Journal" href="#"                  >Journal</a></li> \
+           <li><a class="style-switch" title="Readable" href="#"                 >Readable</a></li> \
+           <li><a class="style-switch" title="Simplex" href="#"                  >Simplex</a></li> \
+           <li><a class="style-switch" title="Slate" href="#"                    >Slate</a></li> \
+           <li><a class="style-switch" title="Spacelab" href="#"                 >Spacelab</a></li> \
+           <li><a class="style-switch" title="United" href="#"                   >United</a></li> \
+        </ul>\
+      </li>\
+    </ul>');
+    $('.style-switch').click(function(){
+      var css = $('link[title=' + $(this).attr('title') + ']');
+      $('#style[rel=stylesheet]').attr('href', css.attr('href'));
+      $('.style-switch').closest('li').removeClass('active');
+      $(this).closest('li').addClass('active');
+      return false;
+    });
+  }
+);
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/default.min.css" id="code-style" rel="stylesheet">
+<link title="Default-Code" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/default.min.css" rel="alternate stylesheet">
+<link title="Dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/dark.min.css" rel="alternate stylesheet">
+<link title="FAR" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/far.min.css" rel="alternate stylesheet">
+<link title="IDEA" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/idea.min.css" rel="alternate stylesheet">
+<link title="Sunburst" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/sunburst.min.css" rel="alternate stylesheet">
+<link title="Zenburn" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/zenburn.min.css" rel="alternate stylesheet">
+<link title="Visual Studio" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/vs.min.css" rel="alternate stylesheet">
+<link title="Ascetic" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/ascetic.min.css" rel="alternate stylesheet">
+<link title="Magula" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/magula.min.css" rel="alternate stylesheet">
+<link title="GitHub" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/github.min.css" rel="alternate stylesheet">
+<link title="Google Code" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/googlecode.min.css" rel="alternate stylesheet">
+<link title="Brown Paper" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/brown_paper.min.css" rel="alternate stylesheet">
+<link title="School Book" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/school_book.min.css" rel="alternate stylesheet">
+<link title="IR Black" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/ir_black.min.css" rel="alternate stylesheet">
+<link title="Solarized - Dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/solarized_dark.min.css" rel="alternate stylesheet">
+<link title="Solarized - Light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/solarized_light.min.css" rel="alternate stylesheet">
+<link title="Arta" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/arta.min.css" rel="alternate stylesheet">
+<link title="Monokai" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/monokai.min.css" rel="alternate stylesheet">
+<link title="XCode" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/xcode.min.css" rel="alternate stylesheet">
+<link title="Pojoaque" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/pojoaque.min.css" rel="alternate stylesheet">
+<link title="Rainbow" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/rainbow.min.css" rel="alternate stylesheet">
+<link title="Tomorrow" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/tomorrow.min.css" rel="alternate stylesheet">
+<link title="Tomorrow Night" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/tomorrow-night.min.css" rel="alternate stylesheet">
+<link title="Tomorrow Night Bright" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/tomorrow-night-bright.min.css" rel="alternate stylesheet">
+<link title="Tomorrow Night Blue" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/tomorrow-night-blue.min.css" rel="alternate stylesheet">
+<link title="Tomorrow Night Eighties" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/tomorrow-night-eighties.min.css" rel="alternate stylesheet">
+
+<script>
+$(function() {
+    $('#bottom-navbar').append(
+    '<ul class="nav navbar-nav">\
+      <li class="dropdown">\
+        <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">Code Style</a>\
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">\
+          <li class="active"><a class="code-style-switch" title="Default-Code" href="#">Default</a></li>\
+          <li><a class="code-style-switch" title="Dark" href="#"                       >Dark</a></li>\
+          <li><a class="code-style-switch" title="FAR" href="#"                        >FAR</a></li>\
+          <li><a class="code-style-switch" title="IDEA" href="#"                       >IDEA</a></li>\
+          <li><a class="code-style-switch" title="Sunburst" href="#"                   >Sunburst</a></li>\
+          <li><a class="code-style-switch" title="Zenburn" href="#"                    >Zenburn</a></li>\
+          <li><a class="code-style-switch" title="Visual Studio" href="#"              >Visual Studio</a></li>\
+          <li><a class="code-style-switch" title="Ascetic" href="#"                    >Ascetic</a></li>\
+          <li><a class="code-style-switch" title="Magula" href="#"                     >Magula</a></li>\
+          <li><a class="code-style-switch" title="GitHub" href="#"                     >GitHub</a></li>\
+          <li><a class="code-style-switch" title="Google Code" href="#"                >Google Code</a></li>\
+          <li><a class="code-style-switch" title="Brown Paper" href="#"                >Brown Paper</a></li>\
+          <li><a class="code-style-switch" title="School Book" href="#"                >School Book</a></li>\
+          <li><a class="code-style-switch" title="IR Black" href="#"                   >IR Black</a></li>\
+          <li><a class="code-style-switch" title="Solarized - Dark" href="#"           >Solarized - Dark</a></li>\
+          <li><a class="code-style-switch" title="Solarized - Light" href="#"          >Solarized - Light</a></li>\
+          <li><a class="code-style-switch" title="Arta" href="#"                       >Arta</a></li>\
+          <li><a class="code-style-switch" title="Monokai" href="#"                    >Monokai</a></li>\
+          <li><a class="code-style-switch" title="XCode" href="#"                      >XCode</a></li>\
+          <li><a class="code-style-switch" title="Pojoaque" href="#"                   >Pojoaque</a></li>\
+          <li><a class="code-style-switch" title="Rainbow" href="#"                    >Rainbow</a></li>\
+          <li><a class="code-style-switch" title="Tomorrow" href="#"                   >Tomorrow</a></li>\
+          <li><a class="code-style-switch" title="Tomorrow Night" href="#"             >Tomorrow Night</a></li>\
+          <li><a class="code-style-switch" title="Tomorrow Night Bright" href="#"      >Tomorrow Night Bright</a></li>\
+          <li><a class="code-style-switch" title="Tomorrow Night Blue" href="#"        >Tomorrow Night Blue</a></li>\
+          <li><a class="code-style-switch" title="Tomorrow Night Eighties" href="#"    >Tomorrow Night Eighties</a></li>\
+        </ul>\
+      </li>\
+    </ul>');
+    $('.code-style-switch').click(function(){
+      var css = $('link[title="' + $(this).attr('title') + '"]');
+      $('#code-style[rel=stylesheet]').attr('href', css.attr('href'));
+      $('.code-style-switch').closest('li').removeClass('active');
+      $(this).closest('li').addClass('active');
+      return false;
+    });
+});
+</script>
+ 
+
+</head>
+
+<body>
+<div class="chunk" id="global_setup"><div class="rcode"><div class="message"><pre class="knitr r">## Loading required package: knitr
+</pre></div>
+
+<p></div></div></p>
+
+<div class="chunk" id="script_setup"><div class="rcode"><div class="source"><pre class="knitr r">## The basic files and libraries needed for most presentations
+# creates the libraries and common-functions sections
+read_chunk("../common/utility_functions.R")
+</pre></div>
+
+<p></div></div></p>
+
+<div class="chunk" id="libraries"><div class="rcode"><div class="source"><pre class="knitr r">require(ggplot2) #for plots
+require(lattice) # nicer scatter plots
+require(plyr) # for processing data.frames
+require(grid) # contains the arrow function
+require(biOps) # for basic image processing
+require(doMC) # for parallel code
+require(png) # for reading png images
+require(gridExtra)
+require(reshape2) # for the melt function
+## To install EBImage
+# source("http://bioconductor.org/biocLite.R")
+# biocLite("EBImage")
+require(EBImage) # for more image processing
+used.libraries<-c("ggplot2","lattice","plyr","reshape2","grid","gridExtra","biOps","png","EBImage")
+</pre></div>
+
+<p></div></div></p>
+
+<div class="chunk" id="common-functions"><div class="rcode"><div class="source"><pre class="knitr r"># start parallel environment
+registerDoMC()
+# functions for converting images back and forth
+im.to.df<-function(in.img,out.col="val") {
+  out.im<-expand.grid(x=1:nrow(in.img),y=1:ncol(in.img))
+  out.im[,out.col]<-as.vector(in.img)
+  out.im
+}
+df.to.im<-function(in.df,val.col="val",inv=F) {
+  in.vals<-in.df[[val.col]]
+  if(class(in.vals[1])=="logical") in.vals<-as.integer(in.vals*255)
+  if(inv) in.vals<-255-in.vals
+  out.mat<-matrix(in.vals,nrow=length(unique(in.df$x)),byrow=F)
+  attr(out.mat,"type")<-"grey"
+  out.mat
+}
+ddply.cutcols<-function(...,cols=1) {
+  # run standard ddply command 
+  cur.table<-ddply(...)
+  cutlabel.fixer<-function(oVal) {
+    sapply(oVal,function(x) {
+      cnv<-as.character(x)
+      mean(as.numeric(strsplit(substr(cnv,2,nchar(cnv)-1),",")[[1]]))
+    })
+  }
+  cutname.fixer<-function(c.str) {
+    s.str<-strsplit(c.str,"(",fixed=T)[[1]]
+    t.str<-strsplit(paste(s.str[c(2:length(s.str))],collapse="("),",")[[1]]
+    paste(t.str[c(1:length(t.str)-1)],collapse=",")
+  }
+  for(i in c(1:cols)) {
+    cur.table[,i]<-cutlabel.fixer(cur.table[,i])
+    names(cur.table)[i]<-cutname.fixer(names(cur.table)[i])
+  }
+  cur.table
+}
+
+show.pngs.as.grid<-function(file.list,title.fun,zoom=1) {
+  preparePng<-function(x) rasterGrob(readPNG(x,native=T,info=T),width=unit(zoom,"npc"),interp=F)
+  labelPng<-function(x,title="junk") (qplot(1:300, 1:300, geom="blank",xlab=NULL,ylab=NULL,asp=1)+
+                                        annotation_custom(preparePng(x))+
+                                        labs(title=title)+theme_bw(24)+
+                                        theme(axis.text.x = element_blank(),
+                                              axis.text.y = element_blank()))
+  imgList<-llply(file.list,function(x) labelPng(x,title.fun(x)) )
+  do.call(grid.arrange,imgList)
+}
+## Standard image processing tools which I use for visualizing the examples in the script
+commean.fun<-function(in.df) {
+  ddply(in.df,.(val), function(c.cell) {
+    weight.sum<-sum(c.cell$weight)
+    data.frame(xv=mean(c.cell$x),
+               yv=mean(c.cell$y),
+               xm=with(c.cell,sum(x*weight)/weight.sum),
+               ym=with(c.cell,sum(y*weight)/weight.sum)
+    )
+  })
+}
+
+colMeans.df<-function(x,...) as.data.frame(t(colMeans(x,...)))
+
+pca.fun<-function(in.df) {
+  ddply(in.df,.(val), function(c.cell) {
+    c.cell.cov<-cov(c.cell[,c("x","y")])
+    c.cell.eigen<-eigen(c.cell.cov)
+    
+    c.cell.mean<-colMeans.df(c.cell[,c("x","y")])
+    out.df<-cbind(c.cell.mean,
+                  data.frame(vx=c.cell.eigen$vectors[1,],
+                             vy=c.cell.eigen$vectors[2,],
+                             vw=sqrt(c.cell.eigen$values),
+                             th.off=atan2(c.cell.eigen$vectors[2,],c.cell.eigen$vectors[1,]))
+    )
+  })
+}
+vec.to.ellipse<-function(pca.df) {
+  ddply(pca.df,.(val),function(cur.pca) {
+    # assume there are two vectors now
+    create.ellipse.points(x.off=cur.pca[1,"x"],y.off=cur.pca[1,"y"],
+                          b=sqrt(5)*cur.pca[1,"vw"],a=sqrt(5)*cur.pca[2,"vw"],
+                          th.off=pi/2-atan2(cur.pca[1,"vy"],cur.pca[1,"vx"]),
+                          x.cent=cur.pca[1,"x"],y.cent=cur.pca[1,"y"])
+  })
+}
+
+# test function for ellipse generation
+# ggplot(ldply(seq(-pi,pi,length.out=100),function(th) create.ellipse.points(a=1,b=2,th.off=th,th.val=th)),aes(x=x,y=y))+geom_path()+facet_wrap(~th.val)+coord_equal()
+create.ellipse.points<-function(x.off=0,y.off=0,a=1,b=NULL,th.off=0,th.max=2*pi,pts=36,...) {
+  if (is.null(b)) b<-a
+  th<-seq(0,th.max,length.out=pts)
+  data.frame(x=a*cos(th.off)*cos(th)+b*sin(th.off)*sin(th)+x.off,
+             y=-1*a*sin(th.off)*cos(th)+b*cos(th.off)*sin(th)+y.off,
+             id=as.factor(paste(x.off,y.off,a,b,th.off,pts,sep=":")),...)
+}
+deform.ellipse.draw<-function(c.box) {
+  create.ellipse.points(x.off=c.box$x[1],
+                        y.off=c.box$y[1],
+                        a=c.box$a[1],
+                        b=c.box$b[1],
+                        th.off=c.box$th[1],
+                        col=c.box$col[1])                    
+}
+bbox.fun<-function(in.df) {
+  ddply(in.df,.(val), function(c.cell) {
+    c.cell.mean<-colMeans.df(c.cell[,c("x","y")])
+    xmn<-emin(c.cell$x)
+    xmx<-emax(c.cell$x)
+    ymn<-emin(c.cell$y)
+    ymx<-emax(c.cell$y)
+    out.df<-cbind(c.cell.mean,
+                  data.frame(xi=c(xmn,xmn,xmx,xmx,xmn),
+                             yi=c(ymn,ymx,ymx,ymn,ymn),
+                             xw=xmx-xmn,
+                             yw=ymx-ymn
+                  ))
+  })
+}
+
+# since the edge of the pixel is 0.5 away from the middle of the pixel
+emin<-function(...) min(...)-0.5
+emax<-function(...) max(...)+0.5
+extents.fun<-function(in.df) {
+  ddply(in.df,.(val), function(c.cell) {
+    c.cell.mean<-colMeans.df(c.cell[,c("x","y")])
+    out.df<-cbind(c.cell.mean,data.frame(xmin=c(c.cell.mean$x,emin(c.cell$x)),
+                                         xmax=c(c.cell.mean$x,emax(c.cell$x)),
+                                         ymin=c(emin(c.cell$y),c.cell.mean$y),
+                                         ymax=c(emax(c.cell$y),c.cell.mean$y)))
+  })
+}
+
+common.image.path<-"../common"
+qbi.file<-function(file.name) file.path(common.image.path,"figures",file.name)
+qbi.data<-function(file.name) file.path(common.image.path,"data",file.name)
+
+th_fillmap.fn<-function(max.val) scale_fill_gradientn(colours=rainbow(10),limits=c(0,max.val))
+</pre></div>
+
+<p></div></div></p>
+
+<h1>Quantitative Big Imaging </h1>
+
+<p>author: Kevin Mader
+date: 16 April 2015
+width: 1440
+height: 900
+css: ../common/template.css
+transition: rotate</p>
+
+<p>ETHZ: 227-0966-00L</p>
+
+<h1>Groups of Objects and Distributions</h1>
+
+<h1>Course Outline</h1>
+
+<div class="source"><pre class="knitr r">source('../common/schedule.R')
+</pre></div>
+
+<ul>
+<li>19th February - Introduction and Workflows</li>
+<li>26th February - Image Enhancement (A. Kaestner)</li>
+<li>5th March - Basic Segmentation, Discrete Binary Structures</li>
+<li>12th March - Advanced Segmentation</li>
+<li>19th March - Applying Graphical Models and Machine Learning (A. Lucchi)</li>
+<li>26th March - Analyzing Single Objects</li>
+<li>2nd April -  Analyzing Complex Objects</li>
+<li>16th April -  Spatial Distribution</li>
+<li>23rd April -  Statistics and Reproducibility</li>
+<li>30th April - Dynamic Experiments (K. Mader and A. Patera)</li>
+<li>7th May - Scaling Up / Big Data</li>
+<li>21th May - Guest Lecture, Applications in Material Science</li>
+<li>28th May - Project Presentations</li>
+</ul>
+
+<h1>Literature / Useful References</h1>
+
+<h3>Books</h3>
+
+<ul>
+<li>Jean Claude, Morphometry with R
+
+<ul>
+<li><a href="http://link.springer.com/book/10.1007%2F978-0-387-77789-4">Online</a> through ETHZ</li>
+<li><a href="http://www.amazon.com/Morphometrics-R-Use-Julien-Claude/dp/038777789X">Buy it</a></li>
+</ul></li>
+<li>John C. Russ, “The Image Processing Handbook”,(Boca Raton, CRC Press)
+
+<ul>
+<li>Available <a href="http://dx.doi.org/10.1201/9780203881095">online</a> within domain ethz.ch (or proxy.ethz.ch / public VPN) </li>
+</ul></li>
+<li>J. Weickert, Visualization and Processing of Tensor Fields
+
+<ul>
+<li><a href="http://books.google.ch/books?id=ScLxPORMob4C&amp;lpg=PA220&amp;ots=mYIeQbaVXP&amp;dq=&amp;pg=PA220#v=onepage&amp;q&amp;f=false">Online</a></li>
+</ul></li>
+</ul>
+
+<hr/>
+
+<h3>Papers / Sites</h3>
+
+<ul>
+<li><p>Voronoi Tesselations</p>
+
+<ul>
+<li>Ghosh, S. (1997). Tessellation-based computational methods for the characterization and analysis of heterogeneous microstructures. Composites Science and Technology, 57(9-10), 1187–1210</li>
+<li><a href="http://mathworld.wolfram.com/VoronoiDiagram.html">Wolfram Explanation</a></li>
+</ul></li>
+<li><p>Self-Avoiding / Nearest Neighbor</p>
+
+<ul>
+<li>Schwarz, H., &amp; Exner, H. E. (1983). The characterization of the arrangement of feature centroids in planes and volumes. Journal of Microscopy, 129(2), 155–169.</li>
+<li>Kubitscheck, U. et al. (1996). Single nuclear pores visualized by confocal microscopy and image processing. Biophysical Journal, 70(5), 2067–77.</li>
+</ul></li>
+<li><p>Alignment / Distribution Tensor</p>
+
+<ul>
+<li>Mader, K. et al (2013). A quantitative framework for the 3D characterization of the osteocyte lacunar system. Bone, 57(1), 142–154</li>
+<li>Aubouy, M., et al. (2003). A texture tensor to quantify deformations. Granular Matter, 5, 67–70. Retrieved from <a href="http://arxiv.org/abs/cond-mat/0301018">http://arxiv.org/abs/cond-mat/0301018</a></li>
+</ul></li>
+<li><p>Two point correlation</p>
+
+<ul>
+<li>Dinis, L., et. al. (2007). Analysis of 3D solids using the natural neighbour radial point interpolation method. Computer Methods in Applied Mechanics and Engineering, 196(13-16)</li>
+</ul></li>
+</ul>
+
+<h1>Previously on QBI ...</h1>
+
+<ul>
+<li>Image Enhancment 
+
+<ul>
+<li>Highlighting the contrast of interest in images</li>
+<li>Minimizing Noise</li>
+</ul></li>
+<li>Understanding image histograms</li>
+<li>Automatic Methods</li>
+<li>Component Labeling</li>
+<li>Single Shape Analysis</li>
+<li>Complicated Shapes</li>
+</ul>
+
+<h1>Outline</h1>
+
+<ul>
+<li>Motivation (Why and How?)</li>
+<li>Local Environment
+
+<ul>
+<li>Neighbors</li>
+<li>Voronoi Tesselation</li>
+<li>Distribution Tensor</li>
+</ul></li>
+</ul>
+
+<hr/>
+
+<ul>
+<li>Global Enviroment
+
+<ul>
+<li>Alignment</li>
+<li>Self-Avoidance</li>
+<li>Two Point Correlation Function</li>
+</ul></li>
+</ul>
+
+<h1>Metrics</h1>
+
+<p>We examine a number of different metrics in this lecture and additionally to classifying them as Local and Global we can define them as point and voxel-based operations. </p>
+
+<h3>Point Operations</h3>
+
+<ul>
+<li>Nearest Neighbor</li>
+<li>Delaunay Triangulation
+
+<ul>
+<li>Distribution Tensor</li>
+</ul></li>
+<li>Point (Center of Volume)-based Voronoi Tesselation</li>
+<li>Alignment</li>
+</ul>
+
+<div class="source"><pre class="knitr r">kable(data.frame(x=round(4*runif(4)),y=round(4*runif(4)), z=round(4*runif(4))))
+</pre></div>
+
+<table><thead>
+<tr>
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">z</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">4</td>
+</tr>
+</tbody></table>
+
+<hr/>
+
+<h3>Voxel Operation</h3>
+
+<ul>
+<li>Voronoi Tesselation</li>
+<li>Neighbor Counting</li>
+<li>2-point (N-point) correlation functions</li>
+</ul>
+
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r">xymesh<-mutate(
+  expand.grid(x=c(-1:1),y=c(-1:1)),
+  color=ifelse((x==0) & (y==0),"center",ifelse(sqrt(x^2+y^2)==1,"4C","6C"))
+  )
+ggplot(xymesh,aes(x,y,fill=color))+
+  geom_tile()+
+  geom_text(aes(label=color))+
+  labs(color="")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>What do we start with?</h1>
+
+<p>Going back to our original cell image</p>
+
+<ol>
+<li>We have been able to get rid of the noise in the image and find all the cells (lecture 2-4)</li>
+<li>We have analyzed the shape of the cells using the shape tensor (lecture 5)</li>
+<li>We even separated cells joined together using Watershed (lecture 6)</li>
+</ol>
+
+<p>We can characterize the sample and the average and standard deviations of volume, orientation, surface area, and other metrics</p>
+
+<h1>Motivation (Why and How?)</h1>
+
+<p>With all of these images, the first step is always to understand exactly what we are trying to learn from our images.</p>
+
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r">cell.im<-jpeg::readJPEG("ext-figures/Cell_Colony.jpg")
+cell.lab.df<-im.to.df(bwlabel(cell.im<.6))
+size.histogram<-ddply(subset(cell.lab.df,val>0),.(val),function(c.label) data.frame(count=nrow(c.label)))
+keep.vals<-subset(size.histogram,count>25)
+
+
+cur.cell.df<-subset(cell.lab.df,val %in% keep.vals$val)
+cell.pca<-pca.fun(cur.cell.df)
+cell.ellipse<-vec.to.ellipse(cell.pca)
+ggplot(cur.cell.df,aes(x=x,y=y))+
+  geom_tile(color="black",fill="grey")+
+  geom_path(data=cell.ellipse,aes(color="Ellipse",group=val))+
+  geom_path(data=bbox.fun(cur.cell.df),aes(x=xi,y=yi,color="Bounding\nBox",group=val))+
+  labs(title="Single Cell",color="Shape\nAnalysis\nMethod")+
+  theme_bw(20)+coord_equal()+guides(fill=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-4-1.png" title="All Cells" alt="All Cells" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<ol>
+<li><p>We want to know how many cells are alive</p>
+
+<ul>
+<li>Maybe small cells are dead and larger cells are alive \(\rightarrow\) examine the volume distribution</li>
+<li>Maybe living cells are round and dead cells are really spiky and pointy \(\rightarrow\) examine anisotropy</li>
+</ul></li>
+<li><p>We want to know where the cells are alive or most densely packed</p>
+
+<ul>
+<li>We can visually inspect the sample (maybe even color by volume)</li>
+<li>We can examine the raw positions (x,y,z) but what does that really tell us?</li>
+<li>We can make boxes and count the cells inside each one</li>
+<li>How do we compare two regions in the same sample or even two samples?</li>
+</ul></li>
+</ol>
+
+<h1>Motivation (continued)</h1>
+
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(cur.cell.df,aes(x=x,y=y))+
+  geom_tile(color="black",fill="grey")+
+  geom_path(data=cell.ellipse,aes(color="Ellipse",group=val))+
+  geom_path(data=bbox.fun(cur.cell.df),aes(x=xi,y=yi,color="Bounding\nBox",group=val))+
+  labs(title="Single Cell",color="Shape\nAnalysis\nMethod")+
+  theme_bw(20)+coord_equal()+guides(fill=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-5-1.png" title="All Cells" alt="All Cells" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<ol>
+<li>We want to know how the cells are communicating
+
+<ul>
+<li>Maybe physically connected cells (touching) are communicating \(\rightarrow\) watershed</li>
+<li>Maybe cells oriented the same direction are communicating \(\rightarrow\) <em>average?</em> orientation</li>
+<li>Maybe cells which are close <strong>enough</strong> are communicating \(\rightarrow\) <strong>?</strong></li>
+<li>Maybe cells form hub and spoke networks \(\rightarrow\) <strong>?</strong></li>
+</ul></li>
+</ol>
+
+<h1>Motivation (continued)</h1>
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(cur.cell.df,aes(x=x,y=y))+
+  geom_tile(color="black",fill="grey")+
+  geom_path(data=cell.ellipse,aes(color="Ellipse",group=val))+
+  geom_path(data=bbox.fun(cur.cell.df),aes(x=xi,y=yi,color="Bounding\nBox",group=val))+
+  labs(title="Single Cell",color="Shape\nAnalysis\nMethod")+
+  theme_bw(20)+coord_equal()+guides(fill=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-6-1.png" title="All Cells" alt="All Cells" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<ol>
+<li>We want to know how the cells are nourished
+
+<ul>
+<li>Maybe closely packed cells are better nourished \(\rightarrow\) count cells in a box<strong>?</strong></li>
+<li>Maybe cells are oriented around canals which supply them \(\rightarrow\) <strong>?</strong></li>
+</ul></li>
+</ol>
+
+<h1>So what do we still need</h1>
+
+<ol>
+<li>A way for counting cells in a region and estimating density without creating arbitrary boxes</li>
+<li>A way for finding out how many cells are <em>near</em> a given cell, it&#39;s nearest neighbors</li>
+<li>A way for quantifying how far apart cells are and then comparing different regions within a sample</li>
+<li>A way for quantifying and comparing orientations</li>
+</ol>
+
+<hr/>
+
+<h3>What would be really great?</h3>
+
+<p>A tool which could be adapted to answering a large variety of problems</p>
+
+<ul>
+<li>multiple types of structures</li>
+<li>multiple phases</li>
+</ul>
+
+<h1>Destructive Measurements</h1>
+
+<p>With most imaging techniques and sample types, the task of measurement itself impacts the sample.</p>
+
+<ul>
+<li>Even techniques like X-ray tomography which <em>claim</em> to be non-destructive still impart significant to lethal doses of X-ray radition for high resolution imaging</li>
+<li>Electron microscopy, auto-tome-based methods, histology are all markedly more destructive and make longitudinal studies impossible</li>
+<li>Even when such measurements are possible
+
+<ul>
+<li>Registration can be a difficult task and introduce artifacts</li>
+</ul></li>
+</ul>
+
+<hr/>
+
+<h3>Why is this important?</h3>
+
+<ul>
+<li>techniques which allow us to compare different samples of the same type.</li>
+<li>are sensitive to common transformations
+
+<ul>
+<li>Sample B after the treatment looks like Sample A stretched to be 2x larger</li>
+<li>The volume fraction at the center is higher than the edges but organization remains the same</li>
+</ul></li>
+</ul>
+
+<h1>Ok, so now what?</h1>
+
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(cur.cell.df,aes(x=x,y=y))+
+  geom_tile(color="black",fill="grey")+
+  geom_path(data=cell.ellipse,aes(color="Ellipse",group=val))+
+  labs(title="Zoomed into a smaller region")+
+  xlim(200,400)+ylim(100,300)+
+  theme_bw(20)+coord_equal()+guides(fill=F,color=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-7-1.png" title="Smaller Region" alt="Smaller Region" class="plot" /></div>
+
+<p></div></div></p>
+
+<p>\[ \downarrow \]</p>
+
+<div class="source"><pre class="knitr r">kable(head(cell.pca[,c("x","y","vx","vy")]),align='c',digits=2)
+</pre></div>
+
+<table><thead>
+<tr>
+<th align="center">x</th>
+<th align="center">y</th>
+<th align="center">vx</th>
+<th align="center">vy</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">20.19</td>
+<td align="center">10.69</td>
+<td align="center">-0.95</td>
+<td align="center">-0.30</td>
+</tr>
+<tr>
+<td align="center">20.19</td>
+<td align="center">10.69</td>
+<td align="center">0.30</td>
+<td align="center">-0.95</td>
+</tr>
+<tr>
+<td align="center">293.08</td>
+<td align="center">13.18</td>
+<td align="center">-0.50</td>
+<td align="center">0.86</td>
+</tr>
+<tr>
+<td align="center">293.08</td>
+<td align="center">13.18</td>
+<td align="center">-0.86</td>
+<td align="center">-0.50</td>
+</tr>
+<tr>
+<td align="center">243.81</td>
+<td align="center">14.23</td>
+<td align="center">0.68</td>
+<td align="center">0.74</td>
+</tr>
+<tr>
+<td align="center">243.81</td>
+<td align="center">14.23</td>
+<td align="center">-0.74</td>
+<td align="center">0.68</td>
+</tr>
+</tbody></table>
+
+<p>\[ \cdots \]</p>
+
+<hr/>
+
+<p>So if we want to know the the mean or standard deviations of the position or orientations we can analyze them easily. </p>
+
+<div class="source"><pre class="knitr r">cell.pca$Theta<-cell.pca$th.off*180/pi
+cell.pca$Length<-cell.pca$vw
+s.table<-apply(cell.pca[,c("x","y","Length","vx","vy","Theta")],2,summary)
+
+kable(t(s.table),align='c',digits=2)
+</pre></div>
+
+<table><thead>
+<tr>
+<th align="left"></th>
+<th align="center">Min.</th>
+<th align="center">1st Qu.</th>
+<th align="center">Median</th>
+<th align="center">Mean</th>
+<th align="center">3rd Qu.</th>
+<th align="center">Max.</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">x</td>
+<td align="center">6.90</td>
+<td align="center">215.70</td>
+<td align="center">280.50</td>
+<td align="center">258.20</td>
+<td align="center">339.00</td>
+<td align="center">406.50</td>
+</tr>
+<tr>
+<td align="left">y</td>
+<td align="center">10.69</td>
+<td align="center">111.60</td>
+<td align="center">221.00</td>
+<td align="center">208.60</td>
+<td align="center">312.50</td>
+<td align="center">395.20</td>
+</tr>
+<tr>
+<td align="left">Length</td>
+<td align="center">1.06</td>
+<td align="center">1.57</td>
+<td align="center">1.95</td>
+<td align="center">2.08</td>
+<td align="center">2.41</td>
+<td align="center">4.33</td>
+</tr>
+<tr>
+<td align="left">vx</td>
+<td align="center">-1.00</td>
+<td align="center">-0.94</td>
+<td align="center">-0.70</td>
+<td align="center">-0.42</td>
+<td align="center">0.07</td>
+<td align="center">0.71</td>
+</tr>
+<tr>
+<td align="left">vy</td>
+<td align="center">-1.00</td>
+<td align="center">-0.70</td>
+<td align="center">0.02</td>
+<td align="center">0.04</td>
+<td align="center">0.71</td>
+<td align="center">1.00</td>
+</tr>
+<tr>
+<td align="left">Theta</td>
+<td align="center">-180.00</td>
+<td align="center">-134.10</td>
+<td align="center">-0.50</td>
+<td align="center">-4.67</td>
+<td align="center">130.60</td>
+<td align="center">177.70</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>But what if we want more or other information?</li>
+</ul>
+
+<h1>Simple Statistics</h1>
+
+<p>When given a group of data, it is common to take a mean value since this is easy. The mean bone thickness is 0.3mm. This is particularly relevant for groups with many samples because the mean is much smaller than all of the individual points.</p>
+
+<h3>but means can lie</h3>
+
+<ul>
+<li>the mean of 0\(^\circ\) and 180\(^\circ\) = 90\(^\circ\)</li>
+<li>the distance between -180\(^\circ\) and 179\(^\circ\) is 359\(^\circ\)</li>
+<li>since we have not defined a tip or head, 0\(^\circ\) and 180\(^\circ\) are actually the same</li>
+</ul>
+
+<hr/>
+
+<h3>some means are not very useful</h3>
+
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r">mean.example<-rbind(
+    data.frame(x=rnorm(10000,mean=0.5),group="healthy"),
+    data.frame(x=rnorm(10000,mean=0.65),group="sick")
+  )
+mean.means<-ddply(mean.example,.(group),function(x) data.frame(mean.x=mean(x$x)))
+ggplot(mean.example,aes(x=x,colour=group))+
+  geom_density()+
+  geom_vline(data=mean.means,aes(xintercept=mean.x,colour=group),size=2)+
+  labs(color="")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Calculating Density</h1>
+
+<p>One of the first metrics to examine with distribution is density \(\rightarrow\) how many objects in a given region or volume. </p>
+
+<p>It is deceptively easy to calculate involving the ratio of the number of objects divided by the volume.</p>
+
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r">pt.maker<-function(n.pts,rn.fun=function(pts) runif(pts,min=0,max=1),...) data.frame(x=rn.fun(n.pts),y=rn.fun(n.pts),n.pts=n.pts,...)
+
+ggplot(ldply(c(10,100,1000),pt.maker),aes(x,y))+
+  geom_point()+facet_grid(n.pts~.)+
+  coord_equal()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-11-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<p>It doesn&#39;t tell us much, many very different systems with the <em>same</em> density and what if we want the density of a single point? Does that even make sense?</p>
+
+<div class="chunk" id="unnamed-chunk-12"><div class="rcode"><div class="source"><pre class="knitr r">dist.funs<-c(function(pts) runif(pts,min=0,max=1),
+             function(pts) rnorm(pts,mean=0.5,sd=0.3),
+             function(pts) rnorm(pts,mean=0.5,sd=0.1),
+             function(pts) rlnorm(pts,meanlog=1.5,sdlog=1.5)/exp(3))
+
+ggplot(ldply(1:length(dist.funs),function(fun.ind) pt.maker(500,rn.fun=dist.funs[[fun.ind]],fun.ind=fun.ind)),
+       aes(x,y))+
+  geom_point()+facet_grid(fun.ind~.)+
+  coord_equal()+
+  xlim(0,1.01)+ylim(0,1.01)+
+  labs(title="Density = 500 N/mm^2")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-12-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Neighbors</h1>
+
+<h3>Definition</h3>
+
+<p>Oxford American \(\rightarrow\) <code>be situated next to or very near to (another)</code> </p>
+
+<ul>
+<li>Does not sound very scientific</li>
+<li>How close? 
+
+<ul>
+<li>Touching, closer than anything else?</li>
+</ul></li>
+</ul>
+
+<h3>Nearest Neighbor (distance)</h3>
+
+<div class="chunk" id="nearest_neighbor"><div class="rcode"><div class="source"><pre class="knitr r">find.nn<-function(in.df) {
+  ddply(in.df,.(val),function(c.group) {
+    cur.val<-c.group$val[1]
+    cur.x<-c.group$x[1]
+    cur.y<-c.group$y[1]
+    all.butme<-subset(in.df,val!=cur.val)
+    all.butme$dist<-with(all.butme,sqrt((x-cur.x)^2+(y-cur.y)^2))
+    min.ele<-subset(all.butme,dist<=min(all.butme$dist))
+    min.ele.order<-order(runif(nrow(min.ele)))
+    min.ele<-min.ele[min.ele.order,]
+    out.df<-data.frame(x=cur.x,y=cur.y,
+               xe=min.ele$x[1],ye=min.ele$y[1],vale=min.ele$val[1],dist=min.ele$dist[1])
+    out.df
+    })
+}
+</pre></div>
+
+<p></div></div>
+Given a set of objects with centroids at 
+\[ \textbf{P}=\begin{bmatrix} \vec{x}_0,\vec{x}_1,\cdots,\vec{x}_i \end{bmatrix} \]</p>
+
+<hr/>
+
+<p>We can define the nearest neighbor as the position of the object in our set which is closest</p>
+
+<p>\[ \vec{\textrm{NN}}(\vec{y}) = \textrm{argmin}(||\vec{y}-\vec{x}|| \forall \vec{x} \in \textbf{P}-\vec{y}) \]</p>
+
+<p>We define the distance as the Euclidean distance from the current point to that point, and the angle as the </p>
+
+<p>\[ \textrm{NND}(\vec{y}) = \textrm{min}(||\vec{y}-\vec{x}|| \forall \vec{x} \in \textbf{P}-\vec{y}) \]
+\[ \textrm{NN}\theta(\vec{y}) = \tan^{-1}\frac{(\vec{\textrm{NN}}-\vec{y})\cdot \vec{j}}{(\vec{\textrm{NN}}-\vec{y})\cdot \vec{i}} \]</p>
+
+<h1>Nearest Neighbor Definition</h1>
+
+<p>So examining a simple starting system like a grid, we already start running into issues. </p>
+
+<ul>
+<li>In a perfect grid like structure each object has 4 equidistant neighbors (6 in 3D)</li>
+<li>Which one is closest?</li>
+</ul>
+
+<p>We thus add an additional clause (only relevant for simulated data) where if there are multiple equidistant neighbors, a <em>nearest</em> is chosen randomly</p>
+
+<hr/>
+
+<p>This ensures when we examine the orientation distribution (NN\(\theta\)) of the neighbors it is evenly distributed</p>
+
+<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r">cur.grid<-expand.grid(x=-c(-4:4),y=c(-4:4))
+cur.grid$val<-1:nrow(cur.grid)
+std.grid<-cur.grid
+ggplot(cur.grid,aes(x=x,y=y))+
+  geom_segment(data=find.nn(cur.grid),aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Single Cell",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+  coord_equal()+
+  theme_bw(20)+guides(fill=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-13-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>In-Silico Systems</h1>
+
+<p>For the rest of these sections we will repeatedly use several simple in-silico systems to test our methods and try to better understand the kind of results we obtain from them.</p>
+
+<ul>
+<li><p>Compression</p>
+
+<ul>
+<li>The most simple system simply involves a scaling in every direction by \(\alpha\)</li>
+<li>\(\alpha<1\) the system is compressed</li>
+<li>\(\alpha>1\) the system is expanded</li>
+</ul>
+
+<p>\[ \begin{bmatrix} x^\prime \\ y^\prime \end{bmatrix} = \alpha \begin{bmatrix} x \\ y \end{bmatrix} \]</p>
+
+<hr/></li>
+<li><p>Shearing</p>
+
+<ul>
+<li>Slightly more complicated system where objects are shifted based on their location using a slope of \(\alpha\)</li>
+</ul>
+
+<p>\[ \begin{bmatrix} x^\prime \\ y^\prime \end{bmatrix} = \begin{bmatrix} 1 & \alpha \\ 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} \]</p></li>
+</ul>
+
+<h1>In-Silico Systems (Continued)</h1>
+
+<ul>
+<li>Stretch
+
+<ul>
+<li>A non-evenly distributed system with a parameter \(\alpha\) controlling if objects bunch near the edges or the center. A maximum distance \(m\) is defined as the magnitude of the largest offset in x or y</li>
+<li><strong>+</strong> Same total volume just arranged differently</li>
+</ul></li>
+</ul>
+
+<p>\[ \begin{bmatrix} x^\prime \\ y^\prime \end{bmatrix} = \begin{bmatrix} \textrm{sign}(x) \left(\frac{|x|}{m}\right)^\alpha m \\ \textrm{sign}(y) \left(\frac{|y|}{m}\right)^\alpha m \end{bmatrix} \]</p>
+
+<hr/>
+
+<ul>
+<li>Swirl
+
+<ul>
+<li>A transformation where the points are rotated more based on how far away they are from the center and the slope of the swirl (\(\alpha\)), </li>
+</ul></li>
+</ul>
+
+<p>\[ \theta (x,y) = \alpha \sqrt{x^2+y^2} \]</p>
+
+<p>\[ \begin{bmatrix} x^\prime \\ y^\prime \end{bmatrix} = 
+\begin{bmatrix} \cos\theta(x,y) & -\sin\theta(x,y) \\
+\sin\theta(x,y) & \cos\theta(x,y) 
+\end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} \]</p>
+
+<h1>Examining Compression</h1>
+
+<div class="chunk" id="unnamed-chunk-14"><div class="rcode"><div class="source"><pre class="knitr r">comp.fun<-function(c.stretch,in.grid=cur.grid) {
+  str.grid<-in.grid
+  str.grid$x<-with(in.grid,c.stretch*x)
+  str.grid$y<-with(in.grid,c.stretch*y)
+  cbind(str.grid,glab=c.stretch)
+}
+test.systems.comp<-ldply(c(0.8,1,1.2),comp.fun)
+
+dist.plots.comp<-ddply(test.systems.comp,.(glab),find.nn)
+ggplot(test.systems.comp,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.comp,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-14-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-15"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-15-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Compression Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-16"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,      
+       aes(x=dist,fill=as.factor(glab)))+
+  geom_histogram(binwidth=0.1)+
+  labs(x="NND",title="NN Distances",color="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-16-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-17"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,      
+       aes(x=180/pi*atan2(ye-y,xe-x),fill=as.factor(glab)))+
+  geom_histogram(binwidth=45)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",fill="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-17-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Different Shears</h1>
+
+<div class="chunk" id="unnamed-chunk-18"><div class="rcode"><div class="source"><pre class="knitr r">shear.fun<-function(c.shear,in.grid=cur.grid) {
+  str.grid<-in.grid
+  str.grid$x<-with(in.grid,x+c.shear*(y-2)/2)
+  cbind(str.grid,glab=c.shear)
+}
+test.systems.shear<-ldply(c(0,0.5,2),shear.fun)
+
+dist.plots.shear<-ddply(test.systems.shear,.(glab),find.nn)
+ggplot(test.systems.shear,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.shear,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-18-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-19"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-19-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Shear Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-20"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,      
+       aes(x=dist,fill=as.factor(glab)))+
+  geom_histogram(binwidth=0.25)+
+  labs(x="NND",title="NN Distances",fill="Shear")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-20-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-21"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,      
+       aes(x=180/pi*atan2(ye-y,xe-x),fill=as.factor(glab)))+
+  geom_histogram(binwidth=45)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",fill="Shear")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-21-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Different Stretches</h1>
+
+<div class="chunk" id="unnamed-chunk-22"><div class="rcode"><div class="source"><pre class="knitr r">str.fun<-function(x,a=1,r=4) sign(x)*r*(abs(x)/r)^a
+stretch.fun<-function(c.stretch,in.grid=cur.grid) {
+  str.grid<-in.grid
+  str.grid$x<-with(in.grid,str.fun(x,a=c.stretch))
+  str.grid$y<-with(in.grid,str.fun(y,a=c.stretch))
+  cbind(str.grid,glab=c.stretch)
+}
+test.systems<-ldply(c(0.5,1,3),stretch.fun)
+
+dist.plots<-ddply(test.systems,.(glab),find.nn)
+ggplot(test.systems,aes(x=x,y=y))+
+  geom_segment(data=dist.plots,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-22-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-23"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-23-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Stretch Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-24"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,      
+       aes(x=dist,fill=as.factor(glab)))+
+  #geom_density(size=1.5,adjust=1/5)+
+  geom_histogram(binwidth=0.25)+
+  labs(x="NND",title="NN Distances",color="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-24-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-25"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,      
+       aes(x=180/pi*atan2(ye-y,xe-x),fill=as.factor(glab)))+
+  geom_histogram(binwidth=45)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",fill="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-25-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Swirl Systems</h1>
+
+<div class="chunk" id="unnamed-chunk-26"><div class="rcode"><div class="source"><pre class="knitr r">swirl.fun<-function(c.swirl,in.grid=cur.grid) {
+  in.grid$cdist<-with(in.grid,sqrt(x^2+y^2))
+  str.grid<-in.grid
+  str.grid$x<-with(in.grid,cos(c.swirl*cdist)*x-sin(c.swirl*cdist)*y)
+  str.grid$y<-with(in.grid,cos(c.swirl*cdist)*y+sin(c.swirl*cdist)*x)
+  cbind(str.grid,glab=round(c.swirl*180/pi))
+}
+
+test.systems.swirl<-ldply(c(0,pi/40,pi/10),swirl.fun)
+
+dist.plots.swirl<-ddply(test.systems.swirl,.(glab),find.nn)
+
+ggplot(test.systems.swirl,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.swirl,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)+guides(color=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-26-1.png" title="" alt="" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-27"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+
+  theme_bw(20)+guides(color=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-27-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Swirl NN Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-28"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,      
+       aes(x=dist,fill=as.factor(glab)))+
+  geom_histogram(binwidth=0.25)+
+  labs(x="NND",title="NN Distances",fill="Swirl")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-28-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-29"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,      
+       aes(x=180/pi*atan2(ye-y,xe-x),color=as.factor(glab)))+
+  geom_density(aes(y=..scaled..),size=1,adjust=1/7)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",color="Swirl",y="Frequency")+
+  #scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-29-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>What we notice</h1>
+
+<p>We notice there are several fairly significant short-comings of these metrics (particularly with in-silico systems)</p>
+
+<ol>
+<li>Orientation appears to be useful but random
+
+<ul>
+<li>Why should it matter if one side is 0.01% closer?</li>
+</ul></li>
+<li>Single outlier objects skew results</li>
+<li>We only extract one piece of information</li>
+<li>Difficult to create metrics
+
+<ul>
+<li>Fit a peak to the angle distribution and measure the width as the &quot;angle variability&quot;?</li>
+</ul></li>
+</ol>
+
+<p>Luckily we are not the first people to address this issue </p>
+
+<h1>Random Systems</h1>
+
+<p>Using a uniform grid of points as a starting point has a strong influence on the results. A better approach is to use a randomly distributed series of points </p>
+
+<ul>
+<li>resembles real data much better</li>
+<li>avoids these symmetry problems
+
+<ul>
+<li>\(\epsilon\) sized edges or overlaps</li>
+<li>identical distances to nearby objects</li>
+</ul></li>
+</ul>
+
+<div class="chunk" id="use_random_grid"><div class="rcode"><div class="source"><pre class="knitr r">cur.grid<-data.frame(x=runif(81,min=-4,max=4),y=runif(81,min=-4,max=4))
+cur.grid$val<-1:nrow(cur.grid)
+</pre></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-30"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(cur.grid,aes(x=x,y=y))+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-30-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Compression</h1>
+
+<div class="chunk" id="unnamed-chunk-31"><div class="rcode"><div class="source"><pre class="knitr r">test.systems.comp<-ldply(c(0.6,1,1.5),function(c.stretch) {
+  str.grid<-cur.grid
+  str.grid$x<-with(cur.grid,c.stretch*x)
+  str.grid$y<-with(cur.grid,c.stretch*y)
+  cbind(str.grid,glab=c.stretch)
+})
+
+dist.plots.comp<-ddply(test.systems.comp,.(glab),find.nn)
+ggplot(test.systems.comp,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.comp,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-31-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-32"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-32-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Compression Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-33"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,      
+       aes(x=dist,fill=as.factor(glab)))+
+  geom_histogram(binwidth=0.25)+
+  labs(x="NND",title="NN Distances",color="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-33-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-34"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.comp,      
+       aes(x=180/pi*atan2(ye-y,xe-x),fill=as.factor(glab)))+
+  geom_histogram(binwidth=45)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",fill="Stretch")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-34-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Different Shears</h1>
+
+<div class="chunk" id="unnamed-chunk-35"><div class="rcode"><div class="source"><pre class="knitr r">test.systems.shear<-ldply(c(0,1,3),function(c.shear) {
+  str.grid<-cur.grid
+  str.grid$x<-with(cur.grid,x+c.shear*(y-2)/2)
+  cbind(str.grid,glab=c.shear)
+})
+
+dist.plots.shear<-ddply(test.systems.shear,.(glab),find.nn)
+ggplot(test.systems.shear,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.shear,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-35-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-36"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+  geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-36-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Shear Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-37"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,      
+       aes(x=dist,color=as.factor(glab)))+
+  geom_density(size=1.5,adjust=1)+
+  labs(x="NND",title="NN Distances",color="Shear")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-37-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-38"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.shear,      
+       aes(x=180/pi*atan2(ye-y,xe-x),color=as.factor(glab)))+
+  geom_density(size=1.5,adjust=1/1.5)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",color="Shear")+
+  coord_polar()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-38-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Different Stretches</h1>
+
+<div class="chunk" id="unnamed-chunk-39"><div class="rcode"><div class="source"><pre class="knitr r">str.fun<-function(x,a=1,r=4) sign(x)*r*(abs(x)/r)^a
+test.systems<-ldply(c(0.5,1,3),function(c.stretch) {
+  str.grid<-cur.grid
+  str.grid$x<-with(cur.grid,str.fun(x,a=c.stretch))
+  str.grid$y<-with(cur.grid,str.fun(y,a=c.stretch))
+  cbind(str.grid,glab=c.stretch)
+})
+
+dist.plots<-ddply(test.systems,.(glab),find.nn)
+ggplot(test.systems,aes(x=x,y=y))+
+  geom_segment(data=dist.plots,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-39-1.png" title="Uniaxially Stretched" alt="Uniaxially Stretched" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-40"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-40-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Stretch Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-41"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,      
+       aes(x=dist,color=as.factor(glab)))+
+  geom_density(size=1.5,adjust=1)+
+  #geom_histogram(binwidth=0.25)+
+  labs(x="NND",title="NN Distances",color="Stretch")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-41-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-42"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots,      
+       aes(x=180/pi*atan2(ye-y,xe-x),color=as.factor(glab)))+
+  #geom_histogram(binwidth=45)+
+  geom_density(size=1.5,adjust=1)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",color="Stretch")+
+  coord_polar()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-42-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Examining Swirl Systems</h1>
+
+<div class="chunk" id="unnamed-chunk-43"><div class="rcode"><div class="source"><pre class="knitr r">cur.grid$cdist<-with(cur.grid,sqrt(x^2+y^2))
+test.systems.swirl<-ldply(c(0,pi/40,pi/10),function(c.swirl) {
+  str.grid<-cur.grid
+  str.grid$x<-with(cur.grid,cos(c.swirl*cdist)*x-sin(c.swirl*cdist)*y)
+  str.grid$y<-with(cur.grid,cos(c.swirl*cdist)*y+sin(c.swirl*cdist)*x)
+  cbind(str.grid,glab=round(c.swirl*180/pi))
+})
+
+dist.plots.swirl<-ddply(test.systems.swirl,.(glab),find.nn)
+
+ggplot(test.systems.swirl,aes(x=x,y=y))+
+  geom_segment(data=dist.plots.swirl,aes(xend=xe,yend=ye),
+               arrow=arrow(length = unit(0.3,"cm")),alpha=0.75)+
+  geom_point(aes(color=val),size=3,alpha=0.75)+
+  labs(title="Positions and Neighbors",color="Label")+
+  scale_color_gradientn(colours=rainbow(10))+
+    coord_equal()+
+  facet_grid(glab~.)+
+  theme_bw(20)+guides(fill=F)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-43-1.png" title="" alt="" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-44"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,
+       aes(x=0,y=0,xend=xe-x,yend=ye-y))+
+    geom_density2d(aes(x=xe-x,y=ye-y),color="red",alpha=0.7)+
+  geom_segment(aes(color=glab),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(glab~.)+
+    coord_equal()+
+  labs(title="Nearest Neighbor Orientations")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-44-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Swirl NN Distributions</h1>
+
+<div class="chunk" id="unnamed-chunk-45"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,      
+       aes(x=dist,color=as.factor(glab)))+
+  geom_density()+
+  labs(x="NND",title="NN Distances",fill="Swirl")+
+  scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-45-1.png" title="Length Distribution" alt="Length Distribution" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-46"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(dist.plots.swirl,      
+       aes(x=180/pi*atan2(ye-y,xe-x),color=as.factor(glab)))+
+  geom_density(size=1,adjust=1)+
+    labs(x=expression(paste("NN ",theta)),title="NN Orientation",color="Swirl",y="Frequency")+
+  #scale_y_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-46-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Voronoi Tesselation</h1>
+
+<div class="chunk" id="voronoi_code"><div class="rcode"><div class="source"><pre class="knitr r">library(deldir)
+dd.grid.summary<-function(c.grid,...) {
+  c.dd<-deldir(c.grid,...)
+  c.vor<-c.dd$dirsgs
+  n.pts<-as.vector(summary(as.factor(c(c.vor$ind1,c.vor$ind2))))
+  n.vec<-data.frame(ind=1:length(n.pts),
+                    n.count=n.pts,
+                    area=c.dd$summary$dir.area)
+  merge(c.grid,n.vec,by.x="val",by.y="ind")
+}
+dd.summary<-function(in.df) ddply(in.df,.(glab),dd.grid.summary)
+</pre></div>
+
+<p></div></div></p>
+
+<p>Voronoi tesselation is a method for partitioning a space based on points. The basic idea is that each point \(\vec{p}\) is assigned a region \(\textbf{R}\) consisting of points which are closer to \(\vec{p}\) than any of the other points. Below the diagram is shown in a dashed line for the points shown as small circles.</p>
+
+<div class="chunk" id="unnamed-chunk-47"><div class="rcode"><div class="source"><pre class="knitr r">plot(deldir(std.grid),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-47-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<p>We call the area of a region (\(\textbf{R}\)) around point \(\vec{p}\) its territory.</p>
+
+<p>The grid on the random system, shows much more diversity in territory area.</p>
+
+<div class="chunk" id="unnamed-chunk-48"><div class="rcode"><div class="source"><pre class="knitr r">plot(deldir(cur.grid),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-48-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Calculating Density</h1>
+
+<p>Back to our original density problem of having just one number to broadly describe the system. </p>
+
+<ul>
+<li>Can a voronoi tesselation help us with this?</li>
+<li><strong>YES</strong></li>
+</ul>
+
+<p>With density we calculated<br/>
+\[ \textrm{Density} = \frac{\textrm{Number of Objects}}{\textrm{Total Volume}} \]
+with the regions we have a territory (volume) per object so the average territory is
+\[ \bar{Territory} = \frac{\sum \textrm{Territory}_i}{\textrm{Number of Objects}} = \frac{\textrm{Total Volume}}{\textrm{Number of Objects}} = \frac{1}{\textrm{Density}} \]
+So the same, but we now have a density definition for a single point! 
+\[ \textrm{Density}_i = \frac{1}{\textrm{Territory}_i} \]</p>
+
+<h1>Density Examples</h1>
+
+<div class="chunk" id="unnamed-chunk-49"><div class="rcode"><div class="source"><pre class="knitr r">rand.pnts<-ldply(1:length(dist.funs),function(fun.ind) {
+  out.pts<-pt.maker(500,rn.fun=dist.funs[[fun.ind]],fun.ind=fun.ind)
+  out.pts$val<-1:nrow(out.pts)
+  out.pts
+})
+ggplot(ddply(rand.pnts,.(fun.ind),function(in.pts) deldir(in.pts)$summary),
+       aes(x,y,color=1/dir.area))+
+  geom_point()+facet_grid(fun.ind~.)+
+  scale_color_gradientn(colours=rainbow(4),trans="log10",limits=c(20,5000))+
+  coord_equal()+
+  xlim(0,1.01)+ylim(0,1.01)+
+  labs(title="Density = 500 N/m^2",color="Local\nDensity")+
+  theme_bw(15)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-49-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-50"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(cbind(ddply(rand.pnts,.(fun.ind),function(c.block) deldir(c.block,rw=c(0,1,0,1))$summary),mn.pos=500),                 
+       aes(x=1/del.area))+
+  geom_density(aes(y=..count..,color="Local"))+
+  geom_vline(aes(colour="Average",xintercept=mn.pos))+
+  facet_grid(fun.ind~.)+
+  scale_x_log10()+
+  labs(title="Local Density",x="Density 1/m^2",y="Frequency",color="Density\nMetric")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-50-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Delaunay Triangulation</h1>
+
+<p>A parallel or <em>dual</em> <a href="http://mathworld.wolfram.com/DelaunayTriangulation.html">idea</a> where triangles are used and each triangle is created such that the circle which encloses it contains no other points. The triangulation makes the <em>neighbors</em> explicit since connected points in the triangulation correspond to points in our tesselation which share an edge (or face in 3D)</p>
+
+<div class="chunk" id="unnamed-chunk-51"><div class="rcode"><div class="source"><pre class="knitr r">plot(deldir(std.grid),wlines=c('triang'))
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-51-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<p>We define the number of connections each point \(\vec{p}\) has the Neighbor Count or Delaunay Neighbor Count.</p>
+
+<p>The triangulation on a random system has a much higher diversity in neighbor count</p>
+
+<div class="chunk" id="unnamed-chunk-52"><div class="rcode"><div class="source"><pre class="knitr r">plot(deldir(cur.grid),wlines=c('triang'))
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-52-1.png" title="NN Orientation" alt="NN Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Compression System</h1>
+
+<h3>Compression</h3>
+
+<div class="chunk" id="unnamed-chunk-53"><div class="rcode"><div class="source"><pre class="knitr r">v.comp<-quantile(test.systems.comp$glab,0.2)
+plot(deldir(subset(test.systems.comp,glab==v.comp)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-53-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>Tension</h3>
+
+<div class="chunk" id="unnamed-chunk-54"><div class="rcode"><div class="source"><pre class="knitr r">v.comp<-quantile(test.systems.comp$glab,0.95)
+plot(deldir(subset(test.systems.comp,glab==v.comp)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-54-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Shear System</h1>
+
+<h3>Low Shear</h3>
+
+<div class="chunk" id="unnamed-chunk-55"><div class="rcode"><div class="source"><pre class="knitr r">v.shear<-min(test.systems.shear$glab)
+plot(deldir(subset(test.systems.shear,glab==v.shear)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-55-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>High Shear</h3>
+
+<div class="chunk" id="unnamed-chunk-56"><div class="rcode"><div class="source"><pre class="knitr r">v.shear<-max(test.systems.shear$glab)
+plot(deldir(subset(test.systems.shear,glab==v.shear)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-56-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Stretch System</h1>
+
+<h3>Low Stretch</h3>
+
+<div class="chunk" id="unnamed-chunk-57"><div class="rcode"><div class="source"><pre class="knitr r">v.stretch<-min(test.systems$glab)
+plot(deldir(subset(test.systems,glab==v.stretch)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-57-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>Highly Stretched System</h3>
+
+<div class="chunk" id="unnamed-chunk-58"><div class="rcode"><div class="source"><pre class="knitr r">v.stretch<-quantile(test.systems$glab,0.95)
+plot(deldir(subset(test.systems,glab>=v.stretch)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-58-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Swirl System</h1>
+
+<h3>Low Swirl System</h3>
+
+<div class="chunk" id="unnamed-chunk-59"><div class="rcode"><div class="source"><pre class="knitr r">v.swirl<-min(test.systems.swirl$glab)
+plot(deldir(subset(test.systems.swirl,glab==v.swirl)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-59-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>High Swirl System</h3>
+
+<div class="chunk" id="unnamed-chunk-60"><div class="rcode"><div class="source"><pre class="knitr r">v.swirl<-max(test.systems.swirl$glab)
+plot(deldir(subset(test.systems.swirl,glab==v.swirl)),wlines=c('tess'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-60-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Neighborhoods</h1>
+
+<h3>Compression</h3>
+
+<div class="chunk" id="unnamed-chunk-61"><div class="rcode"><div class="source"><pre class="knitr r">v.comp<-min(test.systems.comp$glab)
+plot(deldir(subset(test.systems.comp,glab==v.comp)),wlines=c('triang'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-61-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h3>Stretch</h3>
+
+<div class="chunk" id="unnamed-chunk-62"><div class="rcode"><div class="source"><pre class="knitr r">v.stretch<-max(test.systems$glab)
+plot(deldir(subset(test.systems,glab==v.stretch)),wlines=c('triang'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-62-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>Shear</h3>
+
+<div class="chunk" id="unnamed-chunk-63"><div class="rcode"><div class="source"><pre class="knitr r">v.shear<-max(test.systems.shear$glab)
+plot(deldir(subset(test.systems.shear,glab==v.shear)),wlines=c('triang'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-63-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h3>Swirl</h3>
+
+<div class="chunk" id="unnamed-chunk-64"><div class="rcode"><div class="source"><pre class="knitr r">v.stretch<-quantile(test.systems.swirl$glab,0.95)
+plot(deldir(subset(test.systems.swirl,glab==v.stretch)),wlines=c('triang'),showrect=T)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-64-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Neighbor Count</h1>
+
+<div class="chunk" id="all_voronoi"><div class="rcode"><div class="source"><pre class="knitr r">test.systems.comp.vor<-dd.summary(test.systems.comp)
+test.systems.vor<-dd.summary(test.systems)
+test.systems.shear.vor<-dd.summary(test.systems.shear)
+test.systems.swirl.vor<-dd.summary(test.systems.swirl)
+test.all.vor<-rbind(cbind(test.systems.comp.vor,system="Compression",cdist=0),
+      cbind(test.systems.vor,system="Stretching",cdist=0),
+      cbind(test.systems.shear.vor,system="Shearing",cdist=0),
+      cbind(test.systems.swirl.vor,system="Swirling"))
+</pre></div>
+
+<p></div></div></p>
+
+<div class="chunk" id="unnamed-chunk-65"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(test.all.vor,      
+       aes(x=n.count))+
+  geom_density(aes(color=as.factor(glab)),adjust=1.5)+
+  labs(x="Neighbors",color="Stretch")+
+  facet_wrap(~system)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-65-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Volume</h1>
+
+<div class="chunk" id="unnamed-chunk-66"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(test.all.vor,      
+       aes(x=area))+
+  geom_density(aes(color=as.factor(glab)))+
+  labs(x="Area",color="Stretch")+
+  facet_wrap(~system)+
+  scale_x_sqrt()+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-66-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Mean vs Variability</h1>
+
+<div class="chunk" id="unnamed-chunk-67"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(
+  ddply(test.all.vor,.(glab,system),
+        function(in.seg) with(in.seg,data.frame(mean.val=mean(n.count),std.val=sd(n.count)))),
+  aes(x=as.factor(glab)))+
+  geom_line(aes(y=mean.val/20,color="Mean",group=system))+  
+  geom_line(aes(y=std.val/mean.val,color="Variability",group=system))+
+  facet_grid(~system,scales="free_x")+
+  labs(x="Parameter",y="Neighbor Count (au)",color="Metric")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-67-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<div class="chunk" id="unnamed-chunk-68"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(
+  ddply(test.all.vor,.(glab,system),
+        function(in.seg) with(in.seg,data.frame(mean.val=mean(area),std.val=sd(area)))),
+  aes(x=as.factor(glab)))+
+  geom_line(aes(y=mean.val/2,color="Mean",group=system))+  
+  geom_line(aes(y=std.val/mean.val,color="Variability",group=system))+
+  facet_grid(~system,scales="free_x")+
+  labs(x="Parameter",y="Area (au)",color="Metric")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-68-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Where are we at?</h1>
+
+<p>We have introduced a number of &quot;operations&quot; we can perform on our objects to change their positions</p>
+
+<ul>
+<li>compression</li>
+<li>stretching</li>
+<li>shearing</li>
+<li>swirling</li>
+</ul>
+
+<p>We have introduced a number of metrics to characterize our images</p>
+
+<ul>
+<li>Nearest Neighbor distance</li>
+<li>Nearest Neighbor angle</li>
+<li>Delaunay Neighbor count</li>
+<li>Territory Area (Volume)</li>
+</ul>
+
+<hr/>
+
+<p>A single random systems is useful </p>
+
+<ul>
+<li>but in order to have a reasonable understanding of the behavior of a system we need to sample many of them. </li>
+</ul>
+
+<h3>Understand metrics as a random system + a known transformation</h3>
+
+<ul>
+<li>We take <strong>mean</strong> values</li>
+<li>Also <strong>coefficient of variation</strong> (<a href="http://en.wikipedia.org/wiki/Coefficient_of_variation">CV</a>) values since they are &quot;scale-free&quot; </li>
+</ul>
+
+<div class="chunk" id="random_system"><div class="rcode"><div class="source"><pre class="knitr r">m.grid<-function(n.pts=81) {
+  out.grid<-data.frame(x=runif(n.pts,min=-4,max=4),y=runif(n.pts,min=-4,max=4))
+  out.grid$val<-1:nrow(out.grid)
+  out.grid
+}
+all.metrics<-function(in.grid) {
+  nn.df<-find.nn(in.grid)
+  vor.df<-dd.grid.summary(in.grid)
+  data.frame(NND=mean(nn.df$dist),
+             NNTheta=mean(with(nn.df,180/pi*atan2(ye-y,xe-x))),
+             DNC=mean(vor.df$n.count),
+             Region.Ter=mean(vor.df$area),
+             CV.NND=sd(nn.df$dist)/mean(nn.df$dist),
+             SD.NNTheta=sd(with(nn.df,180/pi*atan2(ye-y,xe-x))),
+             CV.DNC=sd(vor.df$n.count)/mean(vor.df$n.count),
+             CV.Region.Ter=sd(vor.df$area)/mean(vor.df$area)
+             )
+}
+
+many.grid<-function(n.grid,n.pts=81,trans.fun=function(in.pts) in.pts) {
+  ldply(1:n.grid,function(n) {
+    s.grid<-trans.fun(m.grid(n.pts))
+    all.metrics(s.grid)
+  },.parallel=T)
+}
+c.pts<-20
+</pre></div>
+
+<p></div></div></p>
+
+<h1>Understanding Metrics</h1>
+
+<p>In imaging science we always end up with lots of data, the tricky part is understanding the results that come out.
+With this simulation-based approach</p>
+
+<ul>
+<li>we generate completely random data</li>
+<li>apply a known transformation to it \(\mathcal{F}\)</li>
+<li>quantify the results</li>
+</ul>
+
+<p>We can then take this knowledge and use it to interpret observed data as transformations on an initially random system. We try and find the <strong>rules</strong> used to produce the sample</p>
+
+<hr/>
+
+<h3>Examples</h3>
+
+<ol>
+<li><p>Cell distribution in bone</p>
+
+<ul>
+<li>Cell position appears random</li>
+<li>Metrics \(\neq\) Random Statistics</li>
+<li>Cells are consistently <em>self-avoiding</em> or <em>stretched</em></li>
+</ul></li>
+<li><p>Egg-shell Pores</p>
+
+<ul>
+<li>Pores in rock / egg shell appear random</li>
+<li>Metrics \(\neq\) Random Statistics</li>
+<li>Pores are also <em>self-avoiding</em></li>
+</ul></li>
+</ol>
+
+<h1>Compression</h1>
+
+<div class="chunk" id="unnamed-chunk-69"><div class="rcode"><div class="source"><pre class="knitr r">comp.sim<-rbind(cbind(many.grid(c.pts),system="No Compression"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) comp.fun(0.75,in.df)),system="Compression"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) comp.fun(1.25,in.df)),system="Tension")
+                )
+ggplot(melt(comp.sim),aes(x=value,color=system))+
+  geom_density()+
+  facet_wrap(~variable,scales="free",ncol=4)+
+  labs(y="Frequency",x="Value",color="State")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-69-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Compression Sensitivity</h1>
+
+<div class="chunk" id="unnamed-chunk-70"><div class="rcode"><div class="source"><pre class="knitr r">comp.data<-ldply(seq(0.9,1.1,length.out=5),function(c.comp) 
+  cbind(many.grid(c.pts,trans.fun=function(in.df) comp.fun(c.comp,in.df)),comp=c.comp))
+
+
+ggplot(melt(comp.data,id.vars=c("comp")),aes(x=comp,y=value))+
+  geom_jitter()+
+  geom_smooth(method="lm",size=2)+
+  labs(y="Value",x="Compression Parameter")+
+  facet_wrap(~variable,scale="free_y",ncol=4)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-70-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Stretching</h1>
+
+<div class="chunk" id="unnamed-chunk-71"><div class="rcode"><div class="source"><pre class="knitr r">comp.sim<-rbind(cbind(many.grid(c.pts),system="No Stretch"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) stretch.fun(0.8,in.df)),system="Squeezing"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) stretch.fun(1.2,in.df)),system="Pushing")
+                )
+
+ggplot(melt(comp.sim),aes(x=value,color=system))+
+  geom_density()+
+  facet_wrap(~variable,scales="free",ncol=4)+
+  labs(y="Frequency",x="Value",color="State")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-71-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Stretching Sensitivity</h1>
+
+<div class="chunk" id="unnamed-chunk-72"><div class="rcode"><div class="source"><pre class="knitr r">stretch.data<-ldply(seq(0.9,1.1,length.out=5),function(c.stretch) 
+  cbind(many.grid(c.pts,trans.fun=function(in.df) stretch.fun(c.stretch,in.df)),stretch=c.stretch))
+
+ggplot(melt(stretch.data,id.vars=c("stretch")),aes(x=stretch,y=value))+
+  geom_jitter()+
+  geom_smooth(method="lm",size=2)+
+  labs(y="Value",x="Stretching Parameter")+
+  facet_wrap(~variable,scale="free_y",ncol=4)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-72-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Shearing</h1>
+
+<div class="chunk" id="unnamed-chunk-73"><div class="rcode"><div class="source"><pre class="knitr r">comp.sim<-rbind(cbind(many.grid(c.pts),system="No Shear"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) shear.fun(-0.5,in.df)),system="Reverse Shear"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) shear.fun(0.5,in.df)),system="Shear")
+                )
+
+ggplot(melt(comp.sim),aes(x=value,color=system))+
+  geom_density()+
+  facet_wrap(~variable,scales="free",ncol=4)+
+  labs(y="Frequency",x="Value",color="State")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-73-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Shearing Sensitivity</h1>
+
+<div class="chunk" id="unnamed-chunk-74"><div class="rcode"><div class="source"><pre class="knitr r">shear.data<-ldply(seq(0,0.2,length.out=5),function(c.shear) 
+  cbind(many.grid(c.pts,trans.fun=function(in.df) shear.fun(c.shear,in.df)),shear=c.shear))
+
+ggplot(melt(shear.data,id.vars=c("shear")),aes(x=shear,y=value))+
+  geom_jitter()+
+  geom_smooth(method="lm",size=2)+
+  labs(y="Value",x="Shear Parameter")+
+  facet_wrap(~variable,scale="free_y",ncol=4)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-74-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Swirling</h1>
+
+<div class="chunk" id="unnamed-chunk-75"><div class="rcode"><div class="source"><pre class="knitr r">comp.sim<-rbind(cbind(many.grid(c.pts),system="No Swirl"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) swirl.fun(0.5,in.df)),system="Some Swirl"),
+                cbind(many.grid(c.pts,trans.fun=function(in.df) swirl.fun(2,in.df)),system="Tons of Swirl")
+                )
+
+ggplot(melt(comp.sim),aes(x=value,color=system))+
+  geom_density()+
+  facet_wrap(~variable,scales="free",ncol=4)+
+  labs(y="Frequency",x="Value",color="State")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-75-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Swirling Sensitivity</h1>
+
+<div class="chunk" id="unnamed-chunk-76"><div class="rcode"><div class="source"><pre class="knitr r">swirl.data<-ldply(seq(0,0.2,length.out=5),function(c.swirl) 
+  cbind(many.grid(c.pts,trans.fun=function(in.df) shear.fun(c.swirl,in.df)),swirl=c.swirl))
+
+ggplot(melt(swirl.data,id.vars=c("swirl")),aes(x=swirl,y=value))+
+  geom_jitter()+
+  geom_smooth(method="lm",size=2)+
+  labs(y="Value",x="Swirl Parameter")+
+  facet_wrap(~variable,scale="free_y",ncol=4)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-76-1.png" title="Maximum Stretch" alt="Maximum Stretch" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Self-Avoiding</h1>
+
+<p>From the nearest neighbor distance metric, we can create a scale-free version of the metric which we call <em>self-avoiding coefficient</em> or <em>grouping</em>. </p>
+
+<p>The metric is the ratio of</p>
+
+<ul>
+<li>observed nearest neighbor distance \(\textrm{NND}\)</li>
+<li>the expected mean nearest neighbor distance (\(r_0\)) for a random point distribution (Poisson Point Process) with the same number of points (N.Obj) per volume (Total.Volume). 
+\[r_0=\sqrt[3]{\frac{\textrm{Total.Volume}}{2\pi \textrm{ N.Obj}}}\]</li>
+</ul>
+
+<hr/>
+
+<p>Using the territory we defined earlier (Region area/volume) we can simplify the definition to </p>
+
+<p>\[ r_0=\sqrt[3]{\frac{\bar{\textrm{Ter}}}{2\pi}} \]</p>
+
+<p>\[ \textrm{SAC} = \frac{\textrm{NND}}{\sqrt[3]{\frac{\bar{\textrm{Ter}}}{2\pi}}} \]</p>
+
+<h1>Distribution Tensor</h1>
+
+<p>So the information we have is 3D why are we taking single metrics (distance, angle, volume) to quantify it. </p>
+
+<ul>
+<li>Shouldn&#39;t we use 3D metrics with 3D data?</li>
+<li>Just like the shape tensor we covered before, we can define a <em>distribution</em> tensor to characterize the shape of the distribution. </li>
+<li>The major difference instead of constituting voxels we use <em>edges</em>
+
+<ul>
+<li>an edge is defined from the Delaunay triangluation</li>
+<li>it connects two neighboring bubbles together</li>
+</ul></li>
+</ul>
+
+<hr/>
+
+<ul>
+<li>We can calculate distribution for a single bubble by taking all edges that touch the object or from a region by finding all edges inside that region</li>
+</ul>
+
+<p>We start off by calculating the covariance matrix from the list of edges \(\vec{v}_{ij}\) in a given volume \(\mathcal{V}\)</p>
+
+<p>\[ \vec{v}_{ij} = \vec{\textrm{COV}}(i)-\vec{\textrm{COV}}(j) \]</p>
+
+<p>\[ COV(\mathcal{V}) = \frac{1}{N} \sum_{\forall \textrm{COM}(i) \in \mathcal{V}} \begin{bmatrix}
+\vec{v}_x\vec{v}_x & \vec{v}_x\vec{v}_y & \vec{v}_x\vec{v}_z\\
+\vec{v}_y\vec{v}_x & \vec{v}_y\vec{v}_y & \vec{v}_y\vec{v}_z\\
+\vec{v}_z\vec{v}_x & \vec{v}_z\vec{v}_y & \vec{v}_z\vec{v}_z
+\end{bmatrix} \]</p>
+
+<h1>Distribution Tensor (continued)</h1>
+
+<p>We then take the eigentransform of this array to obtain the eigenvectors (principal components, \(\vec{\Lambda}_{1\cdots 3}\)) and eigenvalues (scores, \(\lambda_{1\cdots 3}\))</p>
+
+<p>\[ COV(I_{id}) \longrightarrow \underbrace{\begin{bmatrix}
+\vec{\Lambda}_{1x} & \vec{\Lambda}_{1y} & \vec{\Lambda}_{1z} \\
+\vec{\Lambda}_{2x} & \vec{\Lambda}_{2y} & \vec{\Lambda}_{2z} \\
+\vec{\Lambda}_{3x} & \vec{\Lambda}_{3y} & \vec{\Lambda}_{3z} 
+\end{bmatrix}}_{\textrm{Eigenvectors}} * \underbrace{\begin{bmatrix} 
+\lambda_1 & 0 & 0 \\ 
+0 & \lambda_2 & 0 \\
+0 & 0 & \lambda_3
+\end{bmatrix}}_{\textrm{Eigenvalues}} * \underbrace{\begin{bmatrix}
+\vec{\Lambda}_{1x} & \vec{\Lambda}_{1y} & \vec{\Lambda}_{1z} \\
+\vec{\Lambda}_{2x} & \vec{\Lambda}_{2y} & \vec{\Lambda}_{2z} \\
+\vec{\Lambda}_{3x} & \vec{\Lambda}_{3y} & \vec{\Lambda}_{3z} 
+\end{bmatrix}^{T}}_{\textrm{Eigenvectors}} \]
+The principal components tell us about the orientation of the object and the scores tell us about the corresponding magnitude (or length) in that direction.</p>
+
+<h1>Distribution Anisotropy</h1>
+
+<p>Visual example</p>
+
+<ul>
+<li>Tensor represents the average <em>spacing</em> between objects in each direction \(\approx\) thickness of background.</li>
+<li>Its interpretation is more difficult since it doesn&#39;t represent a <em>real</em> object</li>
+</ul>
+
+<p><img src="ext-figures/DistributionTensor.png" alt="Distribution Tensor"/></p>
+
+<hr/>
+
+<p>From this tensor we can define an anisotropy in the same manner as we defined for shapes. The anisotropy defined as before 
+\[ Aiso = \frac{\text{Longest Side}-\text{Shortest Side}}{\text{Longest Side}} \]</p>
+
+<ul>
+<li>An isotropic distribution tensor indicates the spacing between objects is approximately the same in every direction
+
+<ul>
+<li>Does not mean a grid, organized, or evenly spaced!</li>
+<li>Just the same in every direction</li>
+</ul></li>
+<li>Anisotropic distribution tensor means the spacing is smaller in one direction than the others
+
+<ul>
+<li>Can be regular or grid-like</li>
+<li>Just closer on one direction</li>
+</ul></li>
+</ul>
+
+<h1>Distribution Oblateness</h1>
+
+<p><img src="ext-figures/DistributionTensor.png" alt="Distribution Tensor"/></p>
+
+<hr/>
+
+<p>From this tensor we can also define oblateness in the same manner as we defined for shapes. The oblateness is also defined as before as a <em>type</em> of anisotropy</p>
+
+<p>\[ \textrm{Ob} = 2\frac{\lambda_{2}-\lambda_{1}}{\lambda_{3}-\lambda_{1}}-1 \]</p>
+
+<ul>
+<li>Indicates the pancakeness of the distribution</li>
+<li>Oblate means it is very closely spaced in one direction and far in the other two
+
+<ul>
+<li>strand-like structure</li>
+</ul></li>
+<li>Prolate means it is close in two directions and far in the other
+
+<ul>
+<li>sheet-like structure</li>
+</ul></li>
+</ul>
+
+<h1>Orientation</h1>
+
+<p>The shape tensor provides for each object 3 possible orientations (each of the eigenvectors). For simplicity we will take the primary direction (but the others can be taken as well, and particularly in oblate or pancake shaped objects the first is probably not the best choice!)</p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-77"><div class="rcode"><div class="source"><pre class="knitr r">opt.maker<-function(n.pts,rn.fun=function(pts) runif(pts,min=0,max=1),th.amp=0,...) {
+  th.val<-rnorm(n.pts,sd=th.amp)+pi*round(runif(n.pts))
+  data.frame(x=rn.fun(n.pts),y=rn.fun(n.pts),
+             xv=cos(th.val),yv=sin(th.val),
+             th.amp=th.amp,n.pts=n.pts,
+             Angle.Variability=180/pi*th.amp,
+             Mean.Angle=mean(180/pi*th.val),
+             Sd.Angle=sd(180/pi*th.val),
+             label=paste("Avg:",round(mean(180/pi*th.val)*10)/10,"Sd:",round(sd(180/pi*th.val)*10)/10),...)
+}
+or.data<-ldply(seq(1e-1,pi/1.5,length.out=3),function(noise) opt.maker(50,th.amp=noise))
+
+ggplot(or.data,
+       aes(x,y,xend=x+0.2*xv,yend=y+0.2*yv))+
+  geom_segment(aes(color="Orientation"),arrow=arrow(length = unit(0.15,"cm")))+
+  geom_point(aes(color="COV"),alpha=0.7)+
+  facet_grid(label~.)+
+  coord_equal()+
+  labs(color="Type")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-77-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Orientation</h1>
+
+<p>Since orientation derived from a shape tensor / ellipsoid model has no heads or tails. The orientation is only down to a sign \(\longrightarrow == \longleftarrow\) and \(\uparrow == \downarrow\).</p>
+
+<div class="chunk" id="unnamed-chunk-78"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(or.data,
+       aes(x=0,y=0,xend=xv,yend=yv))+
+    geom_density2d(aes(x=xv,y=yv),color="red",alpha=0.7)+
+  geom_segment(arrow=arrow(length = unit(0.3,"cm")))+
+   facet_grid(label~.)+
+    coord_equal()+
+  labs(title="Object Primary Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-78-1.png" title="Primary Orientation" alt="Primary Orientation" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<p>This means calculating the average and standard deviation are very poor desciptors of the actual dataset. The average for all samples below is around 90 (vertical) even though almost no samples are vertical and the first sample shows a very high (90) standard deviation even though all the samples in reality have the same orientation.</p>
+
+<div class="source"><pre class="knitr r">kable(ddply(or.data[,c("Angle.Variability","Mean.Angle","Sd.Angle")],.(Angle.Variability),function(x) x[1,]))
+</pre></div>
+
+<table><thead>
+<tr>
+<th align="right">Angle.Variability</th>
+<th align="right">Mean.Angle</th>
+<th align="right">Sd.Angle</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">5.729578</td>
+<td align="right">99.14070</td>
+<td align="right">89.91135</td>
+</tr>
+<tr>
+<td align="right">62.864789</td>
+<td align="right">68.63894</td>
+<td align="right">97.47078</td>
+</tr>
+<tr>
+<td align="right">120.000000</td>
+<td align="right">111.58325</td>
+<td align="right">149.44605</td>
+</tr>
+</tbody></table>
+
+<p>The problem can be dealt with by using the covariance matrix which takes advantage of the products which makes the final answer independent of sign.</p>
+
+<h1>Alignment Tensor</h1>
+
+<p>We can again take advantage of the versatility of a tensor representation for our data and use an <em>alignment</em> tensor. </p>
+
+<ul>
+<li>The same as all of the tensors we have introduced</li>
+<li>Except we use the primary orientation instead of <em>voxel positions</em> (shape) or <em>edges</em> (distribution)</li>
+<li>Similar to distribution it is calculated for a volume (\(\mathcal{V}\)) or region and is meaningless for a single object</li>
+</ul>
+
+<p>\[ \vec{v}_{i} = \vec{\Lambda_1}(i) \]</p>
+
+<p>\[ COV = \frac{1}{N} \sum_{\forall \textrm{COM}(i) \in \mathcal{V}} \begin{bmatrix}
+\vec{v}_x\vec{v}_x & \vec{v}_x\vec{v}_y & \vec{v}_x\vec{v}_z\\
+\vec{v}_y\vec{v}_x & \vec{v}_y\vec{v}_y & \vec{v}_y\vec{v}_z\\
+\vec{v}_z\vec{v}_x & \vec{v}_z\vec{v}_y & \vec{v}_z\vec{v}_z
+\end{bmatrix} \]</p>
+
+<hr/>
+
+<p><img src="ext-figures/AlignmentTensor1.png" alt="Alignemnt Tensor"/></p>
+
+<h1>Alignment Tensor: Example</h1>
+
+<p>Using the example from before</p>
+
+<div class="chunk" id="unnamed-chunk-80"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(or.data,
+       aes(x=0,y=0,xend=xv,yend=yv))+
+    geom_density2d(aes(x=xv,y=yv),color="red",alpha=0.7)+
+  geom_segment(arrow=arrow(length = unit(0.3,"cm")))+
+   facet_grid(label~.)+
+    coord_equal()+
+  labs(title="Object Primary Orientations")+guides(color=F)+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-80-1.png" title="Grid Nearest Neighbor" alt="Grid Nearest Neighbor" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<h3>Show some tensor stuff here</h3>
+
+<div class="chunk" id="unnamed-chunk-81"><div class="rcode"><div class="source"><pre class="knitr r">align.func<-function(in.data) ddply(in.data,
+                              .(label),
+                              function(csubset) {
+                                # calculate the ~covariance of the orientations
+                                tmat<-as.matrix(csubset[,c("xv","yv")])
+                                cmat<-t(tmat) %*% tmat # cov without mean subtraction
+                                # calculate the eigen-transform
+                                ceigen<-eigen(cmat)
+                                # get the first eigenvector
+                                fvec<-ceigen$vectors[,1]
+                                # calculate the anisotropy
+                                aiso<-(max(ceigen$values)-min(ceigen$values)) / max(ceigen$values)
+                                cbind(
+                                  csubset,
+                                  data.frame(
+                                    a.x=fvec[1],a.y=fvec[2],
+                                    mn.angle=180/pi*atan2(mean(csubset$yv),mean(csubset$xv)),
+                                    Alignment=aiso*100,
+                                    alabel=paste("Align =",round(aiso*100)))
+                                  )
+                              }
+                      )
+alignment.results<-align.func(or.data)
+</pre></div>
+
+<p></div></div></p>
+
+<h1>Alignment Anisotropy</h1>
+
+<p>Anisotropy for alignment can be summarized as degree of alignment since very anisotropic distributions mean the objects are aligned well in the same direction while an isotropic distribution means the orientations are random. Oblateness can also be defined but is normally not particularly useful.</p>
+
+<p>\[ Aiso = \frac{\text{Longest Side}-\text{Shortest Side}}{\text{Longest Side}} \]</p>
+
+<hr/>
+
+<p><img src="ext-figures/AlignmentTensor.png" alt="Alignemnt Tensor"/></p>
+
+<h1>Alignment Anisotropy Applied</h1>
+
+<div class="chunk" id="unnamed-chunk-82"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(alignment.results,
+       aes(x=0,y=0,xend=xv,yend=yv))+
+  geom_segment(aes(color="Shape\nOrientation"),arrow=arrow(length = unit(0.3,"cm")))+
+  geom_segment(aes(xend=a.x,yend=a.y,color="Alignment\nOrientation"),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  geom_segment(aes(xend=-a.x,yend=-a.y,color="Alignment\nOrientation"),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_grid(alabel~.)+
+  coord_equal()+
+  labs(title="Object Primary Orientations",color="",x=expression(theta))+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-82-1.png" title="Alignment Anisotropy" alt="Alignment Anisotropy" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<div class="chunk" id="unnamed-chunk-83"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(alignment.results,
+       aes(x=180/pi*atan2(yv,xv)))+
+  geom_density(aes(color="Shape\nOrientation"))+
+  geom_vline(aes(xintercept=180/pi*atan2(a.y,a.x),color="Alignment\nOrientation"))+
+  geom_vline(aes(xintercept=180/pi*atan2(-a.y,-a.x),color="Alignment\nOrientation"))+
+  facet_grid(alabel~.)+
+  labs(title="Histogram vs Orientation",color="",x=expression(theta))+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-83-1.png" title="Alignment Histograms" alt="Alignment Histograms" class="plot" /></div>
+
+<p></div></div></p>
+
+<div class="source"><pre class="knitr r">kable(ddply(alignment.results[,c("Angle.Variability","Mean.Angle","Sd.Angle","Alignment")],.(Angle.Variability),function(x) x[1,]))
+</pre></div>
+
+<table><thead>
+<tr>
+<th align="right">Angle.Variability</th>
+<th align="right">Mean.Angle</th>
+<th align="right">Sd.Angle</th>
+<th align="right">Alignment</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">5.729578</td>
+<td align="right">99.14070</td>
+<td align="right">89.91135</td>
+<td align="right">99.21383</td>
+</tr>
+<tr>
+<td align="right">62.864789</td>
+<td align="right">68.63894</td>
+<td align="right">97.47078</td>
+<td align="right">28.88033</td>
+</tr>
+<tr>
+<td align="right">120.000000</td>
+<td align="right">111.58325</td>
+<td align="right">149.44605</td>
+<td align="right">19.56784</td>
+</tr>
+</tbody></table>
+
+<h1>Alignment for many samples</h1>
+
+<div class="chunk" id="unnamed-chunk-85"><div class="rcode"><div class="source"><pre class="knitr r">or.data<-ldply(seq(2e-1,pi/2,length.out=16),function(noise) opt.maker(1000,th.amp=noise))
+alignment.results<-align.func(or.data)
+alignment.results$flabel<-paste("V:",sprintf("%03d",round(alignment.results$Angle.Variability)))
+ggplot(alignment.results,
+       aes(x=0,y=0,xend=xv,yend=yv))+
+  geom_segment(aes(color="Shape\nOrientation"),arrow=arrow(length = unit(0.3,"cm")),alpha=0.25)+
+  geom_segment(aes(xend=a.x,yend=a.y,color="Alignment\nOrientation"),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  geom_segment(aes(xend=-a.x,yend=-a.y,color="Alignment\nOrientation"),
+               arrow=arrow(length = unit(0.3,"cm")))+
+  facet_wrap(~flabel)+
+  coord_equal()+
+  labs(title="Object Primary Orientations",color="",x=expression(theta))+
+  theme_bw(10)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-85-1.png" title="Alignment Arrows" alt="Alignment Arrows" class="plot" /></div>
+
+<p></div></div></p>
+
+<hr/>
+
+<p>Angle Accuracy</p>
+
+<div class="chunk" id="unnamed-chunk-86"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(alignment.results,aes(x=Angle.Variability))+
+  geom_point(aes(y=180/pi*atan2(a.y,a.x),color="Alignment\nAngle"))+
+  geom_point(aes(y=mn.angle,color="Mean"))+
+  coord_polar(theta="y",start=-pi/2)+
+  ylim(-180,180)+
+  labs(title="Alignment Angle vs Mean Angle\n for Increasingly Disoriented Samples",color="",
+       y="Angle",x="Input Variability")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-86-1.png" title="Alignment Correlation" alt="Alignment Correlation" class="plot" /></div>
+
+<p></div></div></p>
+
+<p>Variability Accuracy</p>
+
+<div class="chunk" id="unnamed-chunk-87"><div class="rcode"><div class="source"><pre class="knitr r">ggplot(alignment.results,aes(x=Angle.Variability))+
+  geom_point(aes(y=Alignment,color="Alignment"))+
+  geom_point(aes(y=Sd.Angle,color="Sd Angle"))+
+  labs(title="Alignment vs Sd for Increasingly \nDisoriented Samples",color="")+
+  theme_bw(20)
+</pre></div>
+
+<div class="rimage center"><img src="print_figures/unnamed-chunk-87-1.png" title="Alignment Correlation" alt="Alignment Correlation" class="plot" /></div>
+
+<p></div></div></p>
+
+<h1>Other Approaches</h1>
+
+<h3>K-Means</h3>
+
+<p>K-Means can also be used to classify the point-space itself after shape analysis. It is even better suited than for images because while most images are only 2 or 3D the shape vector space can be 50-60 dimensional and is inherently much more difficult to visualize.</p>
+
+<hr/>
+
+<h3>2 Point Correlation Functions</h3>
+
+<p>For a wider class of analysis of spatial distribution, there exist a class a functions called <em>N-point Correlation Functions</em></p>
+
+<ul>
+<li>given a point of type \(A\) at \(\vec{x}\)</li>
+<li><p>what is the probability of \(B\) at \(\vec{x}+\vec{r}\)</p></li>
+<li><p>How is it useful</p>
+
+<ul>
+<li>A simple analysis can be used to see the spacing of objects (peaks in the \(F(\vec{r})\) function, \(A\) and \(B\) are the same phase). </li>
+<li>Where are cells located in reference to canals (peaks in \(F(\vec{r})\) function, \(A\) is a point inside a canal \(B\) is the cells)</li>
+</ul></li>
+</ul>
+
+</body>
+
+</html>
