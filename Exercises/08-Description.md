@@ -44,6 +44,8 @@ You might need to restart KNIME afterwards.
 # Tasks
 
 - The workflows (or their starts) are available [here](08-files/Exercise8.zip?raw=true).
+
+
 ## Comparing Samples
 
 
@@ -53,13 +55,13 @@ There are two workflows available the first is the 'Nearest Neighbors' which is 
 
 The following datasets should be loaded one at a time (you can also load it using a loop if you use the 'Table Row To Variable Loop Start' and flow variables to change the name of the file in the 'CSV Reader')
 
-<img src="08-files/pres_figures/unnamed-chunk-1-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[sample-a.csv download](08-files/sample-a.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-1-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [sample-a.csv download](08-files/sample-a.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-2-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[sample-b.csv download](08-files/sample-b.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-2-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [sample-b.csv download](08-files/sample-b.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-3-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[sample-c.csv download](08-files/sample-c.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-3-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [sample-c.csv download](08-files/sample-c.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-4-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[sample-d.csv download](08-files/sample-d.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-4-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [sample-d.csv download](08-files/sample-d.csv?raw=true)
 
 ### Questions/Tasks
 1. Modify the workflow to exclude all neighbors which are further than 0.05 away and replace the distance with 0.05
@@ -69,9 +71,9 @@ The following datasets should be loaded one at a time (you can also load it usin
 
 These layers are distinguished by __Volume__
 
-<img src="08-files/pres_figures/unnamed-chunk-5-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[simple_layer.csv download](08-files/simple_layer.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-5-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [simple_layer.csv download](08-files/simple_layer.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-6-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[tilted_layer.csv download](08-files/tilted_layer.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-6-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [tilted_layer.csv download](08-files/tilted_layer.csv?raw=true)
 
 
 ## Finding layers by spacing
@@ -80,16 +82,16 @@ These layers are distinguished by __Volume__
  - The number of groups and values used to calculate the K-means can be adjusted in the panel
  - Additional math blocks can be used to rescale other values (x and y for example for inclusion)
 
-<img src="08-files/pres_figures/unnamed-chunk-7-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[spacing_layer_grid.csv download](08-files/spacing_layer_grid.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-7-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [spacing_layer_grid.csv download](08-files/spacing_layer_grid.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-8-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[spacing_layer_random.csv download](08-files/spacing_layer_random.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-8-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [spacing_layer_random.csv download](08-files/spacing_layer_random.csv?raw=true)
 
 
 ### More layers
 
-<img src="08-files/pres_figures/unnamed-chunk-9-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[spacing_layer_grid_angle.csv download](08-files/spacing_layer_grid_angle.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-9-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [spacing_layer_grid_angle.csv download](08-files/spacing_layer_grid_angle.csv?raw=true)
 
-<img src="08-files/pres_figures/unnamed-chunk-10-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[spacing_layer_random_angle.csv download](08-files/spacing_layer_random_angle.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-10-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [spacing_layer_random_angle.csv download](08-files/spacing_layer_random_angle.csv?raw=true)
 
 ### Tasks
 - From the K-means classification how can you count the layers automatically?
@@ -122,9 +124,9 @@ Using the analysis saved [here](https://github.com/kmader/Quantitative-Big-Imagi
 - Which of the two samples are more aligned? Why? 
 
 
-<img src="08-files/pres_figures/unnamed-chunk-11-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[align_a.csv download](08-files/align_a.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-11-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [align_a.csv download](08-files/align_a.csv?raw=true)
 
 - Can you find a method for calculating the alignment better appropriately for the second sample?
 
 
-<img src="08-files/pres_figures/unnamed-chunk-12-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />[align_b.csv download](08-files/align_b.csv.csv?raw=true)
+<img src="08-files/pres_figures/unnamed-chunk-12-1.png" title="All Cells" alt="All Cells" style="display: block; margin: auto;" />- [align_b.csv download](08-files/align_b.csv?raw=true)
