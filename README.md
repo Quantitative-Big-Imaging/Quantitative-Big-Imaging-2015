@@ -69,7 +69,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
 - 16th April -  Spatial Distribution
  - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/08-Description.md)
 - 23rd April -  Statistics and Reproducibility
- - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex8/Ex8Slides.html)
+ - [KNIME Exercises](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/09-Description.html)
 - 30th April - Dynamic Experiments
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex9/Ex9Slides.html)
  - [Old Test Images](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex9/testimages.zip?raw=true)
