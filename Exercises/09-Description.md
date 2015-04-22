@@ -9,6 +9,14 @@ April 22, 2015
 
 # Introductory Material
 
+## R-Studio / R
+
+For the Intraclass Correlation Coefficient you will need the ICC package which can be installed using the following command from R-Studio (or the R terminal)
+
+```
+install.packages("ICC")
+```
+
 ## New Nodes
 
 The new names are explained relative to the dataset used in the first problem. So read the first problem for more introductory material on these tables
@@ -202,8 +210,12 @@ There are 1000 mouse femur bones which have been measured at high resolution and
  - Is p<0.05 a sufficient signifance criteria?
  
 ## Comparing Two Real Bone Samples
+
 For this example we will compare two real cortical bone samples taken from mice. 
-The data will be downloaded in KNIME from the course website (KNIME can also download / upload to FTP servers making sharing results and data easier). For the purpose of the analysis and keeping the data sizes small, we will use _Kevin's Crazy Camera_ again for simulating the noisy detection process.
+The data will be downloaded in KNIME from the course website (KNIME can also download / upload to FTP servers making sharing results and data easier).
+- If you are using your own computer you will need to change the _Target Folder_ in both of the "Download" nodes to something reasonable (just click Browse)
+
+For the purpose of the analysis and keeping the data sizes small, we will use _Kevin's Crazy Camera_ again for simulating the noisy detection process.
 The assignment aims to be more integrative and you will combine a number of different lectures to get to the final answer.
 
 ### Questions
@@ -283,6 +295,31 @@ ggplot(sum.df,aes(x=cell.count))+
 	theme_bw(25)
 ```
 
+1. What is intraclass correlation? How can it be applied to these data?
+ - The following code can be used inside an R View block to calculate the ICC value
+```
+library(ICC)
+in.data<-data.frame(
+  metric = knime.in$"Num Pix",
+	group = knime.in$"Image Number"
+	)
+icVal<-ICCbare(metric,group,data=in.data)$ICC
+
+icVal
+```
+ - If the value for a specific metric is 0.012 how should we interpret that?
+ 
 ### Big Hint (don't read unless you're stuck)
 One possible final result looks something like this
 ![Partial Solution](09-files/PartialSolution.png)
+
+## T-Test Simulator
+This exercise (workflow named - Statistical Significance Hunter) shows the same results as we discussed in the lecture for finding p-values of significance. It takes a completely random stream of numbers with a mean 0.0 and tests them against a null hypothesis (that they equal 0) in small batches, you can adjust the size of the batches, the number of items and the confidence interval. The result is a pie chart showing the number of "significant" results found using the standard scientific criteria for common studies.
+![T-Test Simulator](09-files/TTestSimulator.png)
+
+### Questions
+1. If we change the size of the chunks to the same as the number of elements in the list do we still expect to find 'significant' (<0.05) values? Why or why not?
+1. How does comparing against the null hypothesis being 0 relate to comparing two groups?
+1. How does comparing a single column compare to looking at different metrics for the same samples?
+1. What is bonferroni correction (hint: wikipedia) and how could it be applied to this simulation?
+ - Make the modification needed
