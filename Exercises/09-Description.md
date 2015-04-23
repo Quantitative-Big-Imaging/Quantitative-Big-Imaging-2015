@@ -345,13 +345,13 @@ $$ labs(x="\textrm{x label}",y="\textrm{y label}",title="\textrm{title}") $$
 
 
 ### Tasks
-1. Start RStudio
-1. Load the necessary libraries 
+- Start RStudio
+- Load the necessary libraries 
 
 ```r
 library("ggplot2","knitr")
 ```
-1. Load the _phenoTable_ from the first exercise
+- Load the _phenoTable_ from the first exercise
 
 ```r
 # read the table in
@@ -370,6 +370,68 @@ kable(p.sub.table)
  356   0.0327883              54.97201         0.183007            0.015696
  357   0.0360747              73.59088         0.216930            0.028019
  359   0.0311451              49.85482         0.193758            0.024087
+-  Set up the input table as ```phen.table``` and the mapping with the x position mapped to BMD (Bone Mineral Density) and the y position as ```CT_TH_RAD``` (Cortical Bone Thickness)
+
+```
+ggplot(phen.table,aes(x=BMD,y=CT_TH_RAD))
+```
+- Create the first simple plot by adding a point representation to the plot
+
+```r
+ggplot(phen.table,aes(x=BMD,y=CT_TH_RAD))+geom_point()
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-14-1.png" title="" alt="" style="display: block; margin: auto;" />
+- Change color of the points to show if the animal is female or not (in the mapping)
+
+```r
+ggplot(phen.table,aes(x=BMD,y=CT_TH_RAD,color=FEMALE))+geom_point()
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-15-1.png" title="" alt="" style="display: block; margin: auto;" />
+- Show the color as a discrete (factor) value instead of a number
+
+```r
+m.table<-mutate(phen.table,GENDER = ifelse(FEMALE==1,"F","M"))
+ggplot(m.table,aes(x=BMD,y=CT_TH_RAD,color=GENDER))+geom_point()
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" />
+- Make the plot in two facets (windows) instead of the same one
+
+```r
+ggplot(m.table,aes(x=BMD,y=CT_TH_RAD,color=GENDER))+
+  geom_point()+
+  facet_wrap(~GENDER)
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-17-1.png" title="" alt="" style="display: block; margin: auto;" />
+- Make the facet based on evenly (in number) dividing the points into 6 groups by the number of lacuna (LACUNA_COUNT)
+
+```r
+m.table<-mutate(phen.table,
+                GENDER = ifelse(FEMALE==1,"F","M"),
+                LACUNA_NUMBER_GROUP = cut_number(LACUNA_COUNT,6)
+                )
+ggplot(m.table,aes(x=BMD,y=CT_TH_RAD,color=GENDER))+
+  geom_point()+
+  facet_wrap(~LACUNA_NUMBER_GROUP)
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" />
+- Fix the labels and add a white background (```theme_bw```) with font-size 12
+
+```r
+ggplot(m.table,aes(x=BMD,y=CT_TH_RAD,color=GENDER))+
+  geom_point()+
+  facet_wrap(~LACUNA_NUMBER_GROUP)+
+  labs(x="Bone Mineral Density",y="Cortical Bone Thickness (um)",color="Gender")+
+  theme_bw(12)
+```
+
+<img src="09-files/pres_figures/unnamed-chunk-19-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+For more information and tutorial read about it in: http://ggplot2.org/
 
 
 ## Unit Testing (Advanced)

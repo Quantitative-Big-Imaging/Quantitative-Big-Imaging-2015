@@ -955,14 +955,14 @@ icVal</code></pre>
 </div>
 <div id="tasks-2" class="section level3">
 <h3><span class="header-section-number">2.4.2</span> Tasks</h3>
-<ol style="list-style-type: decimal">
+<ul>
 <li>Start RStudio</li>
 <li>Load the necessary libraries</li>
-</ol>
+</ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>,<span class="st">&quot;knitr&quot;</span>)</code></pre>
-<ol style="list-style-type: decimal">
+<ul>
 <li>Load the <em>phenoTable</em> from the first exercise</li>
-</ol>
+</ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read the table in</span>
 phen.table&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;09-files/phenoTable.csv&quot;</span>)
 <span class="co"># take the first 4 rows and columns</span>
@@ -1008,8 +1008,45 @@ p.sub.table&lt;-pheno.table[<span class="kw">c</span>(<span class="dv">1</span>:
 <td align="right">0.193758</td>
 <td align="right">0.024087</td>
 </tr>
+<tr class="odd">
+<td align="right">- Set</td>
+<td align="right">up the inpu</td>
+<td align="right">t table as ```phen.tab</td>
+<td align="right">le``` and the map</td>
+<td align="right">ping with the x position mapped to BMD (Bone Mineral Density) and the y position as <code>CT_TH_RAD</code> (Cortical Bone Thickness)</td>
+</tr>
 </tbody>
 </table>
+<pre><code>ggplot(phen.table,aes(x=BMD,y=CT_TH_RAD))</code></pre>
+<ul>
+<li>Create the first simple plot by adding a point representation to the plot</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(phen.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD))+<span class="kw">geom_point</span>()</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-14-1.png" title="" alt="" style="display: block; margin: auto;" /> - Change color of the points to show if the animal is female or not (in the mapping)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(phen.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD,<span class="dt">color=</span>FEMALE))+<span class="kw">geom_point</span>()</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-15-1.png" title="" alt="" style="display: block; margin: auto;" /> - Show the color as a discrete (factor) value instead of a number</p>
+<pre class="sourceCode r"><code class="sourceCode r">m.table&lt;-<span class="kw">mutate</span>(phen.table,<span class="dt">GENDER =</span> <span class="kw">ifelse</span>(FEMALE==<span class="dv">1</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>))
+<span class="kw">ggplot</span>(m.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD,<span class="dt">color=</span>GENDER))+<span class="kw">geom_point</span>()</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" /> - Make the plot in two facets (windows) instead of the same one</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(m.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD,<span class="dt">color=</span>GENDER))+
+<span class="st">  </span><span class="kw">geom_point</span>()+
+<span class="st">  </span><span class="kw">facet_wrap</span>(~GENDER)</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-17-1.png" title="" alt="" style="display: block; margin: auto;" /> - Make the facet based on evenly (in number) dividing the points into 6 groups by the number of lacuna (LACUNA_COUNT)</p>
+<pre class="sourceCode r"><code class="sourceCode r">m.table&lt;-<span class="kw">mutate</span>(phen.table,
+                <span class="dt">GENDER =</span> <span class="kw">ifelse</span>(FEMALE==<span class="dv">1</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>),
+                <span class="dt">LACUNA_NUMBER_GROUP =</span> <span class="kw">cut_number</span>(LACUNA_COUNT,<span class="dv">6</span>)
+                )
+<span class="kw">ggplot</span>(m.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD,<span class="dt">color=</span>GENDER))+
+<span class="st">  </span><span class="kw">geom_point</span>()+
+<span class="st">  </span><span class="kw">facet_wrap</span>(~LACUNA_NUMBER_GROUP)</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" /> - Fix the labels and add a white background (<code>theme_bw</code>) with font-size 12</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(m.table,<span class="kw">aes</span>(<span class="dt">x=</span>BMD,<span class="dt">y=</span>CT_TH_RAD,<span class="dt">color=</span>GENDER))+
+<span class="st">  </span><span class="kw">geom_point</span>()+
+<span class="st">  </span><span class="kw">facet_wrap</span>(~LACUNA_NUMBER_GROUP)+
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Bone Mineral Density&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Cortical Bone Thickness (um)&quot;</span>,<span class="dt">color=</span><span class="st">&quot;Gender&quot;</span>)+
+<span class="st">  </span><span class="kw">theme_bw</span>(<span class="dv">12</span>)</code></pre>
+<p><img src="09-files/pres_figures/unnamed-chunk-19-1.png" title="" alt="" style="display: block; margin: auto;" /></p>
+<p>For more information and tutorial read about it in: <a href="http://ggplot2.org/" class="uri">http://ggplot2.org/</a></p>
 </div>
 </div>
 <div id="unit-testing-advanced" class="section level2">
