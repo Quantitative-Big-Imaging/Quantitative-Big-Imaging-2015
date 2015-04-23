@@ -117,6 +117,7 @@ __BECOMES__ (hiding excess columns)
 - Concatenate is the last of the table operations covered today. 
 - It can be thought of as combining two tables which have the same columns but different row values
 - For example if we have each experiment in a separate file, it would make sense to concatenate them all together rather than _Join_ or _Cross Join_
+
 - First table
 
 
@@ -126,6 +127,7 @@ __BECOMES__ (hiding excess columns)
  356   0.0327883              54.97201         0.183007            0.015696
  357   0.0360747              73.59088         0.216930            0.028019
  359   0.0311451              49.85482         0.193758            0.024087
+
 - Second set of results
 
 
@@ -210,6 +212,8 @@ There are 1000 mouse femur bones which have been measured at high resolution and
  - Is p<0.05 a sufficient signifance criteria?
  
 ## Comparing Two Real Bone Samples
+
+![Comparing Bone](09-files/ComparingBone.png)
 
 For this example we will compare two real cortical bone samples taken from mice. 
 The data will be downloaded in KNIME from the course website (KNIME can also download / upload to FTP servers making sharing results and data easier).
@@ -296,7 +300,8 @@ ggplot(sum.df,aes(x=cell.count))+
 ```
 
 1. What is intraclass correlation? How can it be applied to these data?
- - The following code can be used inside an R View block to calculate the ICC value
+ - The following code can be used inside an R View block to calculate the ICC value (and then just click 'Eval Script')
+ 
 ```
 library(ICC)
 in.data<-data.frame(
@@ -304,9 +309,9 @@ in.data<-data.frame(
 	group = knime.in$"Image Number"
 	)
 icVal<-ICCbare(metric,group,data=in.data)$ICC
-
 icVal
 ```
+
  - If the value for a specific metric is 0.012 how should we interpret that?
  
 ### Big Hint (don't read unless you're stuck)
@@ -323,3 +328,106 @@ This exercise (workflow named - Statistical Significance Hunter) shows the same 
 1. How does comparing a single column compare to looking at different metrics for the same samples?
 1. What is bonferroni correction (hint: wikipedia) and how could it be applied to this simulation?
  - Make the modification needed
+
+## Grammar of Graphics Plots in R (Work in Progress...)
+### Introduction
+
+Making plots or graphics should be divided into separate independent components.
+- __Setup__ is the $ggplot$ command and the data
+- __Mapping__ is in the $aes$ command
+$$ ggplot(\textrm{input data frame},aes(x=\textrm{name of x column},y=\textrm{name of y column}))+ $$
+- __Plot__ is the next command (geom_point, geom_smooth, geom_density, geom_histogram, geom_contour)
+$$ \textrm{geom_point}()+ $$
+- __Coordinates__ can then be added to any type of plot (coord_equal, coord_polar, etc)
+- __Scales__ can also be added (scale_x_log10, scale_y_sqrt, scale_color_gradientn)
+- __Labels__ are added
+$$ labs(x="\textrm{x label}",y="\textrm{y label}",title="\textrm{title}") $$
+
+
+### Tasks
+1. Start RStudio
+1. Load the necessary libraries 
+
+```r
+library("ggplot2","knitr")
+```
+1. Load the _phenoTable_ from the first exercise
+
+```r
+# read the table in
+phen.table<-read.csv("09-files/phenoTable.csv")
+# take the first 4 rows and columns
+p.sub.table<-pheno.table[c(1:4),c(35,c(1:4))]
+# print it out nicely
+kable(p.sub.table)
+```
+
+
+
+  ID         BMD   MECHANICS_STIFFNESS   CORT_DTO__C_TH   CORT_DTO__C_TH_SD
+----  ----------  --------------------  ---------------  ------------------
+ 351   0.0302208              57.16318         0.186455            0.019785
+ 356   0.0327883              54.97201         0.183007            0.015696
+ 357   0.0360747              73.59088         0.216930            0.028019
+ 359   0.0311451              49.85482         0.193758            0.024087
+
+
+## Unit Testing (Advanced)
+- R : [testit](http://cran.r-project.org/web/packages/testit/index.html) package in R to test functions
+- Matlab : [Matlab Unit Test Framework](http://www.mathworks.com/support/2015a/matlab/8.5/demos/matlab-unit-test-framework-in-release-2013a.html)
+- Python : easiest [doctest](https://docs.python.org/2/library/doctest.html#module-doctest) or more flexible [unittest](http://docs.python-guide.org/en/latest/writing/tests/) 
+- Java : [JUnit](http://junit.org/)
+- Scala : [ScalaTest](http://www.scalatest.org/)
+
+Unit Testing works differently in every language but the major ideas remain the same. 
+
+- Using the language of your choice make a function that reads in an binary 2D array and counts the number of true points. In scala this would look like
+
+```{scala}
+def countPoints(in: Array[Array[Boolean]]): Int = 
+  in.flatten.map(if(_) 1 else 0).sum
+```
+
+- Now create a series of tests to ensure it works correctly
+ - A simple 1x2 array with one true
+```{scala}
+import org.scalatest.{FunSuite, Matchers}
+class PointCounterTests extends FunSuite with Matchers 
+  test("Simple Array") {
+    val simpleArr = Array(Array(true,false,false))
+    countPoints(simpleArr) shouldBe 1
+  }
+}
+```
+ - An empty error should return 0
+```{scala}
+val emptyArr = Array(new Array[Boolean](0))
+countPoints(emptyArr) shouldBe 0
+```
+
+### Dynamic Languages!
+It is critical to note, if you are using a statically-type language (C, C++, Fortran Java, Scala, Groovy, etc) you do not need to explicitly check type issues since that is automatically done by the compiler (you cannot give a string to a function expecting an integer, it simply will not run)
+If you are using a dynamically typed language (Matlab, Python, R, Mathematica, etc) you will need to make additional tests to make sure your function handles a variety of different input correctly. For example if you make the ```countPoints``` function in Matlab what happens when you give it a 3D array or a string? Either it should immediately throw an error message explaining that this input doesn't make sense or explicitly handle this case. Otherwise you could have very unexpected behavior. The following is a perfectly reasonable function in Matlab
+
+```{matlab}
+function [out]=isBiggerThanFive(inVar)
+  if inVar>5
+    disp([inVar ' is bigger than 5'])
+    out=true;
+  else
+    disp([inVar ' is smaller than 5'])
+    out=false;
+  end
+```
+
+And if you execute ```isBiggerThanFive('Tom')``` it executes perfectly and you get ```Tom is bigger than 5``` which is probably meaningless. It would be much better if the program throws an error saying that a string is not an appropriate type for this function.
+
+
+## Report Generation (Advanced)
+- [knitr](http://yihui.name/knitr/) for report generation
+
+To make a report in RStudio you can go the _File -> New Files -> R Markdown..._ menu.
+You can then enter code in blocks as are shown in the example and text or Markdown (text with dashes and pound signs for formatting) to make a document which compiles to a PDF, HTML-file, or Word Document.
+
+This allows you to have your entire analysis in a simple document. Additionally it prevents you from having to deal with some of the major challenges with Matlab, Python, and R (dynamic languages) involving name-spaces and analyses that run fine now, but do not work or work differently tomorrow.
+

@@ -22,6 +22,32 @@
 <script src="09-Description_files/bootstrap-3.3.1/shim/respond.min.js"></script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; }
+code > span.dt { text-decoration: underline; }
+code > span.dv { color: #44aa43; }
+code > span.bn { color: #44aa43; }
+code > span.fl { color: #44aa43; }
+code > span.ch { color: #049b0a; }
+code > span.st { color: #049b0a; }
+code > span.co { color: #0066ff; font-style: italic; }
+code > span.al { color: #ffff00; }
+code > span.fu { color: #ff9358; font-weight: bold; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
 
 
 </head>
@@ -52,6 +78,40 @@ img {
 <h4 class="date"><em>April 22, 2015</em></h4>
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#introductory-material"><span class="toc-section-number">1</span> Introductory Material</a><ul>
+<li><a href="#r-studio-r"><span class="toc-section-number">1.1</span> R-Studio / R</a></li>
+<li><a href="#new-nodes"><span class="toc-section-number">1.2</span> New Nodes</a></li>
+<li><a href="#join"><span class="toc-section-number">1.3</span> Join</a></li>
+<li><a href="#cross-join"><span class="toc-section-number">1.4</span> Cross-Join</a></li>
+<li><a href="#concatenate"><span class="toc-section-number">1.5</span> Concatenate</a></li>
+</ul></li>
+<li><a href="#tasks"><span class="toc-section-number">2</span> Tasks</a><ul>
+<li><a href="#running-basic-statistical-analyses"><span class="toc-section-number">2.1</span> Running basic statistical analyses</a><ul>
+<li><a href="#introduction"><span class="toc-section-number">2.1.1</span> Introduction</a></li>
+<li><a href="#tasks-1"><span class="toc-section-number">2.1.2</span> Tasks</a></li>
+<li><a href="#questions"><span class="toc-section-number">2.1.3</span> Questions</a></li>
+</ul></li>
+<li><a href="#comparing-two-real-bone-samples"><span class="toc-section-number">2.2</span> Comparing Two Real Bone Samples</a><ul>
+<li><a href="#questions-1"><span class="toc-section-number">2.2.1</span> Questions</a></li>
+<li><a href="#hints"><span class="toc-section-number">2.2.2</span> Hints</a></li>
+<li><a href="#big-hint-dont-read-unless-youre-stuck"><span class="toc-section-number">2.2.3</span> Big Hint (don’t read unless you’re stuck)</a></li>
+</ul></li>
+<li><a href="#t-test-simulator"><span class="toc-section-number">2.3</span> T-Test Simulator</a><ul>
+<li><a href="#questions-2"><span class="toc-section-number">2.3.1</span> Questions</a></li>
+</ul></li>
+<li><a href="#grammar-of-graphics-plots-in-r-work-in-progress"><span class="toc-section-number">2.4</span> Grammar of Graphics Plots in R (Work in Progress…)</a><ul>
+<li><a href="#introduction-1"><span class="toc-section-number">2.4.1</span> Introduction</a></li>
+<li><a href="#tasks-2"><span class="toc-section-number">2.4.2</span> Tasks</a></li>
+</ul></li>
+<li><a href="#unit-testing-advanced"><span class="toc-section-number">2.5</span> Unit Testing (Advanced)</a><ul>
+<li><a href="#dynamic-languages"><span class="toc-section-number">2.5.1</span> Dynamic Languages!</a></li>
+</ul></li>
+<li><a href="#report-generation-advanced"><span class="toc-section-number">2.6</span> Report Generation (Advanced)</a></li>
+</ul></li>
+</ul>
+</div>
 
 <div id="introductory-material" class="section level1">
 <h1><span class="header-section-number">1</span> Introductory Material</h1>
@@ -446,8 +506,8 @@ img {
 <ul>
 <li>Concatenate is the last of the table operations covered today.</li>
 <li>It can be thought of as combining two tables which have the same columns but different row values</li>
-<li>For example if we have each experiment in a separate file, it would make sense to concatenate them all together rather than <em>Join</em> or <em>Cross Join</em></li>
-<li>First table</li>
+<li><p>For example if we have each experiment in a separate file, it would make sense to concatenate them all together rather than <em>Join</em> or <em>Cross Join</em></p></li>
+<li><p>First table</p></li>
 </ul>
 <table>
 <thead>
@@ -488,61 +548,57 @@ img {
 <td align="right">0.193758</td>
 <td align="right">0.024087</td>
 </tr>
-<tr class="odd">
-<td align="right">- Seco</td>
-<td align="right">nd set of re</td>
-<td align="right">sults</td>
-<td align="right"></td>
-<td align="right"></td>
-</tr>
 </tbody>
 </table>
+<ul>
+<li><p>Second set of results</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left"></th>
 <th align="right">ID</th>
-<th align="right">BMD</th>
-<th align="right">MECHANICS_STIFFNESS</th>
-<th align="right">CORT_DTO__C_TH</th>
-<th align="right">CORT_DTO__C_TH_SD</th>
+<th align="left"></th>
+<th align="right">BMD MEC</th>
+<th align="left">HANICS_STIFFNESS COR</th>
+<th align="left">T_DTO__C_TH COR</th>
+<th align="left">T_DTO__C_TH_SD</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">21</td>
-<td align="right">457</td>
+<td align="right">21</td>
+<td align="left">457</td>
 <td align="right">0.0311451</td>
-<td align="right">49.28858</td>
-<td align="right">0.178971</td>
-<td align="right">0.020928</td>
+<td align="left">49.28858</td>
+<td align="left">0.178971</td>
+<td align="left">0.020928</td>
 </tr>
 <tr class="even">
-<td align="left">22</td>
-<td align="right">459</td>
+<td align="right">22</td>
+<td align="left">459</td>
 <td align="right">0.0293992</td>
-<td align="right">58.17281</td>
-<td align="right">0.158907</td>
-<td align="right">0.018856</td>
+<td align="left">58.17281</td>
+<td align="left">0.158907</td>
+<td align="left">0.018856</td>
 </tr>
 <tr class="odd">
-<td align="left">23</td>
-<td align="right">470</td>
+<td align="right">23</td>
+<td align="left">470</td>
 <td align="right">0.0316586</td>
-<td align="right">61.49628</td>
-<td align="right">0.162435</td>
-<td align="right">0.019928</td>
+<td align="left">61.49628</td>
+<td align="left">0.162435</td>
+<td align="left">0.019928</td>
 </tr>
 <tr class="even">
-<td align="left">24</td>
-<td align="right">472</td>
+<td align="right">24</td>
+<td align="left">472</td>
 <td align="right">0.0345342</td>
-<td align="right">56.62613</td>
-<td align="right">0.185258</td>
-<td align="right">0.028595</td>
+<td align="left">56.62613</td>
+<td align="left">0.185258</td>
+<td align="left">0.028595</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+</ul>
 <p>The concatenation of the two groups</p>
 <table>
 <thead>
@@ -776,6 +832,7 @@ img {
 </div>
 <div id="comparing-two-real-bone-samples" class="section level2">
 <h2><span class="header-section-number">2.2</span> Comparing Two Real Bone Samples</h2>
+<p><img src="09-files/ComparingBone.png" alt="Comparing Bone" /></p>
 <p>For this example we will compare two real cortical bone samples taken from mice. The data will be downloaded in KNIME from the course website (KNIME can also download / upload to FTP servers making sharing results and data easier). - If you are using your own computer you will need to change the <em>Target Folder</em> in both of the “Download” nodes to something reasonable (just click Browse)</p>
 <p>For the purpose of the analysis and keeping the data sizes small, we will use <em>Kevin’s Crazy Camera</em> again for simulating the noisy detection process. The assignment aims to be more integrative and you will combine a number of different lectures to get to the final answer.</p>
 <div id="questions-1" class="section level3">
@@ -856,9 +913,18 @@ ggplot(sum.df,aes(x=cell.count))+
 <li>What is intraclass correlation? How can it be applied to these data?</li>
 </ol>
 <ul>
-<li>The following code can be used inside an R View block to calculate the ICC value ``` library(ICC) in.data&lt;-data.frame( metric = knime.in<span class="math">\(&quot;Num Pix&quot;, group = knime.in\)</span>“Image Number” ) icVal&lt;-ICCbare(metric,group,data=in.data)$ICC</li>
+<li>The following code can be used inside an R View block to calculate the ICC value (and then just click ‘Eval Script’)</li>
 </ul>
-<p>icVal ``` - If the value for a specific metric is 0.012 how should we interpret that?</p>
+<pre><code>library(ICC)
+in.data&lt;-data.frame(
+  metric = knime.in$&quot;Num Pix&quot;,
+    group = knime.in$&quot;Image Number&quot;
+    )
+icVal&lt;-ICCbare(metric,group,data=in.data)$ICC
+icVal</code></pre>
+<ul>
+<li>If the value for a specific metric is 0.012 how should we interpret that?</li>
+</ul>
 </div>
 <div id="big-hint-dont-read-unless-youre-stuck" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> Big Hint (don’t read unless you’re stuck)</h3>
@@ -880,6 +946,122 @@ ggplot(sum.df,aes(x=cell.count))+
 <li>Make the modification needed</li>
 </ul>
 </div>
+</div>
+<div id="grammar-of-graphics-plots-in-r-work-in-progress" class="section level2">
+<h2><span class="header-section-number">2.4</span> Grammar of Graphics Plots in R (Work in Progress…)</h2>
+<div id="introduction-1" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Introduction</h3>
+<p>Making plots or graphics should be divided into separate independent components. - <strong>Setup</strong> is the <span class="math">\(ggplot\)</span> command and the data - <strong>Mapping</strong> is in the <span class="math">\(aes\)</span> command <span class="math">\[ ggplot(\textrm{input data frame},aes(x=\textrm{name of x column},y=\textrm{name of y column}))+ \]</span> - <strong>Plot</strong> is the next command (geom_point, geom_smooth, geom_density, geom_histogram, geom_contour) <span class="math">\[ \textrm{geom_point}()+ \]</span> - <strong>Coordinates</strong> can then be added to any type of plot (coord_equal, coord_polar, etc) - <strong>Scales</strong> can also be added (scale_x_log10, scale_y_sqrt, scale_color_gradientn) - <strong>Labels</strong> are added <span class="math">\[ labs(x=&quot;\textrm{x label}&quot;,y=&quot;\textrm{y label}&quot;,title=&quot;\textrm{title}&quot;) \]</span></p>
+</div>
+<div id="tasks-2" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Tasks</h3>
+<ol style="list-style-type: decimal">
+<li>Start RStudio</li>
+<li>Load the necessary libraries</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>,<span class="st">&quot;knitr&quot;</span>)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Load the <em>phenoTable</em> from the first exercise</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read the table in</span>
+phen.table&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;09-files/phenoTable.csv&quot;</span>)
+<span class="co"># take the first 4 rows and columns</span>
+p.sub.table&lt;-pheno.table[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">4</span>),<span class="kw">c</span>(<span class="dv">35</span>,<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">4</span>))]
+<span class="co"># print it out nicely</span>
+<span class="kw">kable</span>(p.sub.table)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">ID</th>
+<th align="right">BMD</th>
+<th align="right">MECHANICS_STIFFNESS</th>
+<th align="right">CORT_DTO__C_TH</th>
+<th align="right">CORT_DTO__C_TH_SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">351</td>
+<td align="right">0.0302208</td>
+<td align="right">57.16318</td>
+<td align="right">0.186455</td>
+<td align="right">0.019785</td>
+</tr>
+<tr class="even">
+<td align="right">356</td>
+<td align="right">0.0327883</td>
+<td align="right">54.97201</td>
+<td align="right">0.183007</td>
+<td align="right">0.015696</td>
+</tr>
+<tr class="odd">
+<td align="right">357</td>
+<td align="right">0.0360747</td>
+<td align="right">73.59088</td>
+<td align="right">0.216930</td>
+<td align="right">0.028019</td>
+</tr>
+<tr class="even">
+<td align="right">359</td>
+<td align="right">0.0311451</td>
+<td align="right">49.85482</td>
+<td align="right">0.193758</td>
+<td align="right">0.024087</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="unit-testing-advanced" class="section level2">
+<h2><span class="header-section-number">2.5</span> Unit Testing (Advanced)</h2>
+<ul>
+<li>R : <a href="http://cran.r-project.org/web/packages/testit/index.html">testit</a> package in R to test functions</li>
+<li>Matlab : <a href="http://www.mathworks.com/support/2015a/matlab/8.5/demos/matlab-unit-test-framework-in-release-2013a.html">Matlab Unit Test Framework</a></li>
+<li>Python : easiest <a href="https://docs.python.org/2/library/doctest.html#module-doctest">doctest</a> or more flexible <a href="http://docs.python-guide.org/en/latest/writing/tests/">unittest</a></li>
+<li>Java : <a href="http://junit.org/">JUnit</a></li>
+<li>Scala : <a href="http://www.scalatest.org/">ScalaTest</a></li>
+</ul>
+<p>Unit Testing works differently in every language but the major ideas remain the same.</p>
+<ul>
+<li>Using the language of your choice make a function that reads in an binary 2D array and counts the number of true points. In scala this would look like</li>
+</ul>
+<pre class="{scala}"><code>def countPoints(in: Array[Array[Boolean]]): Int = 
+  in.flatten.map(if(_) 1 else 0).sum</code></pre>
+<ul>
+<li>Now create a series of tests to ensure it works correctly</li>
+<li><p>A simple 1x2 array with one true</p>
+<pre class="{scala}"><code>import org.scalatest.{FunSuite, Matchers}
+class PointCounterTests extends FunSuite with Matchers 
+  test(&quot;Simple Array&quot;) {
+val simpleArr = Array(Array(true,false,false))
+countPoints(simpleArr) shouldBe 1
+  }
+}</code></pre></li>
+<li><p>An empty error should return 0</p>
+<pre class="{scala}"><code>val emptyArr = Array(new Array[Boolean](0))
+countPoints(emptyArr) shouldBe 0</code></pre></li>
+</ul>
+<div id="dynamic-languages" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> Dynamic Languages!</h3>
+<p>It is critical to note, if you are using a statically-type language (C, C++, Fortran Java, Scala, Groovy, etc) you do not need to explicitly check type issues since that is automatically done by the compiler (you cannot give a string to a function expecting an integer, it simply will not run) If you are using a dynamically typed language (Matlab, Python, R, Mathematica, etc) you will need to make additional tests to make sure your function handles a variety of different input correctly. For example if you make the <code>countPoints</code> function in Matlab what happens when you give it a 3D array or a string? Either it should immediately throw an error message explaining that this input doesn’t make sense or explicitly handle this case. Otherwise you could have very unexpected behavior. The following is a perfectly reasonable function in Matlab</p>
+<pre class="{matlab}"><code>function [out]=isBiggerThanFive(inVar)
+  if inVar&gt;5
+    disp([inVar &#39; is bigger than 5&#39;])
+    out=true;
+  else
+    disp([inVar &#39; is smaller than 5&#39;])
+    out=false;
+  end</code></pre>
+<p>And if you execute <code>isBiggerThanFive('Tom')</code> it executes perfectly and you get <code>Tom is bigger than 5</code> which is probably meaningless. It would be much better if the program throws an error saying that a string is not an appropriate type for this function.</p>
+</div>
+</div>
+<div id="report-generation-advanced" class="section level2">
+<h2><span class="header-section-number">2.6</span> Report Generation (Advanced)</h2>
+<ul>
+<li><a href="http://yihui.name/knitr/">knitr</a> for report generation</li>
+</ul>
+<p>To make a report in RStudio you can go the <em>File -&gt; New Files -&gt; R Markdown…</em> menu. You can then enter code in blocks as are shown in the example and text or Markdown (text with dashes and pound signs for formatting) to make a document which compiles to a PDF, HTML-file, or Word Document.</p>
+<p>This allows you to have your entire analysis in a simple document. Additionally it prevents you from having to deal with some of the major challenges with Matlab, Python, and R (dynamic languages) involving name-spaces and analyses that run fine now, but do not work or work differently tomorrow.</p>
 </div>
 </div>
 
