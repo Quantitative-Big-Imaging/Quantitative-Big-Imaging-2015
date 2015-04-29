@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kevin Mader" />
+
+<meta name="date" content="2015-04-30" />
+
+<title>Exercise 10: Dynamics</title>
+
+<script src="10-Description_files/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="10-Description_files/bootstrap-3.3.1/css/readable.min.css" rel="stylesheet" />
+<script src="10-Description_files/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="10-Description_files/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="10-Description_files/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+
+<div id="header">
+<h1 class="title">Exercise 10: Dynamics</h1>
+<h4 class="author"><em>Kevin Mader</em></h4>
+<h4 class="date"><em>April 30, 2015</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introductory-material"><span class="toc-section-number">1</span> Introductory Material</a><ul>
+<li><a href="#new-nodes"><span class="toc-section-number">1.1</span> New Nodes</a></li>
+<li><a href="#convolver"><span class="toc-section-number">1.2</span> Convolver</a><ul>
+<li><a href="#convolution-settings"><span class="toc-section-number">1.2.1</span> Convolution Settings</a></li>
+</ul></li>
+<li><a href="#convolution-kernel-creator"><span class="toc-section-number">1.3</span> Convolution Kernel Creator</a></li>
+</ul></li>
+<li><a href="#exercises"><span class="toc-section-number">2</span> Exercises</a><ul>
+<li><a href="#convolution-based-tracking"><span class="toc-section-number">2.1</span> Convolution-based Tracking</a><ul>
+<li><a href="#questions"><span class="toc-section-number">2.1.1</span> Questions</a></li>
+</ul></li>
+<li><a href="#object-based-tracking"><span class="toc-section-number">2.2</span> Object-based Tracking</a><ul>
+<li><a href="#questions-1"><span class="toc-section-number">2.2.1</span> Questions</a></li>
+</ul></li>
+<li><a href="#d-object-based-tracking"><span class="toc-section-number">2.3</span> 3D Object-based Tracking</a><ul>
+<li><a href="#tasks"><span class="toc-section-number">2.3.1</span> Tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introductory-material" class="section level1">
+<h1><span class="header-section-number">1</span> Introductory Material</h1>
+<div id="new-nodes" class="section level2">
+<h2><span class="header-section-number">1.1</span> New Nodes</h2>
+<p>The new names are explained relative to the dataset used in the first problem. So read the first problem for more introductory material on these tables</p>
+</div>
+<div id="convolver" class="section level2">
+<h2><span class="header-section-number">1.2</span> Convolver</h2>
+<p>KNIME has a convolution node allowing for two images to be convolved using a number of different algorithms. ### Options</p>
+<ul>
+<li><p><img src="10-files/ConvolverWindow.png" alt="Options Window" /></p></li>
+<li>Kernel Column specifies which image is to be used as the kernel (can also be from the kernel creator)</li>
+<li>The settings for the image are specified here for 2D, select dimensions X and Y, for 3D: X, Y and Z.</li>
+<li>‘Out of bounds Selection’ specifies what the algorithm does at the edge of the image</li>
+<li><em>BORDER</em> specifies padding with the same values as the edge</li>
+<li><em>ZERO VALUE</em> specifies zero padding</li>
+<li><em>MIRROR SINGLE</em> will mirror the values at the edge</li>
+<li><em>PERIODIC</em> will periodically repeat the values</li>
+<li><p>‘Calculate as Float’ specifies the output as a floating point number (otherwise it might calculate it as the same type as the image which may not be precise enough)</p></li>
+</ul>
+<div id="convolution-settings" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Convolution Settings</h3>
+<ul>
+<li><img src="10-files/ConvolverSettingsWindow.png" alt="Settings" /></li>
+<li>Here the implementation can be specified, the Fourier-based methods should in most cases be faster (for very small images / kernels they might be slower)</li>
+</ul>
+</div>
+</div>
+<div id="convolution-kernel-creator" class="section level2">
+<h2><span class="header-section-number">1.3</span> Convolution Kernel Creator</h2>
+<p>In the KNIME Image Processing -&gt; IO -&gt; Other, there is a Kernel creator which can be used to specify common kernels as covered in the ‘Image Enhancement’ lecture.</p>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1><span class="header-section-number">2</span> Exercises</h1>
+<ul>
+<li>The workflows (or their starts) are available <a href="10-files/Ex10Dynamic.zip?raw=true">here</a>.</li>
+</ul>
+<div id="convolution-based-tracking" class="section level2">
+<h2><span class="header-section-number">2.1</span> Convolution-based Tracking</h2>
+<p><img src="10-files/CrossCorrelationWorkflow.png" alt="Workflow" /> Start with the <em>2D-Tracking</em> workflow. Run the analysis and ensure that the output image from the Line Chart looks as follows:</p>
+<p><img src="10-files/CCTrackingResults.png" alt="Results" /></p>
+<div id="questions" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Questions</h3>
+<ol style="list-style-type: decimal">
+<li>Looking at the individual frames from the output of the ‘Synthetic 2D Movie Maker’ how would you expect the results of the tracking to look? (Verify this by looking at how the frames is actually generated inside this node)</li>
+</ol>
+<ul>
+<li>Why is this curve so rough? What could be done to improve the tracking?</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>After the ‘Synthetic 2D Movie Maker’ node there is a Math Formula and a join, what is the role of this? How long is the length of the output of the join, why?</li>
+</ol>
+</div>
+</div>
+<div id="object-based-tracking" class="section level2">
+<h2><span class="header-section-number">2.2</span> Object-based Tracking</h2>
+<p><img src="10-files/ObjectTracking.png" alt="Object Tracking" /></p>
+<p>Using the `2D-Object Tracking’ workflow, you will utilize the methods covered in the Analysis of Many Objects lecture (Nearest Neighbor) to track objects from one frame to the next. ### Tasks 1. At the output of the ‘Rule-based Filter’ you have a list of objects at time <em>t</em> matched with all objects at time <em>t+1</em>. How can the idea of nearest neighbor be used to match the objects? 1. Increase the noise (in the ‘Synthetic 2D Movie Maker’ configure panel) to 5 or above, what happens to the results (look at the component labeled images)? How might this problem be corrected for? 1. Change the Movie Maker to move the object in X instead of Y</p>
+<div id="questions-1" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Questions</h3>
+<ol style="list-style-type: decimal">
+<li>What additional criteria might be added to improve this result under noisy circumstances?</li>
+<li>What happens when an object completely leaves the field of view?</li>
+<li>How might the tracking be extended so the entire lifespan of an object can be tracked?</li>
+</ol>
+</div>
+</div>
+<div id="d-object-based-tracking" class="section level2">
+<h2><span class="header-section-number">2.3</span> 3D Object-based Tracking</h2>
+<p>Start with the ‘3D-Tracking’ workflow which generates 3D movies of whatever shape is specified in the table creator</p>
+<div id="tasks" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Tasks</h3>
+<ol style="list-style-type: decimal">
+<li>Using results from the 2D results above, modify the workflow to track the 3D movie.</li>
+<li>Add noise to the images (Salt and Pepper) and try to track the image by using filtering and other steps</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
