@@ -56,7 +56,9 @@ Start with the _2D-Tracking_ workflow. Run the analysis and ensure that the outp
 ![Object Tracking](10-files/ObjectTracking.png)
 
 Using the `2D-Object Tracking' workflow, you will utilize the methods covered in the Analysis of Many Objects lecture (Nearest Neighbor) to track objects from one frame to the next. 
+
 ### Tasks
+
 1. At the output of the 'Rule-based Filter' you have a list of objects at time _t_ matched with all objects at time _t+1_. How can the idea of nearest neighbor be used to match the objects?
 1. Increase the noise (in the 'Synthetic 2D Movie Maker' configure panel) to 5 or above, what happens to the results (look at the component labeled images)? How might this problem be corrected for?
 1. Change the Movie Maker to move the object in X instead of Y
@@ -66,6 +68,30 @@ Using the `2D-Object Tracking' workflow, you will utilize the methods covered in
 1. What happens when an object completely leaves the field of view?
 1. How might the tracking be extended so the entire lifespan of an object can be tracked?
 
+## 2D Deformation Tracking
+
+In this example we will measure the deformation in a synthetic system. The system (shown below) is undergoing compression and we would like to measure this. The files are located [here](10-files/compress.zip?raw=true).
+
+
+
+
+<img src="09-files/pres_figures/unnamed-chunk-1-1.png" title="" alt="" style="display: block; margin: auto;" />
+
+### Questions
+1. Which techniques would work for assessing the level of compression?
+1. Would cross correlation be applicable? What changes would need to be made?
+
+
+### Tasks
+1. Take the 2D image tracking workflow to track the movement of the dots (read in the images instead of using the simulator )
+1. Use the 2D tracking workflow to apply cross correlation to the dataset, how well does it work, why?
+1. Use the 2D deformation workflow
+ - ![Deformation](10-files/MultiXCorrWorkflow.png)
+ - Why does it need to be so complicated?
+ - Ensure the result you get looks like this
+ - ![Deformation Result](10-files/MultiXCorr.png)
+ - From this field how would you calculate strain or deformation?
+
 
 ## 3D Object-based Tracking
 
@@ -74,5 +100,16 @@ Start with the '3D-Tracking' workflow which generates 3D movies of whatever shap
 ### Tasks
 1. Using results from the 2D results above, modify the workflow to track the 3D movie.
 1. Add noise to the images (Salt and Pepper) and try to track the image by using filtering and other steps
+
+
+## Optional: [TrackMate](http://fiji.sc/TrackMate)
+
+FIJI offers a number of plugins to perform tracking. One of the most flexible is called TrackMate (Plugins$\rightarrow$ Tracking $\rightarrow$ TrackMate), 
+
+It can also be well integrated into Matlab-based workflows (http://fiji.sc/Using_TrackMate_with_MATLAB)
+
+Tutorial Movie with Second Flow: http://people.ee.ethz.ch/~maderk/videos/TrackMate.ogv
+
+Using Trackmate in KNIME, workflow (from the KNIME site) is [here](http://tech.knime.org/files/knimeip/workflows/Example_Trackmate.zip)
 
 

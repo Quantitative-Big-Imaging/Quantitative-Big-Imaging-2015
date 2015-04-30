@@ -29,10 +29,10 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-handout.pdf)
 - 30th April - Dynamic Experiments
- - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.html)
- - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic_files/printable.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/09-Dynamic.pdf)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-slides.html)
+ - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/09-handout.pdf)
 - 7th May - Scaling Up / Big Data
- - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData.html)
+ - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData.html)   
  - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData_files/printable.html)
 - 21th May - Guest Lecture - Applications in Material Science
 - 28th May - Project Presentations
@@ -71,6 +71,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
 - 23rd April -  Statistics and Reproducibility
  - [KNIME Exercises](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Exercises/09-Description.html)
 - 30th April - Dynamic Experiments
+ - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/10-Description.md)
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex9/Ex9Slides.html)
  - [Old Test Images](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex9/testimages.zip?raw=true)
 - 7th May - Scaling Up / Big Data

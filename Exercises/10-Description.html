@@ -66,11 +66,17 @@ img {
 <li><a href="#questions"><span class="toc-section-number">2.1.1</span> Questions</a></li>
 </ul></li>
 <li><a href="#object-based-tracking"><span class="toc-section-number">2.2</span> Object-based Tracking</a><ul>
-<li><a href="#questions-1"><span class="toc-section-number">2.2.1</span> Questions</a></li>
+<li><a href="#tasks"><span class="toc-section-number">2.2.1</span> Tasks</a></li>
+<li><a href="#questions-1"><span class="toc-section-number">2.2.2</span> Questions</a></li>
 </ul></li>
-<li><a href="#d-object-based-tracking"><span class="toc-section-number">2.3</span> 3D Object-based Tracking</a><ul>
-<li><a href="#tasks"><span class="toc-section-number">2.3.1</span> Tasks</a></li>
+<li><a href="#d-deformation-tracking"><span class="toc-section-number">2.3</span> 2D Deformation Tracking</a><ul>
+<li><a href="#questions-2"><span class="toc-section-number">2.3.1</span> Questions</a></li>
+<li><a href="#tasks-1"><span class="toc-section-number">2.3.2</span> Tasks</a></li>
 </ul></li>
+<li><a href="#d-object-based-tracking"><span class="toc-section-number">2.4</span> 3D Object-based Tracking</a><ul>
+<li><a href="#tasks-2"><span class="toc-section-number">2.4.1</span> Tasks</a></li>
+</ul></li>
+<li><a href="#optional-trackmate"><span class="toc-section-number">2.5</span> Optional: <a href="http://fiji.sc/TrackMate">TrackMate</a></a></li>
 </ul></li>
 </ul>
 </div>
@@ -133,9 +139,17 @@ img {
 <div id="object-based-tracking" class="section level2">
 <h2><span class="header-section-number">2.2</span> Object-based Tracking</h2>
 <p><img src="10-files/ObjectTracking.png" alt="Object Tracking" /></p>
-<p>Using the `2D-Object Tracking’ workflow, you will utilize the methods covered in the Analysis of Many Objects lecture (Nearest Neighbor) to track objects from one frame to the next. ### Tasks 1. At the output of the ‘Rule-based Filter’ you have a list of objects at time <em>t</em> matched with all objects at time <em>t+1</em>. How can the idea of nearest neighbor be used to match the objects? 1. Increase the noise (in the ‘Synthetic 2D Movie Maker’ configure panel) to 5 or above, what happens to the results (look at the component labeled images)? How might this problem be corrected for? 1. Change the Movie Maker to move the object in X instead of Y</p>
+<p>Using the `2D-Object Tracking’ workflow, you will utilize the methods covered in the Analysis of Many Objects lecture (Nearest Neighbor) to track objects from one frame to the next.</p>
+<div id="tasks" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Tasks</h3>
+<ol style="list-style-type: decimal">
+<li>At the output of the ‘Rule-based Filter’ you have a list of objects at time <em>t</em> matched with all objects at time <em>t+1</em>. How can the idea of nearest neighbor be used to match the objects?</li>
+<li>Increase the noise (in the ‘Synthetic 2D Movie Maker’ configure panel) to 5 or above, what happens to the results (look at the component labeled images)? How might this problem be corrected for?</li>
+<li>Change the Movie Maker to move the object in X instead of Y</li>
+</ol>
+</div>
 <div id="questions-1" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Questions</h3>
+<h3><span class="header-section-number">2.2.2</span> Questions</h3>
 <ol style="list-style-type: decimal">
 <li>What additional criteria might be added to improve this result under noisy circumstances?</li>
 <li>What happens when an object completely leaves the field of view?</li>
@@ -143,16 +157,50 @@ img {
 </ol>
 </div>
 </div>
+<div id="d-deformation-tracking" class="section level2">
+<h2><span class="header-section-number">2.3</span> 2D Deformation Tracking</h2>
+<p>In this example we will measure the deformation in a synthetic system. The system (shown below) is undergoing compression and we would like to measure this. The files are located <a href="10-files/compress.zip?raw=true">here</a>.</p>
+<p><img src="09-files/pres_figures/unnamed-chunk-1-1.png" title="" alt="" style="display: block; margin: auto;" /></p>
+<div id="questions-2" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Questions</h3>
+<ol style="list-style-type: decimal">
+<li>Which techniques would work for assessing the level of compression?</li>
+<li>Would cross correlation be applicable? What changes would need to be made?</li>
+</ol>
+</div>
+<div id="tasks-1" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Tasks</h3>
+<ol style="list-style-type: decimal">
+<li>Take the 2D image tracking workflow to track the movement of the dots (read in the images instead of using the simulator )</li>
+<li>Use the 2D tracking workflow to apply cross correlation to the dataset, how well does it work, why?</li>
+<li>Use the 2D deformation workflow</li>
+</ol>
+<ul>
+<li><img src="10-files/MultiXCorrWorkflow.png" alt="Deformation" /></li>
+<li>Why does it need to be so complicated?</li>
+<li>Ensure the result you get looks like this</li>
+<li><img src="10-files/MultiXCorr.png" alt="Deformation Result" /></li>
+<li>From this field how would you calculate strain or deformation?</li>
+</ul>
+</div>
+</div>
 <div id="d-object-based-tracking" class="section level2">
-<h2><span class="header-section-number">2.3</span> 3D Object-based Tracking</h2>
+<h2><span class="header-section-number">2.4</span> 3D Object-based Tracking</h2>
 <p>Start with the ‘3D-Tracking’ workflow which generates 3D movies of whatever shape is specified in the table creator</p>
-<div id="tasks" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> Tasks</h3>
+<div id="tasks-2" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Tasks</h3>
 <ol style="list-style-type: decimal">
 <li>Using results from the 2D results above, modify the workflow to track the 3D movie.</li>
 <li>Add noise to the images (Salt and Pepper) and try to track the image by using filtering and other steps</li>
 </ol>
 </div>
+</div>
+<div id="optional-trackmate" class="section level2">
+<h2><span class="header-section-number">2.5</span> Optional: <a href="http://fiji.sc/TrackMate">TrackMate</a></h2>
+<p>FIJI offers a number of plugins to perform tracking. One of the most flexible is called TrackMate (Plugins<span class="math">\(\rightarrow\)</span> Tracking <span class="math">\(\rightarrow\)</span> TrackMate),</p>
+<p>It can also be well integrated into Matlab-based workflows (<a href="http://fiji.sc/Using_TrackMate_with_MATLAB" class="uri">http://fiji.sc/Using_TrackMate_with_MATLAB</a>)</p>
+<p>Tutorial Movie with Second Flow: <a href="http://people.ee.ethz.ch/~maderk/videos/TrackMate.ogv" class="uri">http://people.ee.ethz.ch/~maderk/videos/TrackMate.ogv</a></p>
+<p>Using Trackmate in KNIME, workflow (from the KNIME site) is <a href="http://tech.knime.org/files/knimeip/workflows/Example_Trackmate.zip">here</a></p>
 </div>
 </div>
 
