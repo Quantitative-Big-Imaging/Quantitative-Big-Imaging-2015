@@ -75,7 +75,7 @@ In this example we will measure the deformation in a synthetic system. The syste
 
 
 
-<img src="09-files/pres_figures/unnamed-chunk-1-1.png" title="" alt="" style="display: block; margin: auto;" />
+<img src="10-files/pres_figures/unnamed-chunk-1-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 ### Questions
 1. Which techniques would work for assessing the level of compression?
