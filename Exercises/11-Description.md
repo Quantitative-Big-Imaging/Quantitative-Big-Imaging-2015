@@ -99,7 +99,7 @@ condor_submit batchimage.condor
 cd /scratch
 curl -o spark.tgz http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop2.6.tgz
 tar -xvf spark.tgz
-cd spark-0.9.1-bin-hadoop1/
+cd spark-1.3.1-bin-hadoop2.6/
 ```
 
 ### Starting Spark
