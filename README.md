@@ -32,9 +32,9 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/10-slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/10-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/10-handout.pdf)
 - 7th May - Scaling Up / Big Data
- - [Old Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData.html)   
- - [Old Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Lectures/10-BigData_files/printable.html)
-- 21th May - Guest Lecture - Applications in Material Science
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-slides.html)
+ - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.pdf)
+- 21th May - Guest Lecture -  Guest Lecture, Applications in Wood and High-content Screening at ScopeM and Roche
 - 28th May - Project Presentations
 
 ### Exercises
@@ -75,8 +75,8 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex9/Ex9Slides.html)
  - [Old Test Images](https://github.com/kmader/Quantitative-Big-Imaging-Course/blob/master/Ex9/testimages.zip?raw=true)
 - 7th May - Scaling Up / Big Data
- - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/Ex10Slides.html)
- - [Old Spark Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/cell_colony.csv)
+ - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/11-Description.md)
+ - [Spark Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/cell_colony.csv)
 - 21th May - Guest Lecture - Applications in Material Science
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex11/Ex11Slides.html)
 - 28th May - Project Presentations

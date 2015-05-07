@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kevin Mader" />
+
+
+<title>Exercise 11: Scaling Up / Big Data</title>
+
+<script src="11-Description_files/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="11-Description_files/bootstrap-3.3.1/css/readable.min.css" rel="stylesheet" />
+<script src="11-Description_files/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="11-Description_files/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="11-Description_files/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; }
+code > span.dt { text-decoration: underline; }
+code > span.dv { color: #44aa43; }
+code > span.bn { color: #44aa43; }
+code > span.fl { color: #44aa43; }
+code > span.ch { color: #049b0a; }
+code > span.st { color: #049b0a; }
+code > span.co { color: #0066ff; font-style: italic; }
+code > span.al { color: #ffff00; }
+code > span.fu { color: #ff9358; font-weight: bold; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+
+<div id="header">
+<h1 class="title">Exercise 11: Scaling Up / Big Data</h1>
+<h4 class="author"><em>Kevin Mader</em></h4>
+<h4 class="date"><em>May 7, 2015</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#objectives"><span class="toc-section-number">1</span> Objectives</a></li>
+<li><a href="#introductory-material"><span class="toc-section-number">2</span> Introductory Material</a><ul>
+<li><a href="#knime-ideas"><span class="toc-section-number">2.1</span> KNIME Ideas</a><ul>
+<li><a href="#workflow-variables"><span class="toc-section-number">2.1.1</span> Workflow Variables</a></li>
+<li><a href="#batch-mode-headless"><span class="toc-section-number">2.1.2</span> Batch Mode / Headless</a></li>
+<li><a href="#condor-scripts"><span class="toc-section-number">2.1.3</span> Condor Scripts</a></li>
+<li><a href="#condor-at-itet"><span class="toc-section-number">2.1.4</span> Condor at ITET</a></li>
+<li><a href="#basic-commands"><span class="toc-section-number">2.1.5</span> Basic Commands</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#tasks"><span class="toc-section-number">3</span> Tasks</a><ul>
+<li><a href="#first-demo-script-matlab"><span class="toc-section-number">3.1</span> First Demo Script (Matlab)</a></li>
+<li><a href="#cell-colony-demo-workflow"><span class="toc-section-number">3.2</span> Cell Colony Demo Workflow</a><ul>
+<li><a href="#tasks-1"><span class="toc-section-number">3.2.1</span> Tasks</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#apache-spark"><span class="toc-section-number">4</span> Apache Spark</a><ul>
+<li><a href="#install-spark-advanced"><span class="toc-section-number">4.1</span> Install Spark (Advanced)</a><ul>
+<li><a href="#starting-spark"><span class="toc-section-number">4.1.1</span> Starting Spark</a></li>
+<li><a href="#getting-an-image-to-key-value-format"><span class="toc-section-number">4.1.2</span> Getting an image to Key-Value Format</a></li>
+</ul></li>
+<li><a href="#loading-the-data-into-spark-scala"><span class="toc-section-number">4.2</span> Loading the data into Spark (Scala)</a></li>
+<li><a href="#perform-a-threshold"><span class="toc-section-number">4.3</span> Perform a threshold</a></li>
+<li><a href="#get-volume-fraction"><span class="toc-section-number">4.4</span> Get Volume Fraction</a></li>
+<li><a href="#region-of-interest"><span class="toc-section-number">4.5</span> Region of Interest</a></li>
+<li><a href="#perform-a-3x3-box-filter"><span class="toc-section-number">4.6</span> Perform a 3x3 box filter</a></li>
+<li><a href="#setting-up-component-labeling"><span class="toc-section-number">4.7</span> Setting up Component Labeling</a></li>
+<li><a href="#running-component-labeling"><span class="toc-section-number">4.8</span> Running Component Labeling</a><ul>
+<li><a href="#calculating-from-images"><span class="toc-section-number">4.8.1</span> Calculating From Images</a></li>
+<li><a href="#center-of-volume-for-each-label"><span class="toc-section-number">4.8.2</span> Center of Volume for Each Label</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="objectives" class="section level1">
+<h1><span class="header-section-number">1</span> Objectives</h1>
+<ol style="list-style-type: decimal">
+<li>Make a basic job using Condor</li>
+<li>Make an parameter sweep using Condor</li>
+<li>Use a ‘big data’ tool for basic image processing</li>
+</ol>
+</div>
+<div id="introductory-material" class="section level1">
+<h1><span class="header-section-number">2</span> Introductory Material</h1>
+<div id="knime-ideas" class="section level2">
+<h2><span class="header-section-number">2.1</span> KNIME Ideas</h2>
+<div id="workflow-variables" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Workflow Variables</h3>
+<p>These are variables for the workflow which can be changed each time the workflow is run sort of a specific run configuration (containing parameters or filenames)</p>
+<ul>
+<li><p>Inside a workflow itself it is setup in the following panel located by right clicking the workflow</p></li>
+<li><p><img src="11-files/workflowVariables.png" alt="Workflow variables" /></p></li>
+<li><p><img src="11-files/workflowVariablesPanel.png" alt="Workflow variables" /></p></li>
+</ul>
+<p>It’s possible to change the configuration of the workflow through workflow variables. If a variable is defined for a workflow, you can use it in batch mode by referring to it using a comma separated triplet to specify the name, value and type like this:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">-workflow.variable</span>=my_integer,5,int</code></pre>
+</div>
+<div id="batch-mode-headless" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Batch Mode / Headless</h3>
+<p>In order to run a workflow, named “Knime_project” contained in the workspace directory, execute in one line:</p>
+<pre><code>knime -nosplash -application org.knime.product.KNIME_BATCH_APPLICATION -workflowDir=&quot;workspace/Knime_project&quot;</code></pre>
+<p>In order to run a workflow, name “Knime_project.zip” exported as an .zip file, execute in one line:</p>
+<pre><code>knime -nosplash -application org.knime.product.KNIME_BATCH_APPLICATION -workflowFile=&quot;PATH_TO_FILE/Knime_project.zip&quot;</code></pre>
+</div>
+<div id="condor-scripts" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Condor Scripts</h3>
+<p>Condor (like Sun Grid Engine) is a queue processing system. It manages a cluster (large collection of computers connected with a network and sharing some if not all storage) and distributes tasks to each computer. Job (task) is a single task to be executed containing information on where the data is located and what should be done with the data.</p>
+</div>
+<div id="condor-at-itet" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> Condor at ITET</h3>
+<p>The instructions and specific details for <a href="https://computing.ee.ethz.ch/Services/Condor">Condor at ITET</a></p>
+</div>
+<div id="basic-commands" class="section level3">
+<h3><span class="header-section-number">2.1.5</span> Basic Commands</h3>
+<ul>
+<li>Submit a job <code>condor_submit</code></li>
+<li>Check the status of jobs <code>condor_q</code></li>
+<li>Delete a job <code>condor_rm</code></li>
+<li>Delete all jobs <code>condor_rm -all</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="tasks" class="section level1">
+<h1><span class="header-section-number">3</span> Tasks</h1>
+<div id="first-demo-script-matlab" class="section level2">
+<h2><span class="header-section-number">3.1</span> First Demo Script (Matlab)</h2>
+<p>The demo script is provided by D-ITET and can be run by typing <del>jobs cannot be run from the scratch folder</del></p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> ~/
+<span class="kw">git</span> clone https://gist.github.com/a49814356c7e707bb0dc.git
+<span class="kw">cd</span> a49814356c7e707bb0dc
+<span class="kw">chmod</span> +x mandelbrot.sh
+<span class="kw">condor_submit</span> mandelbrot.condor</code></pre>
+</div>
+<div id="cell-colony-demo-workflow" class="section level2">
+<h2><span class="header-section-number">3.2</span> Cell Colony Demo Workflow</h2>
+<p>A script to try a number of thresholds on the cell colony image</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> ~/
+<span class="kw">git</span> clone https://gist.github.com/5b1d261aac240fed5a58.git
+<span class="kw">cd</span> 5b1d261aac240fed5a58
+<span class="kw">chmod</span> +x filterandthreshold.sh
+<span class="kw">condor_submit</span> batchimage.condor</code></pre>
+<div id="tasks-1" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Tasks</h3>
+<ol style="list-style-type: decimal">
+<li>Modify the workflow to apply a gaussian filter with a varying sigma instead of a varying threshold</li>
+<li>Have the script save the output image as well</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="apache-spark" class="section level1">
+<h1><span class="header-section-number">4</span> Apache Spark</h1>
+<div id="install-spark-advanced" class="section level2">
+<h2><span class="header-section-number">4.1</span> Install Spark (Advanced)</h2>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> /scratch
+<span class="kw">curl</span> -o spark.tgz http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop2.6.tgz
+<span class="kw">tar</span> -xvf spark.tgz
+<span class="kw">cd</span> spark-0.9.1-bin-hadoop1/</code></pre>
+<div id="starting-spark" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Starting Spark</h3>
+<p><a href="https://amplab.cs.berkeley.edu/2013/10/23/got-a-minute-spin-up-a-spark-cluster-on-your-laptop-with-docker/">Spin up your own cluster in an hour</a> ~~ we only use it on one node acting as the master, scheduler, and worker, but normally it is run on different computers ~~ - Start the Spark-Shell <code>./bin/spark-shell</code> - Write code in <a href="http://www.scala-lang.org/what-is-scala.html">Scala</a> - Start Spark-python <code>./bin/pyspark</code> - Write code in Python</p>
+</div>
+<div id="getting-an-image-to-key-value-format" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Getting an image to Key-Value Format</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(jpeg)
+in.img&lt;-<span class="kw">readJPEG</span>(<span class="st">&quot;11-files/input_image.jpg&quot;</span>)
+kv.img&lt;-<span class="kw">im.to.df</span>(in.img)
+<span class="kw">write.table</span>(kv.img,<span class="st">&quot;cell_colony.csv&quot;</span>,<span class="dt">row.names=</span>F,<span class="dt">col.names=</span>F,<span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(kv.img))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.6274510</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0.7803922</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0.8862745</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">0.8980392</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">0.9098039</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">0.9215686</td>
+</tr>
+<tr class="odd">
+<td align="right">The k</td>
+<td align="right">ey is</td>
+<td align="right">position <span class="math">\(\langle x, y \rangle\)</span> and value is the intensity <span class="math">\(val\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="loading-the-data-into-spark-scala" class="section level2">
+<h2><span class="header-section-number">4.2</span> Loading the data into Spark (Scala)</h2>
+<p>The text file to download: <a href="11-files/cell_colony.csv">cell_colony.csv</a></p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> rawImage=sc.<span class="fu">textFile</span>(<span class="st">&quot;cell_colony.csv&quot;</span>)
+<span class="kw">val</span> imgAsColumns=rawImage.<span class="fu">map</span>(_.<span class="fu">split</span>(<span class="st">&quot;,&quot;</span>))
+<span class="kw">val</span> imgAsKV=imgAsColumns.<span class="fu">map</span>(point =&gt; ((<span class="fu">point</span>(<span class="dv">0</span>).<span class="fu">toInt</span>,<span class="fu">point</span>(<span class="dv">1</span>).<span class="fu">toInt</span>),<span class="fu">point</span>(<span class="dv">2</span>).<span class="fu">toDouble</span>))</code></pre>
+<ul>
+<li>Count the number of pixels</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala">imgAsKV.<span class="fu">count</span></code></pre>
+<ul>
+<li>Get the first value</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala">imgAsKV.<span class="fu">take</span>(<span class="dv">1</span>)</code></pre>
+<ul>
+<li>Sample 100 values from the data</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala">imgAsKV.<span class="fu">sample</span>(<span class="kw">true</span>,<span class="fl">0.1</span>,<span class="dv">0</span>).<span class="fu">collect</span></code></pre>
+</div>
+<div id="perform-a-threshold" class="section level2">
+<h2><span class="header-section-number">4.3</span> Perform a threshold</h2>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> threshVal=<span class="fl">0.5</span>
+<span class="kw">val</span> labelImg=imgAsKV.<span class="fu">filter</span>(_.<span class="fu">_2</span>&lt;threshVal)</code></pre>
+<ul>
+<li>Runs on 1 core on your laptop or 1000 cores in the cloud or on Merlin or the beamline.</li>
+<li>If one computer crashes or disconnects it <strong>automatically</strong> continues on another one.</li>
+<li>If one part of the computation is taking too long it will be sent to other computers to finish</li>
+<li>If a computer runs out of memory it writes the remaining results to disk and continues running (graceful dropoff in performance )</li>
+</ul>
+</div>
+<div id="get-volume-fraction" class="section level2">
+<h2><span class="header-section-number">4.4</span> Get Volume Fraction</h2>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="fl">100.0</span>*labelImg.<span class="fu">count</span>/(imgAsKV.<span class="fu">count</span>)</code></pre>
+</div>
+<div id="region-of-interest" class="section level2">
+<h2><span class="header-section-number">4.5</span> Region of Interest</h2>
+<p>Take a region of interest between 0 and 100 in X and Y</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">roiFun</span>(pvec: ((Int,Int),Double)) = 
+ {pvec.<span class="fu">_1</span>.<span class="fu">_1</span>&gt;=<span class="dv">0</span> &amp; pvec.<span class="fu">_1</span>.<span class="fu">_1</span>&lt;<span class="dv">100</span> &amp; <span class="co">// X</span>
+  pvec.<span class="fu">_1</span>.<span class="fu">_2</span>&gt;=<span class="dv">0</span> &amp; pvec.<span class="fu">_1</span>.<span class="fu">_2</span>&lt;<span class="dv">100</span> } <span class="co">//Y</span>
+<span class="kw">val</span> roiImg=imgAsKV.<span class="fu">filter</span>(roiFun)</code></pre>
+</div>
+<div id="perform-a-3x3-box-filter" class="section level2">
+<h2><span class="header-section-number">4.6</span> Perform a 3x3 box filter</h2>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">spread_voxels</span>(pvec: ((Int,Int),Double), windSize: Int = <span class="dv">1</span>) = {
+  <span class="kw">val</span> wind=(-windSize to windSize)
+  <span class="kw">val</span> pos=pvec.<span class="fu">_1</span>
+  <span class="kw">val</span> scalevalue=pvec.<span class="fu">_2</span>/(wind.<span class="fu">length</span>*wind.<span class="fu">length</span>)
+  <span class="kw">for</span>(x&lt;-wind; y&lt;-wind) 
+    <span class="kw">yield</span> ((pos.<span class="fu">_1</span>+x,pos.<span class="fu">_2</span>+y),scalevalue)
+}
+
+<span class="kw">val</span> filtImg=roiImg.
+      <span class="fu">flatMap</span>(cvec =&gt; <span class="fu">spread_voxels</span>(cvec)).
+      <span class="fu">filter</span>(roiFun).<span class="fu">reduceByKey</span>(_ + _)</code></pre>
+</div>
+<div id="setting-up-component-labeling" class="section level2">
+<h2><span class="header-section-number">4.7</span> Setting up Component Labeling</h2>
+<ul>
+<li>Create the first labels from a thresheld image as a mutable type</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> xWidth=<span class="dv">100</span>
+<span class="kw">var</span> newLabels=labelImg.<span class="fu">map</span>(pvec =&gt; (pvec.<span class="fu">_1</span>,(pvec.<span class="fu">_1</span>.<span class="fu">_1</span>.<span class="fu">toLong</span>*xWidth+pvec.<span class="fu">_1</span>.<span class="fu">_2</span><span class="dv">+1</span>,<span class="kw">true</span>)))</code></pre>
+<ul>
+<li>Spreading to Neighbor Function</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">spread_voxels</span>(pvec: ((Int,Int),(Long,Boolean)), windSize: Int = <span class="dv">1</span>) = {
+  <span class="kw">val</span> wind=(-windSize to windSize)
+  <span class="kw">val</span> pos=pvec.<span class="fu">_1</span>
+  <span class="kw">val</span> label=pvec.<span class="fu">_2</span>.<span class="fu">_1</span>
+  <span class="kw">for</span>(x&lt;-wind; y&lt;-wind) 
+    <span class="kw">yield</span> ((pos.<span class="fu">_1</span>+x,pos.<span class="fu">_2</span>+y),(label,(x==<span class="dv">0</span> &amp; y==<span class="dv">0</span>)))
+}</code></pre>
+</div>
+<div id="running-component-labeling" class="section level2">
+<h2><span class="header-section-number">4.8</span> Running Component Labeling</h2>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">var</span> groupList=Array((0L,<span class="dv">0</span>))
+<span class="kw">var</span> running=<span class="kw">true</span>
+<span class="kw">var</span> iterations=<span class="dv">0</span>
+<span class="kw">while</span> (running) {
+  newLabels=newLabels.
+  <span class="fu">flatMap</span>(<span class="fu">spread_voxels</span>(_,<span class="dv">1</span>)).
+    <span class="fu">reduceByKey</span>((a,b) =&gt; ((math.<span class="fu">min</span>(a.<span class="fu">_1</span>,b.<span class="fu">_1</span>),a.<span class="fu">_2</span> | b.<span class="fu">_2</span>))).
+    <span class="fu">filter</span>(_.<span class="fu">_2</span>.<span class="fu">_2</span>)
+  <span class="co">// make a list of each label and how many voxels are in it</span>
+  <span class="kw">val</span> curGroupList=newLabels.<span class="fu">map</span>(pvec =&gt; (pvec.<span class="fu">_2</span>.<span class="fu">_1</span>,<span class="dv">1</span>)).
+    <span class="fu">reduceByKey</span>(_ + _).<span class="fu">sortByKey</span>(<span class="kw">true</span>).<span class="fu">collect</span>
+  <span class="co">// if the list isn&#39;t the same as before, continue running since we need to wait for swaps to stop</span>
+  running = (curGroupList.<span class="fu">deep</span>!=groupList.<span class="fu">deep</span>)
+  groupList=curGroupList
+  iterations+=<span class="dv">1</span>
+  <span class="fu">print</span>(<span class="st">&quot;Iter #&quot;</span>+iterations+<span class="st">&quot;:&quot;</span>+groupList.<span class="fu">mkString</span>(<span class="st">&quot;,&quot;</span>))
+}
+groupList</code></pre>
+<div id="calculating-from-images" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> Calculating From Images</h3>
+<ul>
+<li>Average Voxel Count</li>
+</ul>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> labelSize = newLabels.
+  <span class="fu">map</span>(pvec =&gt; (pvec.<span class="fu">_2</span>.<span class="fu">_1</span>,<span class="dv">1</span>)).
+  <span class="fu">reduceByKey</span>((a,b) =&gt; (a+b)).
+  <span class="fu">map</span>(_.<span class="fu">_2</span>)
+labelSize.<span class="fu">reduce</span>((a,b) =&gt; (a+b))*<span class="fl">1.0</span>/labelSize.<span class="fu">count</span></code></pre>
+</div>
+<div id="center-of-volume-for-each-label" class="section level3">
+<h3><span class="header-section-number">4.8.2</span> Center of Volume for Each Label</h3>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> labelPositions = newLabels.
+  <span class="fu">map</span>(pvec =&gt; (pvec.<span class="fu">_2</span>.<span class="fu">_1</span>,pvec.<span class="fu">_1</span>)).
+  <span class="fu">groupBy</span>(_.<span class="fu">_1</span>)
+<span class="kw">def</span> <span class="fu">posAvg</span>(pvec: Seq[(Long,(Int,Int))]): (Double,Double) = {
+<span class="kw">val</span> sumPt=pvec.<span class="fu">map</span>(_.<span class="fu">_2</span>).<span class="fu">reduce</span>((a,b) =&gt; (a.<span class="fu">_1</span>+b.<span class="fu">_1</span>,a.<span class="fu">_2</span>+b.<span class="fu">_2</span>))
+(sumPt.<span class="fu">_1</span>*<span class="fl">1.0</span>/pvec.<span class="fu">length</span>,sumPt.<span class="fu">_2</span>*<span class="fl">1.0</span>/pvec.<span class="fu">length</span>)
+}
+<span class="fu">print</span>(labelPositions.<span class="fu">map</span>(pvec=&gt;<span class="fu">posAvg</span>(pvec.<span class="fu">_2</span>)).<span class="fu">mkString</span>(<span class="st">&quot;,&quot;</span>))</code></pre>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
