@@ -34,7 +34,10 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
 - 7th May - Scaling Up / Big Data
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.pdf)
-- 21th May - Guest Lecture -  Guest Lecture, Applications in Wood and High-content Screening at ScopeM and Roche
+- 21th May - Guest Lecture - Applying Image Processing
+ - Image registration: a case study on material science - A. Patera: EMPA and Paul Scherrer Institut
+ - Introduction to High Content Screening - M. Prummer: NEXUS Personalized Medicine Center (formerly Roche)
+ - Application of High Content Screening - S. Noerrelykke: ScopeM
 - 28th May - Project Presentations
 
 ### Exercises
@@ -77,7 +80,7 @@ The exercises will be supported by Filippo Arcadu, Kevin Mader, and Christian Di
 - 7th May - Scaling Up / Big Data
  - [KNIME Exercises](https://github.com/kmader/Quantitative-Big-Imaging-2015/blob/master/Exercises/11-Description.md)
  - [Spark Data](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex10/cell_colony.csv)
-- 21th May - Guest Lecture - Applications in Material Science
+- 21th May - Guest Lecture - Applying Image Processing
  - [Old Exercise Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-Course/master/Ex11/Ex11Slides.html)
 - 28th May - Project Presentations
 
