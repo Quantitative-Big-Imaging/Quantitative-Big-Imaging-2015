@@ -15,7 +15,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/04-Handout.pdf)
 - 19th March - Applications Graphical Models and Machine Learning (A. Lucchi)
- - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/05-Slides.pdf)
+ - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/05-slides.pdf)
 - 26th March - Analyzing Single Objects
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/06-Handout.pdf)
@@ -35,8 +35,8 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Lecture Slides](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-slides.html)
  - [Lecture Handout](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.html) as [PDF](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/11-handout.pdf)
 - 21th May - Guest Lecture - Applying Image Processing
- - Image registration: a case study on material science - A. Patera: EMPA and Paul Scherrer Institut
- - Introduction to High Content Screening - M. Prummer: NEXUS Personalized Medicine Center (formerly Roche)
+ - [Image registration](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/guest-patera.pdf): a case study on material science - A. Patera: EMPA and Paul Scherrer Institut
+ - [Introduction to High Content Screening](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/guest-prummer.pdf) - M. Prummer: NEXUS Personalized Medicine Center (formerly Roche)
  - Application of High Content Screening - S. Noerrelykke: ScopeM
 - 28th May - Project Presentations
 
