@@ -39,6 +39,12 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Introduction to High Content Screening](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Lectures/guest-prummer.pdf) - M. Prummer: NEXUS Personalized Medicine Center (formerly Roche)
  - Application of High Content Screening - S. Noerrelykke: ScopeM
 - 28th May - Project Presentations
+ - [Bacteria-Hyphae interaction in microfluidic channels - Benedict Borer](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/BenedictBorer.pdf)
+ - [Multi?contrast X?ray imaging?based study of aggregates in cement?based mortars - Fei Yang](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/FeiYang.pdf)
+ - [Mapping Non/Less-Porliferative Cells in the Adult Zebrafish Tissue - Hanyu Qin](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/HanyuQin.pdf)
+ - [Dynamic tracking of lithium volume in a lithium-ion battery, using synchrotron X-ray tomographic microscopy - Patrick Pietsch](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/PatrickPietsch.pdf)
+ - [Equilibrium Catalyst - Rosh Jacob](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/RoshJacob.pdf)
+
 
 ### Exercises
 #### General Information
