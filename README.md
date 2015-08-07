@@ -45,7 +45,7 @@ The lectures have been prepared and given by Kevin Mader, Anders Kaestner, and M
  - [Dynamic tracking of lithium volume in a lithium-ion battery, using synchrotron X-ray tomographic microscopy - Patrick Pietsch](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/PatrickPietsch.pdf)
  - [Equilibrium Catalyst - Rosh Jacob](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/RoshJacob.pdf)
  - [Coalescence kinetics of emulsions - Natalie Scheuble](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/NatalieScheuble.pdf)
- - [Microcalcifica1ons - Federica Fraschetti, Vittoria Storni, Matthias Dzung](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/VittoriaFedericaMatthais.pdf)
+ - [Microcalcifications - Federica Fraschetti, Vittoria Storni, Matthias Dzung](https://rawgithub.com/kmader/Quantitative-Big-Imaging-2015/master/Projects/VittoriaFedericaMatthais.pdf)
 
 ### Exercises
 #### General Information
